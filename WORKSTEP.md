@@ -156,6 +156,57 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[!]` blocked
 - [x] 9.11 Type-check clean, 15/15 tests pass, prod build 1.44MB/440KB
        gzip. Pushed to GitHub.
 
+## Round 10 — Real root cause: blink and smile bones had zero/weak influence
+
+User reported blink and smile "not there" despite Round 9 claiming both
+verified. Re-investigated from scratch, live in the browser:
+
+- [x] 10.1 Checked actual vertex-weight influence of every facial bone via
+       skinIndex/skinWeight attributes (the check that should have been
+       done in Round 9 instead of trusting a bone-rotation diff alone).
+       **Found: `eyelidUpperL`/`eyelidUpperR` (`Eyelid_Control_Upper.L/R`)
+       have ZERO vertex weight.** They are pure IK-style control bones —
+       rotating them was mechanically "working" (the quaternion genuinely
+       changed) but had **no visual effect whatsoever**, because no mesh
+       vertex is bound to them. This is exactly why the blink was
+       invisible; the Round 9 verification method (checking the bone's
+       own rotation) could never have caught this class of bug.
+- [x] 10.2 Found the real deforming eyelid rig: 20 "spoke" bones per eye
+       (`Eyelid_L0..19` / `Eyelid_R0..19`), all sharing one pivot at the
+       eye center, each with real vertex weight (~10-11 verts each).
+       Replaced the dead control-bone patterns with all 40 real bones.
+- [x] 10.3 Verified the fix live: forced all 40 bones to a closed-eye
+       delta via a debug hook and screenshotted — both eyes visibly,
+       convincingly closed with eyelash geometry folding correctly.
+- [x] 10.4 Smile (`lipCornerL/R`) DID have real vertex weight (12 verts
+       each) so the mechanism was never broken, but at the original 0.16
+       rad amplitude the effect was too subtle to notice — consistent
+       with the user's report. Increased amplitude, but first accidentally
+       overshot to 0.42 rad which **visibly broke the mesh** (a huge
+       spike/tear across the face, confirmed via screenshot). Backed off
+       to 0.18 rad — clean, visible smile, no distortion, confirmed by
+       screenshot.
+- [x] 10.5 Eyebrow raise/furrow: original 0.35 rad, then 0.5 rad, produced
+       no mesh distortion but was nearly invisible in a screenshot A/B.
+       Raised the multiplier to 1.1 — now clearly visible (arched brows on
+       raise) with zero distortion, confirmed both directions.
+- [x] 10.6 Bone count: 45 -> 83 (added 40 eyelid spokes, removed 2 dead
+       control bones).
+- [x] 10.7 Added temporary debug hooks (`window.__forceBlinkAmount`,
+       `window.__forceEyebrowAmount`) used only for this verification —
+       harmless no-ops when unset, left in place since they're useful for
+       any future facial-rig debugging (same pattern as the existing
+       `window.__godette` bridge).
+- [x] 10.8 Type-check clean, 15/15 tests pass, prod build 1.44MB/440KB gzip.
+
+**Lesson learned, written down so it isn't repeated**: for ANY new bone
+added to this rig, always check its actual `skinIndex`/`skinWeight`
+vertex influence before trusting that rotating it will be visible.
+A bone can have a perfectly normal, changeable quaternion and still be
+mechanically inert on screen if it carries zero skin weight — this rig
+has both deforming bones and IK/FK control bones with identical-looking
+names, and only the vertex-weight check tells them apart.
+
 ## Known caveats for the user to know before testing
 
 - The rigged hand is right-hand-only in the source. Left is mirrored, so

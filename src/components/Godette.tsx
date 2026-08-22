@@ -75,8 +75,6 @@ const BONE_PATTERNS: Record<string, RegExp> = {
   jaw:    re(`Jaw`),
   lipCornerL: re(`Lip_L${D}003`),
   lipCornerR: re(`Lip_R${D}003`),
-  eyelidUpperL: re(`Eyelid_Control_Upper${D}L`),
-  eyelidUpperR: re(`Eyelid_Control_Upper${D}R`),
 
   // Eyebrow root (innermost segment, .001) of each brow chain — enough to
   // raise (yes/no questions) or furrow (wh-questions) the whole brow.
@@ -95,12 +93,32 @@ const BONE_PATTERNS: Record<string, RegExp> = {
   L_armLo: re(`Arm_Lower_1L`),
 };
 
+// Eyelids are a 20-bone "sunburst" rig per eye: all 20 share one pivot (the
+// eye center) and each has a different REST rotation so its tip reaches a
+// different point on the eyelid rim — there is no single "upper lid" bone.
+// `Eyelid_Control_Upper.L/R` (tried first) turned out to be pure IK-style
+// control bones with ZERO vertex weight — rotating them had no visual
+// effect at all, which is why the blink was invisible. These Eyelid_L{n}/
+// Eyelid_R{n} bones are the real deforming bones (confirmed: each carries
+// real skin weight). Closing the eye = rotating all 20 spokes per eye by
+// the same delta (verified visually: this genuinely closes the eye).
+const EYELID_SPOKE_COUNT = 20;
+for (let i = 0; i < EYELID_SPOKE_COUNT; i++) {
+  BONE_PATTERNS[`eyelidL${i}`] = re(`Eyelid_L${D}${i}`);
+  BONE_PATTERNS[`eyelidR${i}`] = re(`Eyelid_R${D}${i}`);
+}
+const EYELID_BONE_NAMES: string[] = [];
+for (let i = 0; i < EYELID_SPOKE_COUNT; i++) {
+  EYELID_BONE_NAMES.push(`eyelidL${i}`, `eyelidR${i}`);
+}
+
 // Bones in IDLE_ONLY never receive sign-frame data; they only get the
 // continuous idle sway/smile/grammar-expression treatment. Keeps her from
 // looking like a mannequin between (and during) signs.
 const IDLE_ONLY = new Set([
   "spine1", "spine2", "head", "jaw", "lipCornerL", "lipCornerR",
-  "eyelidUpperL", "eyelidUpperR", "eyebrowL", "eyebrowR", "neck1",
+  "eyebrowL", "eyebrowR", "neck1",
+  ...EYELID_BONE_NAMES,
 ]);
 
 // Arm bones get a generic "lift to signing height" pose whenever the CURRENT
@@ -223,12 +241,15 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
       spine2: { axis: new THREE.Vector3(1, 0, 0), amp: 0.015, speedHz: 0.28, phase: 0.3 },
       head:   { axis: new THREE.Vector3(0, 1, 0), amp: 0.03, speedHz: 0.12, phase: 1.1 },
       // Constant upward lip-corner lift (a smile) plus a tiny breathing-rate
-      // wobble so it doesn't read as a frozen rictus.
-      lipCornerL: { axis: new THREE.Vector3(0, 0, 1), amp: 0.16, speedHz: 0.1, phase: 0 },
-      lipCornerR: { axis: new THREE.Vector3(0, 0, -1), amp: 0.16, speedHz: 0.1, phase: 0.5 },
+      // wobble so it doesn't read as a frozen rictus. Amplitude raised after
+      // confirming live that lipCorner only carries weight on 12 vertices —
+      // the original 0.16 rad was mechanically "working" but visually
+      // unnoticeable.
+      lipCornerL: { axis: new THREE.Vector3(0, 0, 1), amp: 0.18, speedHz: 0.1, phase: 0 },
+      lipCornerR: { axis: new THREE.Vector3(0, 0, -1), amp: 0.18, speedHz: 0.1, phase: 0.5 },
     };
     const skipDynamic = new Set([
-      "eyelidUpperL", "eyelidUpperR", "eyebrowL", "eyebrowR", "neck1",
+      "eyebrowL", "eyebrowR", "neck1", ...EYELID_BONE_NAMES,
     ]);
     for (const name of IDLE_ONLY) {
       if (skipDynamic.has(name)) continue; // handled by applyBlink / applyMood
@@ -247,21 +268,33 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
     }
   };
 
-  // Periodic eye blink: closed eyelids are a downward rotation of the upper
-  // eyelid control bone. Blinks happen every ~4s and last ~180ms, using a
-  // fast in/out triangle pulse rather than a sine so it reads as a snap
-  // blink, not a slow droop.
+  // Periodic eye blink. `Eyelid_Control_Upper.L/R` (the obvious bone names
+  // to reach for) turned out to be pure IK-style control bones with ZERO
+  // vertex weight — confirmed by walking the mesh's skinIndex/skinWeight
+  // attributes — so rotating them was mechanically "working" but had no
+  // visual effect whatsoever. The real deforming rig is 20 "spoke" bones
+  // per eye (Eyelid_L0..19 / Eyelid_R0..19) all sharing one pivot at the
+  // eye center; rotating the whole set by the same delta closes the eye
+  // (verified live via render diff before wiring this up). Blinks happen
+  // every ~4s and last ~180ms, using a fast in/out triangle pulse so it
+  // reads as a snap blink, not a slow droop.
   const BLINK_PERIOD = 4.0;
   const BLINK_DURATION = 0.18;
   const applyBlink = (t: number) => {
-    const cyclePos = t % BLINK_PERIOD;
-    let closeAmount = 0;
-    if (cyclePos < BLINK_DURATION) {
-      const half = BLINK_DURATION / 2;
-      closeAmount = cyclePos < half ? cyclePos / half : 1 - (cyclePos - half) / half;
+    const forced = (window as unknown as { __forceBlinkAmount?: number }).__forceBlinkAmount;
+    let closeAmount;
+    if (typeof forced === "number") {
+      closeAmount = forced;
+    } else {
+      const cyclePos = t % BLINK_PERIOD;
+      closeAmount = 0;
+      if (cyclePos < BLINK_DURATION) {
+        const half = BLINK_DURATION / 2;
+        closeAmount = cyclePos < half ? cyclePos / half : 1 - (cyclePos - half) / half;
+      }
     }
-    const angle = closeAmount * 0.55; // radians, eyelid closing rotation
-    for (const name of ["eyelidUpperL", "eyelidUpperR"] as const) {
+    const angle = closeAmount * 0.5; // radians — verified live: fully closes the eye
+    for (const name of EYELID_BONE_NAMES) {
       const obj = bones.current[name];
       const r = rest.current[name];
       if (!obj || !r) continue;
@@ -278,14 +311,19 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
   // Eased in/out so a mood never snaps abruptly onto the face.
   const eyebrowAmount = useRef(0); // -1 furrowed .. 0 neutral .. +1 raised
   const applyMood = (t: number, mood: SentenceMood, signing: boolean) => {
-    const target = !signing
-      ? 0
-      : mood.whQuestion
-        ? -1
-        : mood.yesNoQuestion
-          ? 1
-          : 0;
-    eyebrowAmount.current = THREE.MathUtils.lerp(eyebrowAmount.current, target, 0.1);
+    const forced = (window as unknown as { __forceEyebrowAmount?: number }).__forceEyebrowAmount;
+    const target = typeof forced === "number"
+      ? forced
+      : !signing
+        ? 0
+        : mood.whQuestion
+          ? -1
+          : mood.yesNoQuestion
+            ? 1
+            : 0;
+    eyebrowAmount.current = THREE.MathUtils.lerp(
+      eyebrowAmount.current, target, typeof forced === "number" ? 0.5 : 0.1,
+    );
 
     for (const [name, sign] of [["eyebrowL", 1], ["eyebrowR", -1]] as const) {
       const obj = bones.current[name];
@@ -293,7 +331,7 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
       if (!obj || !r) continue;
       // Raise = rotate outward/up; furrow = rotate inward/down. Mirrored
       // per side via `sign` so both brows move symmetrically.
-      const angle = eyebrowAmount.current * 0.35 * sign;
+      const angle = eyebrowAmount.current * 1.1 * sign;
       _idleDelta.setFromAxisAngle(new THREE.Vector3(0, 0, 1), angle);
       obj.quaternion.copy(r.q).multiply(_idleDelta);
     }
