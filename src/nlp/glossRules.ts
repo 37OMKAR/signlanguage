@@ -52,6 +52,39 @@ function splitSentences(text: string): string[] {
   return matches.map((s) => s.trim()).filter(Boolean);
 }
 
+const LOVE_FORMS = new Set(["love", "loved", "loves", "loving"]);
+
+// Find "i [do/does/did/really/...] love[d/s] [you] you" and collapse it to a
+// single idiom token. Real ASL has one dedicated sign for "I love you" (the
+// ILY handshape) — it is not three signs strung together — so we special-
+// case it before the normal per-word pipeline runs.
+function collapseILYPhrase(tokens: string[]): string[] {
+  const out: string[] = [];
+  let i = 0;
+  while (i < tokens.length) {
+    if (tokens[i] === "i") {
+      let loveIdx = -1;
+      for (let j = i + 1; j < tokens.length && j < i + 4; j++) {
+        if (LOVE_FORMS.has(tokens[j])) { loveIdx = j; break; }
+      }
+      if (loveIdx !== -1) {
+        let youIdx = -1;
+        for (let k = loveIdx + 1; k < tokens.length && k < loveIdx + 3; k++) {
+          if (tokens[k] === "you") { youIdx = k; break; }
+        }
+        if (youIdx !== -1) {
+          out.push("i-love-you");
+          i = youIdx + 1;
+          continue;
+        }
+      }
+    }
+    out.push(tokens[i]);
+    i++;
+  }
+  return out;
+}
+
 export function ruleBasedGloss(text: string): string[] {
   const sentences = splitSentences(text);
   const out: string[] = [];
@@ -73,7 +106,14 @@ function glossOneSentence(text: string): string[] {
     .map((t: string) => t.replace(/[^a-z0-9']/g, ""))
     .filter(Boolean);
 
-  const remapped = rawTokens
+  // "I love you" is one iconic, dedicated ASL sign (the ILY handshape), not
+  // three separate signs strung together. Collapse the phrase wherever it
+  // appears (any tense of "love": "loved", "loves", "will love", ...) before
+  // the normal per-word remap/reorder pipeline runs, so the fixed idiom
+  // isn't broken up by time-fronting or other reordering rules.
+  const phraseCollapsed = collapseILYPhrase(rawTokens);
+
+  const remapped = phraseCollapsed
     .filter((t) => !DROP.has(t))
     .map((t) => REMAP[t] ?? t);
 

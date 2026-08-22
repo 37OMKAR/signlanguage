@@ -279,6 +279,15 @@
       { "t_ms": 800, "R_palm_deg": [-25, 0, 0], "curls": { "R_thumb": [0, 0], "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
     ]
   },
+  "I-LOVE-YOU": {
+    "gloss": "I-LOVE-YOU", "duration_ms": 700, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "The iconic ILY handshape: thumb, index, and pinky extended; middle and ring folded down. Held steady, wrist rotates slightly outward to present the hand.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [0, 0, 10], "curls": { "R_thumb": [0, 0], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 350, "R_palm_deg": [0, 0, 25], "curls": { "R_thumb": [0, 0], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 700, "R_palm_deg": [0, 0, 10], "curls": { "R_thumb": [0, 0], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [0, 0, 0] } }
+    ]
+  },
   "LOVE": {
     "gloss": "LOVE", "duration_ms": 800, "provenance": "hand-authored", "commercial_safe": true,
     "notes": "Both fists crossed at chest.",

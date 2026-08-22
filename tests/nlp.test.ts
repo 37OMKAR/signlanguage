@@ -59,6 +59,17 @@ describe("ruleBasedGloss", () => {
     expect(noIdx).toBeGreaterThan(whatIdx);
   });
 
+  it("collapses 'I love you' into the single ILY idiom sign", () => {
+    expect(ruleBasedGloss("I love you")).toEqual(["I-LOVE-YOU"]);
+    expect(ruleBasedGloss("I loved you")).toEqual(["I-LOVE-YOU"]);
+    expect(ruleBasedGloss("I do love you")).toEqual(["I-LOVE-YOU"]);
+  });
+
+  it("does not collapse unrelated sentences containing love/you separately", () => {
+    const g = ruleBasedGloss("You love me");
+    expect(g).not.toContain("I-LOVE-YOU");
+  });
+
   it("processes a long multi-sentence paragraph without throwing and preserves sentence count worth of content", () => {
     const paragraph =
       "Hello, how are you today? My name is Godette. Thank you for learning " +

@@ -133,14 +133,14 @@ const DEG = Math.PI / 180;
 const ARM_LIFT: Record<(typeof ARM_BONES)[number], { axis: THREE.Vector3; deg: number }[]> = {
   R_armUp: [
     { axis: new THREE.Vector3(0, 0, 1), deg: 20 },
-    { axis: new THREE.Vector3(1, 0, 0), deg: 105 },
+    { axis: new THREE.Vector3(1, 0, 0), deg: 95 },
   ],
-  R_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -35 }],
+  R_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -70 }],
   L_armUp: [
     { axis: new THREE.Vector3(0, 0, 1), deg: -20 },
-    { axis: new THREE.Vector3(1, 0, 0), deg: 105 },
+    { axis: new THREE.Vector3(1, 0, 0), deg: 95 },
   ],
-  L_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -35 }],
+  L_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -70 }],
 };
 
 export function Godette({ frames, speed, reducedMotion, mood }: Props) {

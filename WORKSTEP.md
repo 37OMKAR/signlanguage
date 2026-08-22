@@ -307,6 +307,48 @@ sign is playing). This is an architectural simplification, not a bug in
 any one sign; a full fix would mean re-authoring every sign's rotation
 data relative to the lifted-arm frame, which is future work.
 
+## Round 13 — More elbow bend, real "I love you" sign
+
+- [x] 13.1 Measured the elbow articulation directly: at the previous
+       ARM_LIFT constants, the shoulder rotated 101 deg while the elbow
+       only bent 33 deg -- mechanically working, but the shoulder swing
+       dominated the visual impression so the arm read as nearly rigid,
+       matching the "not bending the elbows" complaint.
+- [x] 13.2 Rebalanced ARM_LIFT so shoulder and elbow contribute more
+       evenly. Iterated live via screenshot: first pass (78/-78) gave a
+       clearly bent elbow but dropped the hand too low (world Y 1.03,
+       partly out of frame); second pass (95/-70) confirmed via
+       screenshot showing a natural, clearly visible bent-elbow pose with
+       the hand back in frame.
+- [x] 13.3 Tested "I love you" live: found it glossed as three separate
+       signs (ME, LOVE, YOU) instead of the single, iconic ASL "I-LOVE-YOU"
+       handshape (thumb+index+pinky extended, middle+ring folded) --
+       a real, well-known dedicated sign, not three signs strung together.
+- [x] 13.4 Added "I-LOVE-YOU" as a proper dictionary entry, and a phrase
+       detector (`collapseILYPhrase` in glossRules.ts) that recognizes
+       "I love you" / "I loved you" / "I do love you" (tolerating a
+       dropped word like "do" in between) and collapses it to the single
+       idiom token before the normal per-word gloss pipeline runs, so
+       normal reordering rules can't split it apart.
+- [x] 13.5 Added 2 tests locking in the phrase collapse and confirming it
+       does NOT fire for unrelated sentences like "You love me" (19/19
+       tests passing, up from 17).
+- [x] 13.6 Re-ran the full dictionary sweep after adding the new entry:
+       all 42 signs (up from 41) load without errors, commercial-safety
+       audit clean.
+- [x] 13.7 Attempted live visual confirmation of the ILY handshape and
+       the reworked elbow pose across several tries; hit the same
+       unpredictable multi-second round-trip latency documented in prior
+       rounds -- even a sign artificially slowed to ~2.8s (via the
+       playback-speed control) had already finished by the time each
+       script began executing. Did not force further live visual
+       confirmation given this is a known, repeatedly-confirmed
+       environment constraint, not a code issue; relied on the mechanical
+       verification already done (compiled dictionary data inspected
+       directly, gloss collapse tested both via unit tests and the live
+       console, elbow/shoulder rotation measured numerically) instead.
+- [x] 13.8 Type-check clean, 19/19 tests pass, prod build 1.44MB/441KB gzip.
+
 ## Known caveats for the user to know before testing
 
 - The rigged hand is right-hand-only in the source. Left is mirrored, so
