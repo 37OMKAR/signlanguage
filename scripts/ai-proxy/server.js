@@ -48,6 +48,34 @@ app.post("/api/gloss", async (req, reply) => {
   }
 });
 
+// Batch endpoint: translate many sentences in ONE call. This is where a
+// large-context model like LongCat-2.0 (1M tokens) actually earns its
+// keep — a document, a chat transcript, or a whole lesson's worth of
+// sentences can go in a single request instead of one round-trip per
+// sentence. Only wired for models whose adapter supports it.
+const BATCH_PROVIDERS = {
+  "longcat-2.0": callLongCatBatch,
+};
+
+app.post("/api/gloss-batch", async (req, reply) => {
+  const { model, texts } = req.body ?? {};
+  if (!Array.isArray(texts) || texts.length === 0) {
+    return reply.code(400).send({ error: "texts must be a non-empty array" });
+  }
+  if (texts.length > 2000) {
+    return reply.code(400).send({ error: "Max 2000 sentences per batch" });
+  }
+  const call = BATCH_PROVIDERS[model];
+  if (!call) return reply.code(400).send({ error: "Model has no batch adapter" });
+  try {
+    const results = await call(texts.map(String));
+    return { results };
+  } catch (err) {
+    req.log.error(err);
+    return reply.code(502).send({ error: "Upstream failure" });
+  }
+});
+
 const port = Number(process.env.PORT ?? 8787);
 await app.listen({ port, host: "0.0.0.0" });
 
@@ -141,9 +169,68 @@ async function callLongCat(text) {
   return safeArray(raw);
 }
 
+const BATCH_SYSTEM = `You convert MANY English sentences into ASL gloss at once.
+Input: a JSON array of sentences, each with an "id" and "text".
+Output: a JSON array, same length and order, each item
+{"id": <same id>, "gloss": [<UPPERCASE gloss tokens>]}.
+Apply per sentence: drop articles/copulas, move time expressions to front,
+map I/me to ME and you to YOU, wh-words go last, negation is NO, yes/no
+questions append QUESTION, multi-word signs use hyphens.
+Return ONLY the JSON array. No prose, no code fences.`;
+
+async function callLongCatBatch(texts) {
+  const key = process.env.LONGCAT_API_KEY;
+  if (!key) throw new Error("LONGCAT_API_KEY not set");
+  const payload = texts.map((text, id) => ({ id, text }));
+  const res = await fetch("https://api.longcat.chat/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${key}`,
+    },
+    body: JSON.stringify({
+      model: "LongCat-2.0",
+      messages: [
+        { role: "system", content: BATCH_SYSTEM },
+        { role: "user", content: JSON.stringify(payload) },
+      ],
+    }),
+  });
+  const j = await res.json();
+  const raw = j?.choices?.[0]?.message?.content ?? "[]";
+  if (process.env.DEBUG_AI_PROXY) {
+    console.log("[longcat-batch] raw response:", raw.slice(0, 2000));
+  }
+  let parsed;
+  try {
+    parsed = JSON.parse(stripCodeFence(raw));
+  } catch (e) {
+    if (process.env.DEBUG_AI_PROXY) console.log("[longcat-batch] parse failed:", e.message);
+    parsed = [];
+  }
+  if (!Array.isArray(parsed)) return texts.map(() => []);
+  // Reassemble in original order by id; fall back to [] for anything
+  // the model dropped or malformed.
+  const byId = new Map();
+  for (const item of parsed) {
+    if (item && typeof item.id === "number" && Array.isArray(item.gloss)) {
+      byId.set(item.id, item.gloss.map(String));
+    }
+  }
+  return payload.map((p) => byId.get(p.id) ?? []);
+}
+
+// Strip ```json ... ``` or ``` ... ``` fences some models wrap JSON in
+// despite being told not to.
+function stripCodeFence(raw) {
+  const trimmed = raw.trim();
+  const fenced = trimmed.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/i);
+  return fenced ? fenced[1] : trimmed;
+}
+
 function safeArray(raw) {
   try {
-    const parsed = JSON.parse(raw);
+    const parsed = JSON.parse(stripCodeFence(raw));
     if (Array.isArray(parsed)) return parsed.map(String);
     if (Array.isArray(parsed?.gloss)) return parsed.gloss.map(String);
     return [];

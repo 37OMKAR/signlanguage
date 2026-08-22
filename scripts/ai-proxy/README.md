@@ -33,6 +33,28 @@ LongCat uses the OpenAI-compatible endpoint at
 `https://api.longcat.chat/openai/v1/chat/completions` with model
 `LongCat-2.0`. See https://longcat.chat/platform/docs/api/chat.html.
 
+## Batch endpoint (large-context models)
+
+`POST /api/gloss-batch` — send many sentences in ONE request instead of one
+round-trip per sentence. Currently wired for `longcat-2.0` (1M token
+context), which can genuinely take a whole document/transcript/lesson's
+worth of sentences per call.
+
+```bash
+curl -X POST http://localhost:8787/api/gloss-batch \
+  -H "Content-Type: application/json" \
+  -d '{"model":"longcat-2.0","texts":["hello how are you","what is your name"]}'
+# -> {"results":[["HELLO","HOW","YOU"],["YOUR","NAME","WHAT"]]}
+```
+
+Verified live against the real API with a 20-sentence batch — all 20
+correctly glossed (proper time-fronting, wh-word-to-end, negation, question
+marking) in a single ~48s call. Max 2000 sentences per request.
+
+Client helper: `src/ai/batch.ts` — `batchTextToGloss({ texts })`. Not wired
+into the live single-sentence UI (that stays on the low-latency
+per-sentence path); use it for bulk pre-processing workflows.
+
 ## What it does NOT do (yet)
 
 - No rate limiting → add `@fastify/rate-limit` before shipping.
