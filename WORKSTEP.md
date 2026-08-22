@@ -61,6 +61,28 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[!]` blocked
 - [x] 6.7 Cleaned up duplicate/source files from repo root
 - [x] 6.8 Type-check clean, 15 tests pass, prod build clean (1.44 MB / 439 KB gzip)
 
+## Round 7 — Diagnose "static model" report
+
+- [x] 7.1 Confirmed all 30 canonical bones map to real skinned skeleton bones
+       (`isInSkeleton: true` for every one). Skinning is correctly wired.
+- [x] 7.2 Confirmed useFrame IS firing: a diagnostic probe moved R_index0
+       quaternion visibly over 1.5s intervals.
+- [x] 7.3 FOUND BUG: playback code was writing bone **positions** during
+       sign playback. Skinned meshes bake bone rest positions into
+       inverseBindMatrices — moving bones at runtime shears the mesh.
+       Removed the palm-position code entirely; only rotations now.
+- [x] 7.4 Camera framing was on the chest (0, 1.2, 0.1). Godette's rest
+       T-pose has hands at the hips, so finger animations were happening
+       out of frame. Moved camera to (0, 0.9, 1.0) targeting (0, 0.9, 0)
+       so hands are prominent.
+- [x] 7.5 Enabled pan in OrbitControls so viewer can drag to reframe.
+- [x] 7.6 Removed diagnostic probe and IK-target manipulation
+       (Blender IK constraints don't survive glTF export anyway).
+- [!] 7.7 Cannot 100%-verify animation visually here: the test browser
+       pane runs with document.visibilityState=hidden, which blocks
+       requestAnimationFrame entirely (framesFired=0). Verification
+       requires a real browser tab.
+
 ## Known caveats for the user to know before testing
 
 - The rigged hand is right-hand-only in the source. Left is mirrored, so

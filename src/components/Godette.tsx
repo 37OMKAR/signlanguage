@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
-import type { SignFrame, Vec3 } from "../types";
+import type { SignFrame } from "../types";
 
 interface Props {
   frames: SignFrame[];
@@ -75,9 +75,13 @@ export function Godette({ frames, speed, reducedMotion }: Props) {
     rest.current = {};
     // Collect every named object so we can diagnose if a pattern misses.
     const seenNames: string[] = [];
+    const skinnedBoneNames: string[] = [];
     cloned.traverse((obj) => {
+      if ((obj as THREE.SkinnedMesh).isSkinnedMesh) {
+        const sm = obj as THREE.SkinnedMesh;
+        sm.skeleton?.bones.forEach((b) => skinnedBoneNames.push(b.name));
+      }
       if (!obj.name) return;
-      // Three.js GLTFLoader normalizes '.' to '_' in names. Match both.
       const normalized = obj.name.replace(/[._]/g, "_");
       seenNames.push(obj.name);
       for (const [canonical, pattern] of Object.entries(BONE_PATTERNS)) {
@@ -90,6 +94,13 @@ export function Godette({ frames, speed, reducedMotion }: Props) {
         }
       }
     });
+    (window as unknown as { __godette: unknown }).__godette = {
+      bones: bones.current,
+      rest: rest.current,
+      seenNames,
+      skinnedBoneNames: Array.from(new Set(skinnedBoneNames)),
+      cloned,
+    };
     const mapped = Object.keys(bones.current);
     // eslint-disable-next-line no-console
     console.log(
@@ -112,8 +123,10 @@ export function Godette({ frames, speed, reducedMotion }: Props) {
   const _qb = useMemo(() => new THREE.Quaternion(), []);
 
   useFrame(({ clock }) => {
+    (window as unknown as { __godetteFrames?: number }).__godetteFrames =
+      ((window as unknown as { __godetteFrames?: number }).__godetteFrames ?? 0) + 1;
+    (window as unknown as { __godetteLastFrames?: number }).__godetteLastFrames = frames?.length ?? 0;
     if (!frames || frames.length === 0) {
-      // Ease to rest.
       for (const [name, obj] of Object.entries(bones.current)) {
         const r = rest.current[name];
         if (!r) continue;
@@ -147,27 +160,12 @@ export function Godette({ frames, speed, reducedMotion }: Props) {
         obj.quaternion.copy(_qa).slerp(_qb, THREE.MathUtils.clamp(t, 0, 1));
       }
     }
-    // Palm position offset (relative to rest).
-    for (const palmKey of ["R_palm", "L_palm"] as const) {
-      const obj = bones.current[palmKey];
-      const pa = a.positions?.[palmKey] as Vec3 | undefined;
-      if (obj && pa) {
-        const pb = (b?.positions?.[palmKey] as Vec3 | undefined) ?? pa;
-        const r = rest.current[palmKey];
-        if (r) {
-          obj.position.set(
-            r.p.x + THREE.MathUtils.lerp(pa[0], pb[0], t),
-            r.p.y + THREE.MathUtils.lerp(pa[1], pb[1], t),
-            r.p.z + THREE.MathUtils.lerp(pa[2], pb[2], t),
-          );
-        }
-      }
-    }
+    // Note: we deliberately do NOT modify bone positions during playback.
+    // Skinned meshes bake bone rest positions into inverseBindMatrices; moving
+    // a bone at runtime shears the vertices. Only rotations are safe.
   });
 
-  // Godette rest bounding is roughly hip-centred at origin. Push her back so
-  // the camera at (0, 1.4, 2.4) frames her upper body. Fine tuning per model.
-  return <primitive object={cloned} position={[0, 0, 0]} scale={[1, 1, 1]} />;
+  return <primitive object={cloned} position={[0, 0, 0]} />;
 }
 
 function pickPair(

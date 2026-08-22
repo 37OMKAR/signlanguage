@@ -46,7 +46,7 @@ export function AvatarStage({ frames, speed, reducedMotion, onFinished }: Props)
 
   return (
     <Canvas
-      camera={{ position: [0, 1.4, 2.4], fov: 40 }}
+      camera={{ position: [0, 0.9, 1.0], fov: 45 }}
       gl={{ antialias: true, preserveDrawingBuffer: true }}
       dpr={[1, 2]}
       style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
@@ -64,11 +64,11 @@ export function AvatarStage({ frames, speed, reducedMotion, onFinished }: Props)
         <Godette frames={frames} speed={speed} reducedMotion={reducedMotion} />
       </Suspense>
       <OrbitControls
-        enablePan={false}
+        enablePan
         enableZoom
-        minDistance={1.2}
+        minDistance={0.4}
         maxDistance={5}
-        target={[0, 1.2, 0]}
+        target={[0, 0.9, 0.0]}
       />
     </Canvas>
   );
