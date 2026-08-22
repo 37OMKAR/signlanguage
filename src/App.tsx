@@ -1,0 +1,104 @@
+import { useCallback, useMemo, useState } from "react";
+import { AvatarStage } from "./components/AvatarStage";
+import { TextInput } from "./components/TextInput";
+import { CaptionOverlay } from "./components/CaptionOverlay";
+import { ControlsPanel } from "./components/ControlsPanel";
+import { textToGloss } from "./nlp";
+import { speak } from "./a11y/tts";
+import type { PlayerSettings, SignFrame } from "./types";
+import { loadSign } from "./signs/loader";
+
+export default function App() {
+  const [inputText, setInputText] = useState("");
+  const [glossQueue, setGlossQueue] = useState<string[]>([]);
+  const [currentGloss, setCurrentGloss] = useState<string>("");
+  const [currentFrames, setCurrentFrames] = useState<SignFrame[]>([]);
+  const [settings, setSettings] = useState<PlayerSettings>({
+    speed: 1,
+    fontSize: 24,
+    highContrast: false,
+    dyslexicFont: false,
+    reducedMotion: false,
+    ttsEnabled: true,
+  });
+
+  const handleTranslate = useCallback(async () => {
+    if (!inputText.trim()) return;
+    if (settings.ttsEnabled) speak(inputText);
+    const gloss = await textToGloss(inputText);
+    setGlossQueue(gloss);
+    if (gloss.length > 0) {
+      const first = gloss[0];
+      setCurrentGloss(first);
+      setCurrentFrames(await loadSign(first));
+    }
+  }, [inputText, settings.ttsEnabled]);
+
+  const handleSignFinished = useCallback(async () => {
+    setGlossQueue((prev) => {
+      const [, ...rest] = prev;
+      if (rest.length === 0) {
+        setCurrentGloss("");
+        setCurrentFrames([]);
+        return rest;
+      }
+      const next = rest[0];
+      setCurrentGloss(next);
+      loadSign(next).then(setCurrentFrames);
+      return rest;
+    });
+  }, []);
+
+  const rootClass = useMemo(
+    () =>
+      [
+        "app-root h-full min-h-screen flex flex-col",
+        settings.highContrast ? "high-contrast" : "",
+        settings.dyslexicFont ? "font-dyslexic" : "",
+      ]
+        .filter(Boolean)
+        .join(" "),
+    [settings.highContrast, settings.dyslexicFont],
+  );
+
+  return (
+    <div className={rootClass}>
+      <header className="p-4 border-b border-slate-800">
+        <h1 className="text-2xl font-bold">Text → Sign Language</h1>
+        <p className="text-sm opacity-70">
+          Type a sentence. The avatar will sign it. Fully accessible.
+        </p>
+      </header>
+
+      <main className="flex-1 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4 p-4 overflow-hidden">
+        <section className="relative bg-slate-900 rounded-2xl overflow-hidden">
+          <AvatarStage
+            frames={currentFrames}
+            speed={settings.speed}
+            reducedMotion={settings.reducedMotion}
+            onFinished={handleSignFinished}
+          />
+          <CaptionOverlay
+            currentGloss={currentGloss}
+            upcoming={glossQueue.slice(1)}
+            fontSize={settings.fontSize}
+          />
+        </section>
+
+        <aside className="flex flex-col gap-4 overflow-auto">
+          <TextInput
+            value={inputText}
+            onChange={setInputText}
+            onSubmit={handleTranslate}
+            fontSize={settings.fontSize}
+          />
+          <ControlsPanel settings={settings} onChange={setSettings} />
+        </aside>
+      </main>
+
+      <footer className="p-2 text-xs text-center opacity-60 border-t border-slate-800">
+        v0.1 dev — hands+head architecture. No video playback anywhere.
+      </footer>
+    </div>
+  );
+}

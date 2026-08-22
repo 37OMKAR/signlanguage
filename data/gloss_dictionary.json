@@ -1,0 +1,350 @@
+{
+  "A": {
+    "gloss": "A",
+    "duration_ms": 450,
+    "provenance": "hand-authored",
+    "commercial_safe": true,
+    "notes": "Closed fist, thumb resting alongside index finger.",
+    "handshape_start": "A", "handshape_end": "A",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [5, 5],   "R_index": [80, 90, 70], "R_middle": [80, 90, 70], "R_ring": [80, 90, 70], "R_pinky": [80, 90, 70] } },
+      { "t_ms": 450, "curls": { "R_thumb": [5, 5],   "R_index": [80, 90, 70], "R_middle": [80, 90, 70], "R_ring": [80, 90, 70], "R_pinky": [80, 90, 70] } }
+    ]
+  },
+  "B": {
+    "gloss": "B", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Flat hand, fingers up, thumb folded across palm.",
+    "handshape_start": "B", "handshape_end": "B",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [60, 80], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 450, "curls": { "R_thumb": [60, 80], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } }
+    ]
+  },
+  "C": {
+    "gloss": "C", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Curved hand like holding a cup.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [30, 25], "R_index": [30, 40, 30], "R_middle": [30, 40, 30], "R_ring": [30, 40, 30], "R_pinky": [30, 40, 30] } },
+      { "t_ms": 450, "curls": { "R_thumb": [30, 25], "R_index": [30, 40, 30], "R_middle": [30, 40, 30], "R_ring": [30, 40, 30], "R_pinky": [30, 40, 30] } }
+    ]
+  },
+  "D": {
+    "gloss": "D", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Index up, other fingers curled touching thumb.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [80, 90, 70], "R_ring": [80, 90, 70], "R_pinky": [80, 90, 70] } },
+      { "t_ms": 450, "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [80, 90, 70], "R_ring": [80, 90, 70], "R_pinky": [80, 90, 70] } }
+    ]
+  },
+  "E": {
+    "gloss": "E", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "All fingertips curled down to thumb.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [30, 80], "R_index": [30, 80, 70], "R_middle": [30, 80, 70], "R_ring": [30, 80, 70], "R_pinky": [30, 80, 70] } },
+      { "t_ms": 450, "curls": { "R_thumb": [30, 80], "R_index": [30, 80, 70], "R_middle": [30, 80, 70], "R_ring": [30, 80, 70], "R_pinky": [30, 80, 70] } }
+    ]
+  },
+  "F": {
+    "gloss": "F", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Index and thumb form a circle; other fingers extended.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [20, 50], "R_index": [30, 50, 30], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 450, "curls": { "R_thumb": [20, 50], "R_index": [30, 50, 30], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } }
+    ]
+  },
+  "G": {
+    "gloss": "G", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Index and thumb extended horizontally.",
+    "R_palm_deg_hint": "rotate to point sideways",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [0, 0, -90], "curls": { "R_thumb": [0, 0], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 450, "R_palm_deg": [0, 0, -90], "curls": { "R_thumb": [0, 0], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "H": {
+    "gloss": "H", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Index and middle extended together, sideways.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [0, 0, -90], "curls": { "R_thumb": [40, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 450, "R_palm_deg": [0, 0, -90], "curls": { "R_thumb": [40, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "I": {
+    "gloss": "I", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Pinky up, others closed.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [30, 60], "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 450, "curls": { "R_thumb": [30, 60], "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [0, 0, 0] } }
+    ]
+  },
+  "J": {
+    "gloss": "J", "duration_ms": 600, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Like I with a J-motion trace. Motion approximated by wrist rotation.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [0, 0, 0],   "curls": { "R_thumb": [30, 60], "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 300, "R_palm_deg": [0, -30, 0], "curls": { "R_thumb": [30, 60], "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 600, "R_palm_deg": [15, -45, -30], "curls": { "R_thumb": [30, 60], "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [0, 0, 0] } }
+    ]
+  },
+  "K": {
+    "gloss": "K", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Index and middle up in a V, thumb between them.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [20, 30], "R_index": [0, 0, 0], "R_middle": [0, 20, 30], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 450, "curls": { "R_thumb": [20, 30], "R_index": [0, 0, 0], "R_middle": [0, 20, 30], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "L": {
+    "gloss": "L", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Index up, thumb perpendicular — the L-shape.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [0, 0], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 450, "curls": { "R_thumb": [0, 0], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "M": {
+    "gloss": "M", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Three fingers draped over thumb.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [40, 60], "R_index": [60, 60, 50], "R_middle": [60, 60, 50], "R_ring": [60, 60, 50], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 450, "curls": { "R_thumb": [40, 60], "R_index": [60, 60, 50], "R_middle": [60, 60, 50], "R_ring": [60, 60, 50], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "N": {
+    "gloss": "N", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Two fingers draped over thumb.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [40, 60], "R_index": [60, 60, 50], "R_middle": [60, 60, 50], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 450, "curls": { "R_thumb": [40, 60], "R_index": [60, 60, 50], "R_middle": [60, 60, 50], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "O": {
+    "gloss": "O", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Fingers curled to touch thumb forming an O.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [30, 60], "R_index": [40, 60, 40], "R_middle": [40, 60, 40], "R_ring": [40, 60, 40], "R_pinky": [40, 60, 40] } },
+      { "t_ms": 450, "curls": { "R_thumb": [30, 60], "R_index": [40, 60, 40], "R_middle": [40, 60, 40], "R_ring": [40, 60, 40], "R_pinky": [40, 60, 40] } }
+    ]
+  },
+  "P": {
+    "gloss": "P", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "K rotated palm-down.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [180, 0, 0], "curls": { "R_thumb": [20, 30], "R_index": [0, 0, 0], "R_middle": [0, 20, 30], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 450, "R_palm_deg": [180, 0, 0], "curls": { "R_thumb": [20, 30], "R_index": [0, 0, 0], "R_middle": [0, 20, 30], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "Q": {
+    "gloss": "Q", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "G rotated palm-down.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [180, 0, -90], "curls": { "R_thumb": [0, 0], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 450, "R_palm_deg": [180, 0, -90], "curls": { "R_thumb": [0, 0], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "R": {
+    "gloss": "R", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Index and middle crossed (approximated — no lateral spread in placeholder rig).",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [30, 60], "R_index": [0, 5, 10], "R_middle": [0, 5, 10], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 450, "curls": { "R_thumb": [30, 60], "R_index": [0, 5, 10], "R_middle": [0, 5, 10], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "S": {
+    "gloss": "S", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Fist with thumb wrapped across the front of fingers.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [30, 60], "R_index": [80, 90, 70], "R_middle": [80, 90, 70], "R_ring": [80, 90, 70], "R_pinky": [80, 90, 70] } },
+      { "t_ms": 450, "curls": { "R_thumb": [30, 60], "R_index": [80, 90, 70], "R_middle": [80, 90, 70], "R_ring": [80, 90, 70], "R_pinky": [80, 90, 70] } }
+    ]
+  },
+  "T": {
+    "gloss": "T", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Fist with thumb tucked between index and middle finger.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [20, 40], "R_index": [75, 90, 70], "R_middle": [75, 90, 70], "R_ring": [75, 90, 70], "R_pinky": [75, 90, 70] } },
+      { "t_ms": 450, "curls": { "R_thumb": [20, 40], "R_index": [75, 90, 70], "R_middle": [75, 90, 70], "R_ring": [75, 90, 70], "R_pinky": [75, 90, 70] } }
+    ]
+  },
+  "U": {
+    "gloss": "U", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Index and middle up together.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 450, "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "V": {
+    "gloss": "V", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Index and middle up in a V (spread approximated).",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 450, "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "W": {
+    "gloss": "W", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Index, middle, ring up.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 450, "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "X": {
+    "gloss": "X", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Index hooked, others closed.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [30, 60], "R_index": [30, 80, 30], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 450, "curls": { "R_thumb": [30, 60], "R_index": [30, 80, 30], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "Y": {
+    "gloss": "Y", "duration_ms": 450, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Pinky and thumb out, others closed.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [0, 0], "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 450, "curls": { "R_thumb": [0, 0], "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [0, 0, 0] } }
+    ]
+  },
+  "Z": {
+    "gloss": "Z", "duration_ms": 700, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Index up, traces a Z (approximated with wrist wag).",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [0, 0, 0],   "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 233, "R_palm_deg": [0, 25, 0],  "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 466, "R_palm_deg": [0, -25, 0], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 700, "R_palm_deg": [0, 0, 0],   "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+
+  "HELLO": {
+    "gloss": "HELLO", "duration_ms": 900, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Flat B-hand at temple, sweeps outward like a salute.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [0, 20, 10],  "R_palm_pos": [0.02, 0.42, 0.05], "curls": { "R_thumb": [60, 80], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 450, "R_palm_deg": [0, 40, 10],  "R_palm_pos": [0.12, 0.42, 0.05], "curls": { "R_thumb": [60, 80], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 900, "R_palm_deg": [0, 60, 10],  "R_palm_pos": [0.22, 0.42, 0.05], "curls": { "R_thumb": [60, 80], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } }
+    ]
+  },
+  "YES": {
+    "gloss": "YES", "duration_ms": 700, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "S-hand nods up and down like a head nod.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [-10, 0, 0], "curls": { "R_thumb": [30, 60], "R_index": [80, 90, 70], "R_middle": [80, 90, 70], "R_ring": [80, 90, 70], "R_pinky": [80, 90, 70] } },
+      { "t_ms": 350, "R_palm_deg": [30, 0, 0],  "curls": { "R_thumb": [30, 60], "R_index": [80, 90, 70], "R_middle": [80, 90, 70], "R_ring": [80, 90, 70], "R_pinky": [80, 90, 70] } },
+      { "t_ms": 700, "R_palm_deg": [-10, 0, 0], "curls": { "R_thumb": [30, 60], "R_index": [80, 90, 70], "R_middle": [80, 90, 70], "R_ring": [80, 90, 70], "R_pinky": [80, 90, 70] } }
+    ]
+  },
+  "NO": {
+    "gloss": "NO", "duration_ms": 700, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Index+middle+thumb snap together twice.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [0, 0], "R_index": [10, 10, 10], "R_middle": [10, 10, 10], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 233, "curls": { "R_thumb": [30, 60], "R_index": [30, 40, 40], "R_middle": [30, 40, 40], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 466, "curls": { "R_thumb": [0, 0], "R_index": [10, 10, 10], "R_middle": [10, 10, 10], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 700, "curls": { "R_thumb": [30, 60], "R_index": [30, 40, 40], "R_middle": [30, 40, 40], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "PLEASE": {
+    "gloss": "PLEASE", "duration_ms": 900, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Flat hand circles on chest.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [10, 0, 0], "R_palm_pos": [0, 0.10, 0.05], "curls": { "R_thumb": [60, 80], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 450, "R_palm_deg": [10, 20, 0], "R_palm_pos": [0.05, 0.10, 0.05], "curls": { "R_thumb": [60, 80], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 900, "R_palm_deg": [10, 0, 0], "R_palm_pos": [0, 0.10, 0.05], "curls": { "R_thumb": [60, 80], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } }
+    ]
+  },
+  "THANK-YOU": {
+    "gloss": "THANK-YOU", "duration_ms": 900, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Flat hand from chin outward.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [-20, 0, 0], "R_palm_pos": [0, 0.32, 0.10], "curls": { "R_thumb": [60, 80], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 900, "R_palm_deg": [-40, 0, 0], "R_palm_pos": [0, 0.20, 0.25], "curls": { "R_thumb": [60, 80], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } }
+    ]
+  },
+  "SORRY": {
+    "gloss": "SORRY", "duration_ms": 900, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "S-hand circles on chest.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_pos": [0, 0.10, 0.05], "curls": { "R_thumb": [30, 60], "R_index": [80, 90, 70], "R_middle": [80, 90, 70], "R_ring": [80, 90, 70], "R_pinky": [80, 90, 70] } },
+      { "t_ms": 450, "R_palm_pos": [0.06, 0.15, 0.05], "curls": { "R_thumb": [30, 60], "R_index": [80, 90, 70], "R_middle": [80, 90, 70], "R_ring": [80, 90, 70], "R_pinky": [80, 90, 70] } },
+      { "t_ms": 900, "R_palm_pos": [0, 0.10, 0.05], "curls": { "R_thumb": [30, 60], "R_index": [80, 90, 70], "R_middle": [80, 90, 70], "R_ring": [80, 90, 70], "R_pinky": [80, 90, 70] } }
+    ]
+  },
+  "HELP": {
+    "gloss": "HELP", "duration_ms": 800, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "One hand thumb-up on flat other palm, lift up.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_pos": [-0.1, 0.05, 0], "curls": { "R_thumb": [0, 0], "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 800, "R_palm_pos": [-0.1, 0.25, 0], "curls": { "R_thumb": [0, 0], "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "LOVE": {
+    "gloss": "LOVE", "duration_ms": 800, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Both fists crossed at chest.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [0, 0, 40], "R_palm_pos": [-0.08, 0.10, 0.08], "L_palm_deg": [0, 0, -40], "L_palm_pos": [0.08, 0.10, 0.08], "curls": { "R_thumb": [30, 60], "R_index": [80, 90, 70], "R_middle": [80, 90, 70], "R_ring": [80, 90, 70], "R_pinky": [80, 90, 70], "L_thumb": [30, 60], "L_index": [80, 90, 70], "L_middle": [80, 90, 70], "L_ring": [80, 90, 70], "L_pinky": [80, 90, 70] } },
+      { "t_ms": 800, "R_palm_deg": [0, 0, 40], "R_palm_pos": [-0.08, 0.10, 0.08], "L_palm_deg": [0, 0, -40], "L_palm_pos": [0.08, 0.10, 0.08], "curls": { "R_thumb": [30, 60], "R_index": [80, 90, 70], "R_middle": [80, 90, 70], "R_ring": [80, 90, 70], "R_pinky": [80, 90, 70], "L_thumb": [30, 60], "L_index": [80, 90, 70], "L_middle": [80, 90, 70], "L_ring": [80, 90, 70], "L_pinky": [80, 90, 70] } }
+    ]
+  },
+  "GOOD": {
+    "gloss": "GOOD", "duration_ms": 700, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Flat hand from chin down onto other palm.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_pos": [0, 0.30, 0.10], "R_palm_deg": [-30, 0, 0], "curls": { "R_thumb": [60, 80], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 700, "R_palm_pos": [0, 0.05, 0.05], "R_palm_deg": [-10, 0, 0], "curls": { "R_thumb": [60, 80], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } }
+    ]
+  },
+  "BAD": {
+    "gloss": "BAD", "duration_ms": 700, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Flat hand from chin, flip palm down, move away.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_pos": [0, 0.30, 0.10], "R_palm_deg": [-30, 0, 0], "curls": { "R_thumb": [60, 80], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 700, "R_palm_pos": [0.10, 0.10, 0.05], "R_palm_deg": [-160, 0, 0], "curls": { "R_thumb": [60, 80], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } }
+    ]
+  },
+  "ME": {
+    "gloss": "ME", "duration_ms": 500, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Index finger points to own chest.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_pos": [0, 0.05, 0.15], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 500, "R_palm_pos": [0, 0.05, 0.05], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "YOU": {
+    "gloss": "YOU", "duration_ms": 500, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Index finger points forward (to addressee).",
+    "frames": [
+      { "t_ms": 0,   "R_palm_pos": [0, 0.05, 0.20], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 500, "R_palm_pos": [0, 0.05, 0.35], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "WHAT": {
+    "gloss": "WHAT", "duration_ms": 700, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Both flat hands, palms up, shake side to side.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [-90, 0, 0], "L_palm_deg": [-90, 0, 0], "curls": { "R_thumb": [10, 10], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0], "L_thumb": [10, 10], "L_index": [0, 0, 0], "L_middle": [0, 0, 0], "L_ring": [0, 0, 0], "L_pinky": [0, 0, 0] } },
+      { "t_ms": 350, "R_palm_deg": [-90, 15, 0], "L_palm_deg": [-90, -15, 0], "curls": { "R_thumb": [10, 10], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0], "L_thumb": [10, 10], "L_index": [0, 0, 0], "L_middle": [0, 0, 0], "L_ring": [0, 0, 0], "L_pinky": [0, 0, 0] } },
+      { "t_ms": 700, "R_palm_deg": [-90, 0, 0], "L_palm_deg": [-90, 0, 0], "curls": { "R_thumb": [10, 10], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0], "L_thumb": [10, 10], "L_index": [0, 0, 0], "L_middle": [0, 0, 0], "L_ring": [0, 0, 0], "L_pinky": [0, 0, 0] } }
+    ]
+  },
+  "WHERE": {
+    "gloss": "WHERE", "duration_ms": 700, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Index finger wagging side to side.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [0, 0, 0],   "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 233, "R_palm_deg": [0, 25, 0],  "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 466, "R_palm_deg": [0, -25, 0], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 700, "R_palm_deg": [0, 0, 0],   "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "NAME": {
+    "gloss": "NAME", "duration_ms": 600, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "H-hand of one taps H-hand of other twice.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [40, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 300, "R_palm_pos": [0, 0.02, 0], "curls": { "R_thumb": [40, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 600, "curls": { "R_thumb": [40, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  }
+}

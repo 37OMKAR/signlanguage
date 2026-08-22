@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+*:focus-visible {
+  outline: 3px solid #7dd3fc;
+  outline-offset: 2px;
+}
+
+.high-contrast {
+  --bg: #000;
+  --fg: #fff;
+  --accent: #ffeb3b;
+}
+.high-contrast body,
+.high-contrast .app-root {
+  background: var(--bg) !important;
+  color: var(--fg) !important;
+}
