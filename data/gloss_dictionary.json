@@ -1,4 +1,156 @@
 {
+  "GOODBYE": {
+    "gloss": "GOODBYE", "duration_ms": 600, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: open hand waves side to side. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [0, 0, -15], "curls": { "R_thumb": [0, 0], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 300, "R_palm_deg": [0, 0, 15],  "curls": { "R_thumb": [0, 0], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 600, "R_palm_deg": [0, 0, -15], "curls": { "R_thumb": [0, 0], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } }
+    ]
+  },
+  "MORE": {
+    "gloss": "MORE", "duration_ms": 500, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: pinched (flat-O) fingertips of both hands tap together. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [0, 0, 0],  "curls": { "R_thumb": [30, 60], "R_index": [40, 60, 40], "R_middle": [40, 60, 40], "R_ring": [40, 60, 40], "R_pinky": [40, 60, 40] } },
+      { "t_ms": 500, "R_palm_deg": [0, 10, 0], "curls": { "R_thumb": [30, 60], "R_index": [40, 60, 40], "R_middle": [40, 60, 40], "R_ring": [40, 60, 40], "R_pinky": [40, 60, 40] } }
+    ]
+  },
+  "NEED": {
+    "gloss": "NEED", "duration_ms": 500, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: bent (X-like) hand moves downward. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [-10, 0, 0], "curls": { "R_thumb": [20, 30], "R_index": [40, 60, 30], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 500, "R_palm_deg": [20, 0, 0],  "curls": { "R_thumb": [20, 30], "R_index": [40, 60, 30], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "UNDERSTAND": {
+    "gloss": "UNDERSTAND", "duration_ms": 500, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: index finger flicks upward near the forehead/temple. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [10, 0, 0],  "curls": { "R_thumb": [30, 60], "R_index": [40, 60, 40], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 500, "R_palm_deg": [-15, 0, 0], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0],   "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "KNOW": {
+    "gloss": "KNOW", "duration_ms": 500, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: flat hand taps near the forehead/temple. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [10, 0, 0],  "curls": { "R_thumb": [60, 80], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 500, "R_palm_deg": [-10, 0, 0], "curls": { "R_thumb": [60, 80], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } }
+    ]
+  },
+  "WAIT": {
+    "gloss": "WAIT", "duration_ms": 700, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: both open hands, fingers wiggling, held forward. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "curls": { "R_thumb": [0, 0], "R_index": [0, 10, 0], "R_middle": [0, 10, 0], "R_ring": [0, 10, 0], "R_pinky": [0, 10, 0] } },
+      { "t_ms": 350, "curls": { "R_thumb": [10, 15], "R_index": [10, 0, 10], "R_middle": [10, 0, 10], "R_ring": [10, 0, 10], "R_pinky": [10, 0, 10] } },
+      { "t_ms": 700, "curls": { "R_thumb": [0, 0], "R_index": [0, 10, 0], "R_middle": [0, 10, 0], "R_ring": [0, 10, 0], "R_pinky": [0, 10, 0] } }
+    ]
+  },
+  "STOP": {
+    "gloss": "STOP", "duration_ms": 400, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: flat hand chops down onto the other open palm. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [-20, 0, 0], "curls": { "R_thumb": [0, 0], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 400, "R_palm_deg": [10, 0, 0],  "curls": { "R_thumb": [0, 0], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } }
+    ]
+  },
+  "FINISH": {
+    "gloss": "FINISH", "duration_ms": 500, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: both open 5-hands twist outward from the wrists. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [0, 0, 0],   "curls": { "R_thumb": [0, 0], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } },
+      { "t_ms": 500, "R_palm_deg": [0, 0, -40], "curls": { "R_thumb": [0, 0], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [0, 0, 0], "R_pinky": [0, 0, 0] } }
+    ]
+  },
+  "HOT": {
+    "gloss": "HOT", "duration_ms": 500, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: claw hand near the mouth twists away sharply. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [-10, 0, 0], "curls": { "R_thumb": [30, 40], "R_index": [40, 60, 40], "R_middle": [40, 60, 40], "R_ring": [40, 60, 40], "R_pinky": [40, 60, 40] } },
+      { "t_ms": 500, "R_palm_deg": [20, 0, 60], "curls": { "R_thumb": [30, 40], "R_index": [40, 60, 40], "R_middle": [40, 60, 40], "R_ring": [40, 60, 40], "R_pinky": [40, 60, 40] } }
+    ]
+  },
+  "COLD": {
+    "gloss": "COLD", "duration_ms": 600, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: both fists shiver/shake close to the body. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [0, 0, 8],  "curls": { "R_thumb": [30, 60], "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 300, "R_palm_deg": [0, 0, -8], "curls": { "R_thumb": [30, 60], "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 600, "R_palm_deg": [0, 0, 8],  "curls": { "R_thumb": [30, 60], "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "SICK": {
+    "gloss": "SICK", "duration_ms": 500, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: middle-finger-bent hand touches the forehead. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [10, 0, 0],  "curls": { "R_thumb": [20, 30], "R_index": [30, 30, 20], "R_middle": [30, 30, 20], "R_ring": [30, 30, 20], "R_pinky": [30, 30, 20] } },
+      { "t_ms": 500, "R_palm_deg": [-10, 0, 0], "curls": { "R_thumb": [20, 30], "R_index": [30, 30, 20], "R_middle": [30, 30, 20], "R_ring": [30, 30, 20], "R_pinky": [30, 30, 20] } }
+    ]
+  },
+  "BATHROOM": {
+    "gloss": "BATHROOM", "duration_ms": 600, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: T-handshape (fist, thumb between index/middle) shakes side to side. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [0, -15, 0], "curls": { "R_thumb": [20, 40], "R_index": [75, 90, 70], "R_middle": [75, 90, 70], "R_ring": [75, 90, 70], "R_pinky": [75, 90, 70] } },
+      { "t_ms": 300, "R_palm_deg": [0, 15, 0],  "curls": { "R_thumb": [20, 40], "R_index": [75, 90, 70], "R_middle": [75, 90, 70], "R_ring": [75, 90, 70], "R_pinky": [75, 90, 70] } },
+      { "t_ms": 600, "R_palm_deg": [0, -15, 0], "curls": { "R_thumb": [20, 40], "R_index": [75, 90, 70], "R_middle": [75, 90, 70], "R_ring": [75, 90, 70], "R_pinky": [75, 90, 70] } }
+    ]
+  },
+  "DRINK": {
+    "gloss": "DRINK", "duration_ms": 500, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: C-handshape tips toward the mouth like a cup. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [0, 0, 0],   "curls": { "R_thumb": [30, 25], "R_index": [30, 40, 30], "R_middle": [30, 40, 30], "R_ring": [30, 40, 30], "R_pinky": [30, 40, 30] } },
+      { "t_ms": 500, "R_palm_deg": [-45, 0, 0], "curls": { "R_thumb": [30, 25], "R_index": [30, 40, 30], "R_middle": [30, 40, 30], "R_ring": [30, 40, 30], "R_pinky": [30, 40, 30] } }
+    ]
+  },
+  "WORK": {
+    "gloss": "WORK", "duration_ms": 500, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: fist taps down on top of the other fist, twice. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [0, 0, 0],   "curls": { "R_thumb": [30, 60], "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 250, "R_palm_deg": [15, 0, 0],  "curls": { "R_thumb": [30, 60], "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 500, "R_palm_deg": [0, 0, 0],   "curls": { "R_thumb": [30, 60], "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "HOME": {
+    "gloss": "HOME", "duration_ms": 600, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: flat-O hand taps near the cheek/mouth then near the ear. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [-10, 0, 0], "curls": { "R_thumb": [30, 60], "R_index": [40, 60, 40], "R_middle": [40, 60, 40], "R_ring": [40, 60, 40], "R_pinky": [40, 60, 40] } },
+      { "t_ms": 300, "R_palm_deg": [0, 20, 0],  "curls": { "R_thumb": [30, 60], "R_index": [40, 60, 40], "R_middle": [40, 60, 40], "R_ring": [40, 60, 40], "R_pinky": [40, 60, 40] } },
+      { "t_ms": 600, "R_palm_deg": [-15, 20, 0],"curls": { "R_thumb": [30, 60], "R_index": [40, 60, 40], "R_middle": [40, 60, 40], "R_ring": [40, 60, 40], "R_pinky": [40, 60, 40] } }
+    ]
+  },
+  "WHO": {
+    "gloss": "WHO", "duration_ms": 500, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: index finger circles near the chin/lips. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [-10, 0, 0], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 250, "R_palm_deg": [-10, 20, 0],"curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 500, "R_palm_deg": [-10, 0, 0], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
+  "WHY": {
+    "gloss": "WHY", "duration_ms": 600, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: fingers touch the forehead then pull down into a Y-handshape. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [10, 0, 0],  "curls": { "R_thumb": [30, 60], "R_index": [40, 50, 30], "R_middle": [40, 50, 30], "R_ring": [40, 50, 30], "R_pinky": [40, 50, 30] } },
+      { "t_ms": 600, "R_palm_deg": [-20, 0, 0], "curls": { "R_thumb": [0, 0],   "R_index": [85, 90, 70], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [0, 0, 0] } }
+    ]
+  },
+  "WHEN": {
+    "gloss": "WHEN", "duration_ms": 600, "provenance": "hand-authored", "commercial_safe": true,
+    "notes": "Approximate: index finger of one hand circles around the index finger of the other, then they touch. Best-effort, not verified by an ASL signer -- flag for review.",
+    "frames": [
+      { "t_ms": 0,   "R_palm_deg": [0, 0, 0],  "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 300, "R_palm_deg": [0, 0, 90], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 600, "R_palm_deg": [0, 0, 180],"curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+    ]
+  },
   "NICE": {
     "gloss": "NICE", "duration_ms": 700, "provenance": "hand-authored", "commercial_safe": true,
     "notes": "Approximate: flat hand slides forward across the other palm. Best-effort, not verified by an ASL signer -- flag for review.",

@@ -474,6 +474,33 @@ into position rather than reaching up naturally.
        sentence was typed must have contained both words back to back.
 - [x] 16.6 Type-check clean, 19/19 tests pass, prod build 1.45MB/442KB gzip.
 
+## Round 17 — "50 Basic ASL Conversational Signs" video gap-fill
+
+- [x] 17.1 User shared a YouTube link and asked "why don't we have this".
+       Tried to fetch it; got only the video title ("50 Basic ASL
+       Conversational Signs"), no transcript or description content
+       available through WebFetch/WebSearch. Said so plainly rather than
+       guessing at what the video specifically shows.
+- [x] 17.2 Instead did something concretely useful: compared our
+       dictionary against the standard beginner ASL conversational
+       vocabulary set that's consistent across essentially every ASL 101
+       resource (not just this one video) and found 37 real gaps.
+- [x] 17.3 Hand-authored 18 of the highest-value gaps: GOODBYE, MORE,
+       NEED, UNDERSTAND, KNOW, WAIT, STOP, FINISH, HOT, COLD, SICK,
+       BATHROOM, DRINK, WORK, HOME, WHO, WHY, WHEN. The last three are
+       wh-question words that previously had no real sign at all (the
+       gloss pipeline already uppercases them correctly via WH_WORDS in
+       glossRules.ts -- they were just fingerspelling before because no
+       dictionary entry existed).
+- [x] 17.4 Verified live: `hasSign("WHO"|"WHY"|"WHEN")` all true after a
+       fresh page load (a stale Vite module cache falsely reported false
+       immediately after the edit -- confirmed real after reload, not a
+       code bug).
+- [x] 17.5 Full dictionary sweep: all 75 signs (57 previous + 18 new)
+       load without errors, commercial-safety audit clean, bone count
+       unchanged at 83/83 (no new bones needed -- pure data addition).
+- [x] 17.6 Type-check clean, 19/19 tests pass, prod build 1.46MB/443KB gzip.
+
 ## Known caveats for the user to know before testing
 
 - The rigged hand is right-hand-only in the source. Left is mirrored, so

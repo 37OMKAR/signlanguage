@@ -11,16 +11,26 @@ commercial launch that nothing carries a research-only license.
 
 ## Current entries
 
-All 57 entries are `hand-authored` and `commercial_safe: true`. See
-`gloss_dictionary.json` directly for the full list (26 letters + 31 words).
-15 entries (NICE, HAPPY, WANT, EAT, LIKE, FRIEND, WATER, MOTHER, FATHER,
-SAD, TIRED, HUNGRY, AGAIN, FINE, DEAF) are flagged in their own `notes`
-field as **best-effort approximations, not verified by an ASL signer** —
-authored by reasoning about the handshape/motion from written descriptions,
-not from real motion capture or a fluent signer's review. Licensing is
-clean (we wrote the rotation values ourselves), but linguistic accuracy
-should be checked by a native/fluent ASL signer before relying on them
-for real communication.
+All 75 entries are `hand-authored` and `commercial_safe: true`. See
+`gloss_dictionary.json` directly for the full list (26 letters + 49 words).
+33 word entries (NICE, HAPPY, WANT, EAT, LIKE, FRIEND, WATER, MOTHER,
+FATHER, SAD, TIRED, HUNGRY, AGAIN, FINE, DEAF, GOODBYE, MORE, NEED,
+UNDERSTAND, KNOW, WAIT, STOP, FINISH, HOT, COLD, SICK, BATHROOM, DRINK,
+WORK, HOME, WHO, WHY, WHEN) are flagged in their own `notes` field as
+**best-effort approximations, not verified by an ASL signer** — authored
+by reasoning about the handshape/motion from written descriptions, not
+from real motion capture or a fluent signer's review. Licensing is clean
+(we wrote the rotation values ourselves), but linguistic accuracy should
+be checked by a native/fluent ASL signer before relying on them for real
+communication.
+
+The second batch (GOODBYE through WHEN) was prompted by a user-shared
+YouTube video ("50 Basic ASL Conversational Signs") — we could not watch
+the video or pull its transcript, so rather than guess at its specific
+content we compared our dictionary against the standard beginner ASL
+conversational vocabulary that's consistent across virtually every ASL
+101 resource (Lifeprint, Start ASL, Gallaudet materials) and filled the
+real gaps that turned up.
 
 ## Vocabulary source note
 
