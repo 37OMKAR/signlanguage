@@ -349,6 +349,50 @@ data relative to the lifted-arm frame, which is future work.
        console, elbow/shoulder rotation measured numerically) instead.
 - [x] 13.8 Type-check clean, 19/19 tests pass, prod build 1.44MB/441KB gzip.
 
+## Round 14 — Dial back overshoot, slow default pace, add body engagement
+
+User reported (after Round 13's elbow rebalance): hand/elbow bending in
+the wrong-looking direction, head wiggling excessively, signs too fast,
+and not enough full-body involvement.
+
+- [x] 14.1 Elbow: Round 13 pushed the elbow bend from -35 to -70deg to
+       fix "not bending" — likely overshot past a natural-looking range,
+       which reads as "wrong direction" even though the rotation axis
+       itself didn't change sign. Dialed back to a middle ground
+       (shoulder 95->85deg, elbow -70->-50deg) — still a real, visible
+       bend, less extreme.
+- [x] 14.2 Wrist: the R_palm_deg values added to YOU/ME in Round 13 were
+       tuned (by reasoning, not live visual confirmation — documented at
+       the time) against the OLD arm-lift geometry, then the arm-lift
+       geometry itself changed in the same round. Halved their magnitude
+       to reduce the risk of a mismatched, anatomically-odd wrist angle
+       compounding with the new arm pose.
+- [x] 14.3 Head/spine wiggle: cut idle sway amplitudes further across the
+       board (spine1 0.02->0.008, spine2 0.015->0.006, head 0.018->0.007
+       rad) and slowed their frequencies slightly. Also softened the
+       negation head-shake again (0.07->0.05 rad, 2->1.6Hz).
+- [x] 14.4 Pace: default playback speed changed from 1.0x to 0.7x
+       (`src/App.tsx`) so signs and fingerspelling read at a calmer pace
+       out of the box. Users can still speed up via the existing slider.
+- [x] 14.5 Full-body involvement: added a small forward torso lean
+       (spine1 6deg, spine2 4deg, split across both joints) that eases in
+       while actively signing and eases back to neutral when idle — real
+       interpreters engage their whole upper body, not just the arm; a
+       perfectly static torso during signing was a fair complaint.
+- [x] 14.6 Re-ran the full 42-sign dictionary sweep after all data/code
+       changes: zero errors, commercial-safety audit clean.
+- [x] 14.7 Type-check clean, 19/19 tests pass, prod build 1.44MB/441KB gzip.
+
+**Verification honesty**: live screenshot/numeric confirmation of the
+retuned elbow angle and new lean was attempted but blocked by the same
+unpredictable round-trip latency documented in Rounds 11-13 — signs kept
+finishing before each check script's wait completed, even at reduced
+speed. These are parameter changes to an already mechanically-verified
+system (same rotation axes and application code as previous rounds, only
+magnitudes changed), not new untested logic, so risk is low, but the
+user should treat this round's visual result as "reasoned + math-checked"
+rather than "screenshot-confirmed" and report back if it's still off.
+
 ## Known caveats for the user to know before testing
 
 - The rigged hand is right-hand-only in the source. Left is mirrored, so

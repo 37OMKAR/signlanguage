@@ -17,7 +17,7 @@ export default function App() {
   const [currentFrames, setCurrentFrames] = useState<SignFrame[]>([]);
   const [mood, setMood] = useState<SentenceMood>(NEUTRAL_MOOD);
   const [settings, setSettings] = useState<PlayerSettings>({
-    speed: 1,
+    speed: 0.7,
     fontSize: 24,
     highContrast: false,
     dyslexicFont: false,

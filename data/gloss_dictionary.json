@@ -316,16 +316,16 @@
     "gloss": "ME", "duration_ms": 500, "provenance": "hand-authored", "commercial_safe": true,
     "notes": "Index finger points to own chest. R_palm_deg added so the wrist actually rotates the pointing direction back toward her body (position offsets are not applied during playback -- see docs/RETARGETING.md -- so a real rotation is required, not just a moved pivot). Tuned approximately against the current ARM_LIFT pose; revisit if the arm-lift geometry changes.",
     "frames": [
-      { "t_ms": 0,   "R_palm_deg": [25, 10, 0], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
-      { "t_ms": 500, "R_palm_deg": [35, 10, 0], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+      { "t_ms": 0,   "R_palm_deg": [12, 5, 0], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 500, "R_palm_deg": [18, 5, 0], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
     ]
   },
   "YOU": {
     "gloss": "YOU", "duration_ms": 500, "provenance": "hand-authored", "commercial_safe": true,
     "notes": "Index finger points forward (to addressee). R_palm_deg added so the wrist actually rotates the pointing direction outward from her body (position offsets are not applied during playback -- see docs/RETARGETING.md -- so a real rotation is required, not just a moved pivot). Tuned approximately against the current ARM_LIFT pose; revisit if the arm-lift geometry changes.",
     "frames": [
-      { "t_ms": 0,   "R_palm_deg": [-30, -10, 0], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
-      { "t_ms": 500, "R_palm_deg": [-45, -10, 0], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+      { "t_ms": 0,   "R_palm_deg": [-15, -5, 0], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
+      { "t_ms": 500, "R_palm_deg": [-22, -5, 0], "curls": { "R_thumb": [30, 60], "R_index": [0, 0, 0], "R_middle": [85, 90, 70], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
     ]
   },
   "WHAT": {

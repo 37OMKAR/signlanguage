@@ -133,14 +133,14 @@ const DEG = Math.PI / 180;
 const ARM_LIFT: Record<(typeof ARM_BONES)[number], { axis: THREE.Vector3; deg: number }[]> = {
   R_armUp: [
     { axis: new THREE.Vector3(0, 0, 1), deg: 20 },
-    { axis: new THREE.Vector3(1, 0, 0), deg: 95 },
+    { axis: new THREE.Vector3(1, 0, 0), deg: 85 },
   ],
-  R_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -70 }],
+  R_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -50 }],
   L_armUp: [
     { axis: new THREE.Vector3(0, 0, 1), deg: -20 },
-    { axis: new THREE.Vector3(1, 0, 0), deg: 95 },
+    { axis: new THREE.Vector3(1, 0, 0), deg: 85 },
   ],
-  L_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -70 }],
+  L_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -50 }],
 };
 
 export function Godette({ frames, speed, reducedMotion, mood }: Props) {
@@ -236,11 +236,16 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
   // Apply a small continuous sway plus a gentle idle smile so she never
   // looks like a stone statue, even mid-sign. Each idle bone gets its own
   // phase/axis/amplitude so the motion reads as organic, not mechanical.
-  const applyIdle = (t: number) => {
+  // `leanAmount` (0..1, eased elsewhere) adds a slight forward torso
+  // engagement while actively signing, on top of the sway — real
+  // interpreters lean in and involve the whole upper body, not just the
+  // arm, while a static torso reads as "not using the full body".
+  const leanAmount = useRef(0);
+  const applyIdle = (t: number, lean: number) => {
     const idleSpec: Record<string, { axis: THREE.Vector3; amp: number; speedHz: number; phase: number }> = {
-      spine1: { axis: new THREE.Vector3(1, 0, 0), amp: 0.02, speedHz: 0.28, phase: 0 },
-      spine2: { axis: new THREE.Vector3(1, 0, 0), amp: 0.015, speedHz: 0.28, phase: 0.3 },
-      head:   { axis: new THREE.Vector3(0, 1, 0), amp: 0.018, speedHz: 0.1, phase: 1.1 },
+      spine1: { axis: new THREE.Vector3(1, 0, 0), amp: 0.008, speedHz: 0.22, phase: 0 },
+      spine2: { axis: new THREE.Vector3(1, 0, 0), amp: 0.006, speedHz: 0.22, phase: 0.3 },
+      head:   { axis: new THREE.Vector3(0, 1, 0), amp: 0.007, speedHz: 0.08, phase: 1.1 },
       // Constant upward lip-corner lift (a smile) plus a tiny breathing-rate
       // wobble so it doesn't read as a frozen rictus. Amplitude raised after
       // confirming live that lipCorner only carries weight on 12 vertices —
@@ -249,6 +254,10 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
       lipCornerL: { axis: new THREE.Vector3(0, 0, 1), amp: 0.18, speedHz: 0.1, phase: 0 },
       lipCornerR: { axis: new THREE.Vector3(0, 0, -1), amp: 0.18, speedHz: 0.1, phase: 0.5 },
     };
+    // Small constant forward lean, split across both spine joints, active
+    // only while signing (eased by the caller). Kept deliberately modest —
+    // this is "engaged posture", not a bow.
+    const LEAN_DEG = { spine1: 6, spine2: 4 };
     const skipDynamic = new Set([
       "eyebrowL", "eyebrowR", "neck1", ...EYELID_BONE_NAMES,
     ]);
@@ -259,11 +268,14 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
       const spec = idleSpec[name];
       if (!obj || !r || !spec) continue;
       const isSmile = name.startsWith("lipCorner");
+      const leanDeg = (LEAN_DEG as Record<string, number>)[name] ?? 0;
+      const leanRad = leanDeg * DEG * lean;
       // Smile bones hold a constant lift (the smile) plus a small slow
-      // wobble; everything else is pure sine sway around zero.
+      // wobble; everything else is pure sine sway around zero, plus the
+      // forward lean for spine bones while signing.
       const angle = isSmile
         ? spec.amp + Math.sin(t * spec.speedHz * Math.PI * 2 + spec.phase) * (spec.amp * 0.15)
-        : Math.sin(t * spec.speedHz * Math.PI * 2 + spec.phase) * spec.amp;
+        : leanRad + Math.sin(t * spec.speedHz * Math.PI * 2 + spec.phase) * spec.amp;
       _idleDelta.setFromAxisAngle(spec.axis, angle);
       obj.quaternion.copy(r.q).multiply(_idleDelta);
     }
@@ -345,7 +357,7 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
       // 6Hz / 0.12 rad version oscillated 6 times a second with a hard
       // instant snap each frame, which reads as jitter, not a head shake.
       const shakeActive = signing && mood.negation;
-      const shakeAngle = shakeActive ? Math.sin(t * 2 * Math.PI * 2) * 0.07 : 0;
+      const shakeAngle = shakeActive ? Math.sin(t * 1.6 * Math.PI * 2) * 0.05 : 0;
       _idleDelta.setFromAxisAngle(new THREE.Vector3(0, 1, 0), shakeAngle);
       neck.quaternion.slerp(neckRest.q.clone().multiply(_idleDelta), 0.25);
     }
@@ -373,7 +385,8 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
     const signing = !!frames && frames.length > 0;
-    applyIdle(t);
+    leanAmount.current = THREE.MathUtils.lerp(leanAmount.current, signing ? 1 : 0, 0.08);
+    applyIdle(t, leanAmount.current);
     applyBlink(t);
     applyMood(t, mood, signing);
     (window as unknown as { __godetteMood?: unknown }).__godetteMood = {
