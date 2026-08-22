@@ -58,8 +58,12 @@ MIT for the code we wrote. Individual sign-data provenance is tracked in
 
 ## Credits
 
-3D hand model:
+Primary 3D avatar: **"Godette"** (rigged full-body character with fingers
+and face) at `public/godette/godette.glb`. Attribution to the original
+author must be added here once the source Sketchfab / author page is
+confirmed by the project maintainer.
+
+Fallback hand-only rig at `public/rigged-hand/`:
 This work is based on ["Rigged hand"](https://sketchfab.com/3d-models/rigged-hand-eae97cc2a742413cb5338ab942b12c1e)
 by [Elena FF](https://sketchfab.com/elenaferfor) licensed under
 [CC-BY-SA-4.0](http://creativecommons.org/licenses/by-sa/4.0/).
-Redistributed under `public/rigged-hand/` with the original license file.

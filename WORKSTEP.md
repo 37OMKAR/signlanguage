@@ -45,6 +45,22 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[!]` blocked
 - [ ] 5.1 Commit and push to GitHub
 - [ ] 5.2 Tell user: ready to test, with concrete demo inputs
 
+## Round 6 — Godette full-body avatar
+
+- [x] 6.1 User dropped multiple model formats — scanned folder
+- [x] 6.2 Picked `godette_rigged (1).glb` (smaller of the two GLBs, same rig)
+- [x] 6.3 Copied to `public/godette/godette.glb` (1.66 MB)
+- [x] 6.4 Inspected: 227 skinned joints, full body + face + 5 fingers × 3
+       phalanges × 2 hands = 30 finger bones
+- [x] 6.5 Built `Godette.tsx` component:
+       - useGLTF, per-instance clone, bone name regex map
+       - drives 30 finger bones + 2 palms from SignFrame data
+       - applies pose ON TOP of rest orientation (multiply, not overwrite)
+       - eases to rest between signs
+- [x] 6.6 Replaced pair of Elena hands + placeholder head with single Godette
+- [x] 6.7 Cleaned up duplicate/source files from repo root
+- [x] 6.8 Type-check clean, 15 tests pass, prod build clean (1.44 MB / 439 KB gzip)
+
 ## Known caveats for the user to know before testing
 
 - The rigged hand is right-hand-only in the source. Left is mirrored, so

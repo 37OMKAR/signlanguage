@@ -3,7 +3,7 @@ import { OrbitControls } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import type { SignFrame } from "../types";
-import { RiggedHand } from "./RiggedHand";
+import { Godette } from "./Godette";
 import { Suspense } from "react";
 
 // Nudge r3f's ResizeObserver a beat after mount so the WebGL viewport matches
@@ -61,10 +61,8 @@ export function AvatarStage({ frames, speed, reducedMotion, onFinished }: Props)
         shadow-mapSize={new THREE.Vector2(1024, 1024)}
       />
       <Suspense fallback={null}>
-        <RiggedHand frames={frames} speed={speed} reducedMotion={reducedMotion} side="R" />
-        <RiggedHand frames={frames} speed={speed} reducedMotion={reducedMotion} side="L" />
+        <Godette frames={frames} speed={speed} reducedMotion={reducedMotion} />
       </Suspense>
-      <PlaceholderHead />
       <OrbitControls
         enablePan={false}
         enableZoom
@@ -76,22 +74,3 @@ export function AvatarStage({ frames, speed, reducedMotion, onFinished }: Props)
   );
 }
 
-function PlaceholderHead() {
-  return (
-    <group position={[0, 1.6, 0]}>
-      <mesh castShadow>
-        <sphereGeometry args={[0.18, 32, 32]} />
-        <meshStandardMaterial color="#e2b48a" roughness={0.7} />
-      </mesh>
-      {/* Eyes */}
-      <mesh position={[-0.06, 0.03, 0.15]}>
-        <sphereGeometry args={[0.022, 12, 12]} />
-        <meshStandardMaterial color="#111" />
-      </mesh>
-      <mesh position={[0.06, 0.03, 0.15]}>
-        <sphereGeometry args={[0.022, 12, 12]} />
-        <meshStandardMaterial color="#111" />
-      </mesh>
-    </group>
-  );
-}
