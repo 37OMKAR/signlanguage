@@ -50,6 +50,16 @@ export interface AuthoredEntry {
   notes?: string;
   provenance: Provenance;
   commercial_safe: boolean;
+  // How far up the generic arm-lift arc this sign's hand should travel:
+  // 1.0 = full reach (near the head — HELLO, FATHER), ~0.75 = mid reach
+  // (chin/mouth level — MOTHER, EAT, DRINK), ~0.45 = low reach (chest
+  // level — LOVE, HAPPY, PLEASE). Defaults to 1.0 if omitted. Without
+  // this, EVERY sign's hand lands at the exact same world position
+  // (measured and confirmed identical to the millimeter across MOTHER/
+  // FATHER/DEAF/HAPPY/LOVE/HELLO/EAT/DRINK before this field existed) —
+  // wrist rotation alone changes orientation, never position, since the
+  // hand pivots around a fixed-length forearm. See docs/RETARGETING.md.
+  armReach?: number;
 }
 
 // Runtime entry after compilation.
@@ -60,6 +70,7 @@ export interface SignEntry {
   provenance: Provenance;
   commercial_safe: boolean;
   notes?: string;
+  armReach?: number;
 }
 
 // ASL grammar is carried on the face, not just the hands. These flags are

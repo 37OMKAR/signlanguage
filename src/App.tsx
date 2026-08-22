@@ -8,13 +8,22 @@ import { moodFromGloss } from "./nlp/mood";
 import { speak } from "./a11y/tts";
 import type { PlayerSettings, SignFrame, SentenceMood } from "./types";
 import { NEUTRAL_MOOD } from "./types";
-import { loadSign } from "./signs/loader";
+import { loadSign, getEntry } from "./signs/loader";
+
+// Default reach when a sign doesn't specify one (fingerspelling, and any
+// sign not yet categorized). Chest/neutral signing-space height — NOT the
+// same as a full head-height reach. See armReach's doc comment in types.ts
+// for why this field exists at all: without it, every sign's hand lands
+// at the exact same world position regardless of whether it's meant to
+// touch the forehead, chin, or chest.
+const DEFAULT_ARM_REACH = 0.55;
 
 export default function App() {
   const [inputText, setInputText] = useState("");
   const [glossQueue, setGlossQueue] = useState<string[]>([]);
   const [currentGloss, setCurrentGloss] = useState<string>("");
   const [currentFrames, setCurrentFrames] = useState<SignFrame[]>([]);
+  const [armReach, setArmReach] = useState<number>(DEFAULT_ARM_REACH);
   const [mood, setMood] = useState<SentenceMood>(NEUTRAL_MOOD);
   const [settings, setSettings] = useState<PlayerSettings>({
     speed: 0.7,
@@ -49,6 +58,7 @@ export default function App() {
     if (gloss.length > 0) {
       const first = gloss[0];
       setCurrentGloss(first);
+      setArmReach(getEntry(first)?.armReach ?? DEFAULT_ARM_REACH);
       try {
         const frames = await loadSign(first);
         console.log("[translate] frames for", first, "=", frames.length);
@@ -70,6 +80,7 @@ export default function App() {
       }
       const next = rest[0];
       setCurrentGloss(next);
+      setArmReach(getEntry(next)?.armReach ?? DEFAULT_ARM_REACH);
       loadSign(next).then(setCurrentFrames);
       return rest;
     });
@@ -103,6 +114,7 @@ export default function App() {
             speed={settings.speed}
             reducedMotion={settings.reducedMotion}
             mood={mood}
+            armReach={armReach}
             onFinished={handleSignFinished}
           />
           <CaptionOverlay

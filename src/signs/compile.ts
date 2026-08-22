@@ -72,6 +72,7 @@ export function compileEntry(e: AuthoredEntry): SignEntry {
     provenance: e.provenance,
     commercial_safe: e.commercial_safe,
     notes: e.notes,
+    armReach: e.armReach,
   };
 }
 

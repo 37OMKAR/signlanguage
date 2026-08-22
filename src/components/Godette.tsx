@@ -10,6 +10,7 @@ interface Props {
   speed: number;
   reducedMotion: boolean;
   mood: SentenceMood;
+  armReach: number;
 }
 
 const MODEL_URL = "/godette/godette.glb";
@@ -143,7 +144,7 @@ const ARM_LIFT: Record<(typeof ARM_BONES)[number], { axis: THREE.Vector3; deg: n
   L_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -50 }],
 };
 
-export function Godette({ frames, speed, reducedMotion, mood }: Props) {
+export function Godette({ frames, speed, reducedMotion, mood, armReach }: Props) {
   const { scene } = useGLTF(MODEL_URL);
   // IMPORTANT: plain Object3D.clone()/SkinnedMesh.copy() only copies the
   // `skeleton` property BY REFERENCE (see three/src/objects/SkinnedMesh.js:
@@ -433,7 +434,17 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
     liftAmount.current.L = rampToward(
       liftAmount.current.L, signing && handUsage.left ? 1 : 0, LIFT_RAMP_PER_SEC, delta,
     );
-    applyArmLift(smoothstep(liftAmount.current.R), smoothstep(liftAmount.current.L));
+    // armReach (0..1, per-sign — see types.ts) scales how far up the
+    // generic lift arc the hand travels: full reach for head-height signs
+    // (HELLO, FATHER), partial for chin/chest-height signs. Without this
+    // multiplier every sign's hand lands at the exact same world position
+    // regardless of what it's supposed to touch — measured and confirmed
+    // identical to the millimeter before this existed.
+    const reachClamped = THREE.MathUtils.clamp(armReach, 0, 1);
+    applyArmLift(
+      smoothstep(liftAmount.current.R) * reachClamped,
+      smoothstep(liftAmount.current.L) * reachClamped,
+    );
 
     if (!signing) {
       for (const [name, obj] of Object.entries(bones.current)) {

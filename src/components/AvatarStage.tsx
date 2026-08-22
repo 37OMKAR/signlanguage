@@ -85,13 +85,14 @@ interface Props {
   speed: number;
   reducedMotion: boolean;
   mood: SentenceMood;
+  armReach: number;
   onFinished: () => void;
 }
 
 // Renders the 3D stage. For MVP scaffolding we show placeholder hands.
 // Later, this component swaps in a MANO or custom rigged hand+head model
 // and drives it via the retargeter, feeding frames from `frames`.
-export function AvatarStage({ frames, speed, reducedMotion, mood, onFinished }: Props) {
+export function AvatarStage({ frames, speed, reducedMotion, mood, armReach, onFinished }: Props) {
   const finishTimerRef = useRef<number | null>(null);
   useKickResize();
 
@@ -148,7 +149,7 @@ export function AvatarStage({ frames, speed, reducedMotion, mood, onFinished }: 
       <HandSpotlight />
 
       <Suspense fallback={null}>
-        <Godette frames={frames} speed={speed} reducedMotion={reducedMotion} mood={mood} />
+        <Godette frames={frames} speed={speed} reducedMotion={reducedMotion} mood={mood} armReach={armReach} />
       </Suspense>
       <OrbitControls
         enablePan

@@ -501,6 +501,58 @@ into position rather than reaching up naturally.
        unchanged at 83/83 (no new bones needed -- pure data addition).
 - [x] 17.6 Type-check clean, 19/19 tests pass, prod build 1.46MB/443KB gzip.
 
+## Round 18 — Real bug: every body-contact sign landed at the same spot
+
+User asked to "test all body signs, are we doing it ok". Did a proper
+two-tier test instead of just re-checking load errors:
+
+- [x] 18.1 Mechanical test (as before): all 75 signs load without errors,
+       commercial audit clean.
+- [x] 18.2 Deeper test: identified all 27 signs whose `notes` mention a
+       body-contact location (chin, forehead, ear, chest, mouth, temple,
+       cheek), then measured the actual R_palm world position each one
+       reaches, applying the real arm-lift + per-sign wrist rotation math.
+- [x] 18.3 **Found a genuine, serious bug**: MOTHER (chin), FATHER
+       (forehead), DEAF (ear), HAPPY (chest), LOVE (chest), HELLO
+       (temple), EAT (mouth), and DRINK (mouth) all measured to the
+       EXACT SAME world position (Y=1.115, Z=-0.025, identical to the
+       millimeter). Root cause: the generic ARM_LIFT pose is one fixed
+       endpoint: the shoulder/elbow always swing to the same angle
+       regardless of which sign is playing. Per-sign R_palm_deg only
+       rotates the wrist in place — a wrist can't move the hand to a
+       different body location, since it pivots at a fixed distance from
+       a rigid forearm. Every "different" body-contact sign was
+       mechanically indistinguishable in space; the tiny wrist rotation
+       differences were the only variation.
+- [x] 18.4 Fixed properly: added an `armReach` field (0..1) to
+       AuthoredEntry/SignEntry (types.ts), threaded through compile.ts,
+       and multiplied into the arm-lift amount in Godette.tsx. 1.0 =
+       full reach (head height), ~0.55 = default neutral/chest height,
+       lower values for chest-level signs. Threaded armReach as a new
+       prop: App.tsx looks it up via `getEntry(gloss)?.armReach` and
+       passes it down through AvatarStage -> Godette.
+- [x] 18.5 Categorized and assigned armReach to 26 signs based on their
+       existing `notes` field: HELLO/FATHER/WHY/KNOW/UNDERSTAND (head,
+       0.95-1.0), DEAF/HOME (ear, 0.8-0.85), MOTHER/EAT/DRINK/WATER/GOOD/
+       BAD/WHO/THANK-YOU (chin/mouth, 0.6-0.7), HAPPY/LOVE/PLEASE/SORRY/
+       ME/HUNGRY/TIRED/FINE/WORK/NAME (chest, 0.4-0.5). Everything else
+       (letters, YES/NO, WHAT/WHERE, etc.) uses the 0.55 default.
+- [x] 18.6 Re-ran the exact same position measurement after the fix:
+       confirmed a clean, monotonic height gradient matching real
+       anatomy -- HELLO/FATHER (head) Y=1.115 -> DEAF (ear) Y=1.049 ->
+       MOTHER/EAT/DRINK (chin) Y=0.986 -> HAPPY/LOVE (chest) Y=0.895.
+       No longer identical; ~22cm of real vertical range now exists
+       between head-height and chest-height signs.
+- [x] 18.7 Full dictionary sweep after the fix: all 75 signs load
+       without errors, commercial-safety audit clean.
+- [x] 18.8 Type-check clean, 19/19 tests pass, prod build 1.46MB/443KB gzip.
+
+**This is exactly the kind of bug that "just re-running the loader test"
+would never catch** -- every sign happily reports non-zero frames and
+zero errors while still being mechanically identical in space. Worth
+remembering for any future signs added: check the actual world position
+of body-contact signs, not just that they load.
+
 ## Known caveats for the user to know before testing
 
 - The rigged hand is right-hand-only in the source. Left is mirrored, so
