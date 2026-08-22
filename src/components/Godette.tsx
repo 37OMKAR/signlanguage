@@ -3,12 +3,13 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { clone as cloneSkeletal } from "three/examples/jsm/utils/SkeletonUtils.js";
-import type { SignFrame } from "../types";
+import type { SignFrame, SentenceMood } from "../types";
 
 interface Props {
   frames: SignFrame[];
   speed: number;
   reducedMotion: boolean;
+  mood: SentenceMood;
 }
 
 const MODEL_URL = "/godette/godette.glb";
@@ -77,6 +78,15 @@ const BONE_PATTERNS: Record<string, RegExp> = {
   eyelidUpperL: re(`Eyelid_Control_Upper${D}L`),
   eyelidUpperR: re(`Eyelid_Control_Upper${D}R`),
 
+  // Eyebrow root (innermost segment, .001) of each brow chain — enough to
+  // raise (yes/no questions) or furrow (wh-questions) the whole brow.
+  eyebrowL: re(`Eyebrow_L${D}001`),
+  eyebrowR: re(`Eyebrow_R${D}001`),
+
+  // Neck — drives the head-shake for negation, layered on top of the
+  // existing idle head sway.
+  neck1: re(`Neck_1`),
+
   // Arms — needed so a sign can lift the hand to chest/face height instead
   // of only rotating the wrist while the arm hangs at the hip.
   R_armUp: re(`Arm_Upper_1R`),
@@ -86,11 +96,11 @@ const BONE_PATTERNS: Record<string, RegExp> = {
 };
 
 // Bones in IDLE_ONLY never receive sign-frame data; they only get the
-// continuous idle sway/smile. Keeps her from looking like a mannequin
-// between (and during) signs.
+// continuous idle sway/smile/grammar-expression treatment. Keeps her from
+// looking like a mannequin between (and during) signs.
 const IDLE_ONLY = new Set([
   "spine1", "spine2", "head", "jaw", "lipCornerL", "lipCornerR",
-  "eyelidUpperL", "eyelidUpperR",
+  "eyelidUpperL", "eyelidUpperR", "eyebrowL", "eyebrowR", "neck1",
 ]);
 
 // Arm bones get a generic "lift to signing height" pose whenever the CURRENT
@@ -115,7 +125,7 @@ const ARM_LIFT: Record<(typeof ARM_BONES)[number], { axis: THREE.Vector3; deg: n
   L_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -35 }],
 };
 
-export function Godette({ frames, speed, reducedMotion }: Props) {
+export function Godette({ frames, speed, reducedMotion, mood }: Props) {
   const { scene } = useGLTF(MODEL_URL);
   // IMPORTANT: plain Object3D.clone()/SkinnedMesh.copy() only copies the
   // `skeleton` property BY REFERENCE (see three/src/objects/SkinnedMesh.js:
@@ -217,8 +227,11 @@ export function Godette({ frames, speed, reducedMotion }: Props) {
       lipCornerL: { axis: new THREE.Vector3(0, 0, 1), amp: 0.16, speedHz: 0.1, phase: 0 },
       lipCornerR: { axis: new THREE.Vector3(0, 0, -1), amp: 0.16, speedHz: 0.1, phase: 0.5 },
     };
+    const skipDynamic = new Set([
+      "eyelidUpperL", "eyelidUpperR", "eyebrowL", "eyebrowR", "neck1",
+    ]);
     for (const name of IDLE_ONLY) {
-      if (name === "eyelidUpperL" || name === "eyelidUpperR") continue; // handled by applyBlink
+      if (skipDynamic.has(name)) continue; // handled by applyBlink / applyMood
       const obj = bones.current[name];
       const r = rest.current[name];
       const spec = idleSpec[name];
@@ -257,6 +270,44 @@ export function Godette({ frames, speed, reducedMotion }: Props) {
     }
   };
 
+  // ASL grammar markers on the face/head, held for the whole sentence
+  // (driven by `mood`, computed once per translation — see nlp/mood.ts):
+  //   - yes/no question -> eyebrows RAISE
+  //   - wh-question ("what", "where", ...) -> eyebrows FURROW
+  //   - negation ("no") -> head shake, layered on top of idle head sway
+  // Eased in/out so a mood never snaps abruptly onto the face.
+  const eyebrowAmount = useRef(0); // -1 furrowed .. 0 neutral .. +1 raised
+  const applyMood = (t: number, mood: SentenceMood, signing: boolean) => {
+    const target = !signing
+      ? 0
+      : mood.whQuestion
+        ? -1
+        : mood.yesNoQuestion
+          ? 1
+          : 0;
+    eyebrowAmount.current = THREE.MathUtils.lerp(eyebrowAmount.current, target, 0.1);
+
+    for (const [name, sign] of [["eyebrowL", 1], ["eyebrowR", -1]] as const) {
+      const obj = bones.current[name];
+      const r = rest.current[name];
+      if (!obj || !r) continue;
+      // Raise = rotate outward/up; furrow = rotate inward/down. Mirrored
+      // per side via `sign` so both brows move symmetrically.
+      const angle = eyebrowAmount.current * 0.35 * sign;
+      _idleDelta.setFromAxisAngle(new THREE.Vector3(0, 0, 1), angle);
+      obj.quaternion.copy(r.q).multiply(_idleDelta);
+    }
+
+    const neck = bones.current.neck1;
+    const neckRest = rest.current.neck1;
+    if (neck && neckRest) {
+      const shakeActive = signing && mood.negation;
+      const shakeAngle = shakeActive ? Math.sin(t * 6 * Math.PI * 2) * 0.12 : 0;
+      _idleDelta.setFromAxisAngle(new THREE.Vector3(0, 1, 0), shakeAngle);
+      neck.quaternion.copy(neckRest.q).multiply(_idleDelta);
+    }
+  };
+
   // Blend each arm toward the "ready to sign" lift pose (amount 0..1),
   // applied underneath whatever the current sign's own bone data does. Only
   // the side(s) the sign actually uses lift; the idle arm stays down.
@@ -278,10 +329,13 @@ export function Godette({ frames, speed, reducedMotion }: Props) {
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
+    const signing = !!frames && frames.length > 0;
     applyIdle(t);
     applyBlink(t);
-
-    const signing = !!frames && frames.length > 0;
+    applyMood(t, mood, signing);
+    (window as unknown as { __godetteMood?: unknown }).__godetteMood = {
+      mood, signing, eyebrowAmount: eyebrowAmount.current,
+    };
     // Ease each side's lift amount toward its target independently.
     liftAmount.current.R = THREE.MathUtils.lerp(
       liftAmount.current.R, signing && handUsage.right ? 1 : 0, 0.12,

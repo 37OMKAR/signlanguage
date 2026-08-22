@@ -340,11 +340,30 @@
   },
   "NAME": {
     "gloss": "NAME", "duration_ms": 600, "provenance": "hand-authored", "commercial_safe": true,
-    "notes": "H-hand of one taps H-hand of other twice.",
+    "notes": "Two-handed: H-hand of dominant hand taps H-hand of the other, twice.",
     "frames": [
-      { "t_ms": 0,   "curls": { "R_thumb": [40, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
-      { "t_ms": 300, "R_palm_pos": [0, 0.02, 0], "curls": { "R_thumb": [40, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } },
-      { "t_ms": 600, "curls": { "R_thumb": [40, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70] } }
+      {
+        "t_ms": 0,
+        "curls": {
+          "R_thumb": [40, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70],
+          "L_thumb": [40, 60], "L_index": [0, 0, 0], "L_middle": [0, 0, 0], "L_ring": [85, 90, 70], "L_pinky": [85, 90, 70]
+        }
+      },
+      {
+        "t_ms": 300,
+        "R_palm_pos": [0, 0.02, 0],
+        "curls": {
+          "R_thumb": [40, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70],
+          "L_thumb": [40, 60], "L_index": [0, 0, 0], "L_middle": [0, 0, 0], "L_ring": [85, 90, 70], "L_pinky": [85, 90, 70]
+        }
+      },
+      {
+        "t_ms": 600,
+        "curls": {
+          "R_thumb": [40, 60], "R_index": [0, 0, 0], "R_middle": [0, 0, 0], "R_ring": [85, 90, 70], "R_pinky": [85, 90, 70],
+          "L_thumb": [40, 60], "L_index": [0, 0, 0], "L_middle": [0, 0, 0], "L_ring": [85, 90, 70], "L_pinky": [85, 90, 70]
+        }
+      }
     ]
   }
 }

@@ -4,8 +4,10 @@ import { TextInput } from "./components/TextInput";
 import { CaptionOverlay } from "./components/CaptionOverlay";
 import { ControlsPanel } from "./components/ControlsPanel";
 import { textToGloss } from "./nlp";
+import { moodFromGloss } from "./nlp/mood";
 import { speak } from "./a11y/tts";
-import type { PlayerSettings, SignFrame } from "./types";
+import type { PlayerSettings, SignFrame, SentenceMood } from "./types";
+import { NEUTRAL_MOOD } from "./types";
 import { loadSign } from "./signs/loader";
 
 export default function App() {
@@ -13,6 +15,7 @@ export default function App() {
   const [glossQueue, setGlossQueue] = useState<string[]>([]);
   const [currentGloss, setCurrentGloss] = useState<string>("");
   const [currentFrames, setCurrentFrames] = useState<SignFrame[]>([]);
+  const [mood, setMood] = useState<SentenceMood>(NEUTRAL_MOOD);
   const [settings, setSettings] = useState<PlayerSettings>({
     speed: 1,
     fontSize: 24,
@@ -42,6 +45,7 @@ export default function App() {
       return;
     }
     setGlossQueue(gloss);
+    setMood(moodFromGloss(gloss));
     if (gloss.length > 0) {
       const first = gloss[0];
       setCurrentGloss(first);
@@ -61,6 +65,7 @@ export default function App() {
       if (rest.length === 0) {
         setCurrentGloss("");
         setCurrentFrames([]);
+        setMood(NEUTRAL_MOOD);
         return rest;
       }
       const next = rest[0];
@@ -97,6 +102,7 @@ export default function App() {
             frames={currentFrames}
             speed={settings.speed}
             reducedMotion={settings.reducedMotion}
+            mood={mood}
             onFinished={handleSignFinished}
           />
           <CaptionOverlay

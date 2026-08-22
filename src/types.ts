@@ -62,6 +62,21 @@ export interface SignEntry {
   notes?: string;
 }
 
+// ASL grammar is carried on the face, not just the hands. These flags are
+// computed once per translated sentence and held for its whole playback —
+// non-manual markers span the clause, not a single sign.
+export interface SentenceMood {
+  yesNoQuestion: boolean; // raised eyebrows
+  whQuestion: boolean;    // furrowed eyebrows
+  negation: boolean;      // head shake (also true for a standalone "no")
+}
+
+export const NEUTRAL_MOOD: SentenceMood = {
+  yesNoQuestion: false,
+  whQuestion: false,
+  negation: false,
+};
+
 export interface PlayerSettings {
   speed: number;
   fontSize: number;
