@@ -216,7 +216,9 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
   const _idleDelta = useMemo(() => new THREE.Quaternion(), []);
   const _armDelta = useMemo(() => new THREE.Quaternion(), []);
   const _armStep = useMemo(() => new THREE.Quaternion(), []);
-  const liftAmount = useRef({ R: 0, L: 0 }); // 0 = arm at rest, 1 = lifted to signing height
+  // Raw LINEAR ramp progress (0 = at rest, 1 = fully lifted). Smoothstepped
+  // before use so the visible motion eases in/out instead of snapping.
+  const liftAmount = useRef({ R: 0, L: 0 });
 
   // Which hand(s) the current sign actually drives — scanned once per
   // `frames` change so a one-handed sign (HELLO) doesn't also lift the
@@ -366,6 +368,15 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
   // Blend each arm toward the "ready to sign" lift pose (amount 0..1),
   // applied underneath whatever the current sign's own bone data does. Only
   // the side(s) the sign actually uses lift; the idle arm stays down.
+  //
+  // `amount` here is already a SMOOTHSTEPPED progress value (see useFrame
+  // below), not a raw exponential-lerp value. That distinction is what
+  // makes the raise/lower read as a natural human reach instead of a
+  // forceful yank: a plain per-frame lerp toward a target (what this used
+  // to do) has its LARGEST step on the very first frame — the arm jumps a
+  // big fraction of the way instantly, then decelerates. A real human
+  // reach eases in AND out (slow-fast-slow), which is what smoothstep
+  // gives us once the raw progress is a simple linear ramp over time.
   const applyArmLift = (amountR: number, amountL: number) => {
     for (const name of ARM_BONES) {
       const obj = bones.current[name];
@@ -382,24 +393,47 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
     }
   };
 
-  useFrame(({ clock }) => {
+  // Smoothstep: 0..1 in, 0..1 out, with zero velocity at both ends —
+  // the standard "ease in, ease out" curve. Applied to a raw linear-ramp
+  // progress value so a transition takes a fixed, predictable duration
+  // (unlike an exponential lerp, whose "reach 95% there" time depends on
+  // the alpha in a way that's easy to misjudge) while still looking
+  // organic instead of robotic/linear.
+  const smoothstep = (x: number) => {
+    const c = THREE.MathUtils.clamp(x, 0, 1);
+    return c * c * (3 - 2 * c);
+  };
+
+  // Linear ramp toward `target` at a fixed rate (units of `amount` per
+  // second), so a full 0->1 transition always takes the same wall-clock
+  // time regardless of frame rate. Smoothstepped by the caller before use.
+  const LIFT_RAMP_PER_SEC = 1 / 0.4; // ~0.4s to fully raise or lower
+  const rampToward = (current: number, target: number, ratePerSec: number, delta: number) => {
+    const maxStep = ratePerSec * delta;
+    const diff = target - current;
+    if (Math.abs(diff) <= maxStep) return target;
+    return current + Math.sign(diff) * maxStep;
+  };
+
+  useFrame(({ clock }, delta) => {
     const t = clock.elapsedTime;
     const signing = !!frames && frames.length > 0;
-    leanAmount.current = THREE.MathUtils.lerp(leanAmount.current, signing ? 1 : 0, 0.08);
-    applyIdle(t, leanAmount.current);
+    leanAmount.current = rampToward(leanAmount.current, signing ? 1 : 0, 1 / 0.6, delta);
+    applyIdle(t, smoothstep(leanAmount.current));
     applyBlink(t);
     applyMood(t, mood, signing);
     (window as unknown as { __godetteMood?: unknown }).__godetteMood = {
       mood, signing, eyebrowAmount: eyebrowAmount.current,
     };
-    // Ease each side's lift amount toward its target independently.
-    liftAmount.current.R = THREE.MathUtils.lerp(
-      liftAmount.current.R, signing && handUsage.right ? 1 : 0, 0.12,
+    // Ramp each side's raw lift progress linearly, then smoothstep it for
+    // the actual applied rotation — ease-in-ease-out, not a forceful yank.
+    liftAmount.current.R = rampToward(
+      liftAmount.current.R, signing && handUsage.right ? 1 : 0, LIFT_RAMP_PER_SEC, delta,
     );
-    liftAmount.current.L = THREE.MathUtils.lerp(
-      liftAmount.current.L, signing && handUsage.left ? 1 : 0, 0.12,
+    liftAmount.current.L = rampToward(
+      liftAmount.current.L, signing && handUsage.left ? 1 : 0, LIFT_RAMP_PER_SEC, delta,
     );
-    applyArmLift(liftAmount.current.R, liftAmount.current.L);
+    applyArmLift(smoothstep(liftAmount.current.R), smoothstep(liftAmount.current.L));
 
     if (!signing) {
       for (const [name, obj] of Object.entries(bones.current)) {

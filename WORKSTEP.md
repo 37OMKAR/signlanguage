@@ -437,6 +437,43 @@ rather than "screenshot-confirmed" and report back if it's still off.
        load without errors, commercial-safety audit clean.
 - [x] 15.9 Type-check clean, 19/19 tests pass, prod build 1.45MB/442KB gzip.
 
+## Round 16 — Natural ease-in/ease-out for the arm raise/lower
+
+User reported the arm raise looked "forceful", like she's being yanked
+into position rather than reaching up naturally.
+
+- [x] 16.1 Diagnosed the real cause: the arm-lift amount was driven by a
+       plain per-frame exponential lerp (`lerp(current, target, 0.12)`).
+       That curve has its LARGEST step on the very first frame after a
+       sign starts (since the gap to target is biggest then), then decays
+       — i.e. it eases OUT but never eases IN. The very first instant of
+       every raise was its fastest, most sudden motion: exactly what
+       reads as "forceful" / "yanked".
+- [x] 16.2 Replaced it with a proper two-stage curve: a time-based LINEAR
+       ramp (`rampToward`, a fixed amount per second so a transition
+       always takes the same real time regardless of frame rate) feeding
+       into a `smoothstep` shaping function (3x^2 - 2x^3) before the
+       result is used to drive the arm rotation. Smoothstep has ZERO
+       velocity at both x=0 and x=1 — genuine ease-in AND ease-out.
+       Applied the same treatment to the signing-lean amount for
+       consistency.
+- [x] 16.3 Verified the shape mathematically (not just visually, given
+       this harness's known live-timing constraints): simulated 26 frames
+       of a 0.4s raise at 60fps and printed the per-frame velocity
+       (frame-to-frame change). Confirmed velocity starts small (0.0051),
+       rises smoothly to a peak at the midpoint (0.0624 at frame ~11-12),
+       then decreases symmetrically back to small (0.0051) before
+       settling — a textbook slow-fast-slow curve, replacing the old
+       curve's instant-fast-then-decay shape.
+- [x] 16.4 Re-ran the full dictionary sweep after the code change: all
+       57 signs load without errors.
+- [x] 16.5 Answered the user's other question ("what is the sign where
+       she touches her head and crosses her hands") by grepping our own
+       sign notes: it isn't one sign, it's FATHER (thumb taps forehead)
+       immediately followed by LOVE (both fists cross at chest) — whatever
+       sentence was typed must have contained both words back to back.
+- [x] 16.6 Type-check clean, 19/19 tests pass, prod build 1.45MB/442KB gzip.
+
 ## Known caveats for the user to know before testing
 
 - The rigged hand is right-hand-only in the source. Left is mirrored, so
