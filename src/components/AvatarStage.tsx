@@ -3,7 +3,18 @@ import { OrbitControls } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import type { SignFrame } from "../types";
-import { PlaceholderHands } from "./PlaceholderHands";
+import { RiggedHand } from "./RiggedHand";
+import { Suspense } from "react";
+
+// Nudge r3f's ResizeObserver a beat after mount so the WebGL viewport matches
+// the actual container size, not the initial-layout 300x150.
+function useKickResize() {
+  useEffect(() => {
+    const t1 = setTimeout(() => window.dispatchEvent(new Event("resize")), 0);
+    const t2 = setTimeout(() => window.dispatchEvent(new Event("resize")), 200);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, []);
+}
 
 interface Props {
   frames: SignFrame[];
@@ -17,6 +28,7 @@ interface Props {
 // and drives it via the retargeter, feeding frames from `frames`.
 export function AvatarStage({ frames, speed, reducedMotion, onFinished }: Props) {
   const finishTimerRef = useRef<number | null>(null);
+  useKickResize();
 
   useEffect(() => {
     if (finishTimerRef.current) {
@@ -35,8 +47,10 @@ export function AvatarStage({ frames, speed, reducedMotion, onFinished }: Props)
   return (
     <Canvas
       camera={{ position: [0, 1.4, 2.4], fov: 40 }}
-      gl={{ antialias: true }}
+      gl={{ antialias: true, preserveDrawingBuffer: true }}
       dpr={[1, 2]}
+      style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+      resize={{ scroll: false, debounce: { scroll: 50, resize: 0 } }}
     >
       <color attach="background" args={[0.05, 0.07, 0.12]} />
       <ambientLight intensity={0.6} />
@@ -46,7 +60,10 @@ export function AvatarStage({ frames, speed, reducedMotion, onFinished }: Props)
         castShadow
         shadow-mapSize={new THREE.Vector2(1024, 1024)}
       />
-      <PlaceholderHands frames={frames} speed={speed} reducedMotion={reducedMotion} />
+      <Suspense fallback={null}>
+        <RiggedHand frames={frames} speed={speed} reducedMotion={reducedMotion} side="R" />
+        <RiggedHand frames={frames} speed={speed} reducedMotion={reducedMotion} side="L" />
+      </Suspense>
       <PlaceholderHead />
       <OrbitControls
         enablePan={false}

@@ -17,6 +17,12 @@ commercial launch that nothing carries a research-only license.
 | B       | hand-authored  | ✅ yes      |
 | HELLO   | hand-authored  | ✅ yes      |
 
+## Third-party assets shipped
+
+- `public/rigged-hand/*` — "Rigged hand" by Elena FF
+  (https://sketchfab.com/3d-models/rigged-hand-eae97cc2a742413cb5338ab942b12c1e),
+  CC-BY-SA-4.0. Attribution required. Modifications must stay CC-BY-SA.
+
 ## Rule
 
 No commercial release may include any entry marked `commercial_safe: false`

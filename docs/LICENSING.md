@@ -29,6 +29,23 @@ research-only entry sneaks in.
 - **How2Sign** (CC BY-NC) — for prototype experimentation only, never
   in a shipped commercial dictionary.
 
+## 3D model asset
+
+The rigged hand mesh in `public/rigged-hand/` is
+["Rigged hand" by Elena FF](https://sketchfab.com/3d-models/rigged-hand-eae97cc2a742413cb5338ab942b12c1e),
+CC-BY-SA-4.0. Commercial use is permitted. Two obligations:
+
+1. **Attribution.** README carries the credit line; keep it visible in any
+   downstream fork or product page.
+2. **ShareAlike on modifications.** Any edits to the mesh, textures, or
+   rigging must be released under CC-BY-SA-4.0 as well. Our project code
+   stays MIT because we do not modify the model; we drive its bones at
+   runtime through a normal glTF skeleton API. Runtime pose data is not a
+   derivative of the model geometry.
+
+If you replace this model with a proprietary one, remove the credit and
+update this section.
+
 ## Third-party tools/data that ARE OK
 
 - **Three.js**, **React**, **Vite**, **Tailwind**: MIT.

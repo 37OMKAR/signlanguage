@@ -55,3 +55,11 @@ license expectations are all documented there.
 
 MIT for the code we wrote. Individual sign-data provenance is tracked in
 [`data/LICENSE-DATA.md`](data/LICENSE-DATA.md).
+
+## Credits
+
+3D hand model:
+This work is based on ["Rigged hand"](https://sketchfab.com/3d-models/rigged-hand-eae97cc2a742413cb5338ab942b12c1e)
+by [Elena FF](https://sketchfab.com/elenaferfor) licensed under
+[CC-BY-SA-4.0](http://creativecommons.org/licenses/by-sa/4.0/).
+Redistributed under `public/rigged-hand/` with the original license file.

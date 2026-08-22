@@ -23,14 +23,35 @@ export default function App() {
   });
 
   const handleTranslate = useCallback(async () => {
-    if (!inputText.trim()) return;
-    if (settings.ttsEnabled) speak(inputText);
-    const gloss = await textToGloss(inputText);
+    console.log("[translate] click, text=", JSON.stringify(inputText));
+    if (!inputText.trim()) {
+      console.warn("[translate] empty input, bailing");
+      return;
+    }
+    try {
+      if (settings.ttsEnabled) speak(inputText);
+    } catch (e) {
+      console.warn("[translate] tts failed:", e);
+    }
+    let gloss: string[] = [];
+    try {
+      gloss = await textToGloss(inputText);
+      console.log("[translate] gloss=", gloss);
+    } catch (e) {
+      console.error("[translate] gloss failed:", e);
+      return;
+    }
     setGlossQueue(gloss);
     if (gloss.length > 0) {
       const first = gloss[0];
       setCurrentGloss(first);
-      setCurrentFrames(await loadSign(first));
+      try {
+        const frames = await loadSign(first);
+        console.log("[translate] frames for", first, "=", frames.length);
+        setCurrentFrames(frames);
+      } catch (e) {
+        console.error("[translate] loadSign failed:", e);
+      }
     }
   }, [inputText, settings.ttsEnabled]);
 
@@ -70,8 +91,8 @@ export default function App() {
         </p>
       </header>
 
-      <main className="flex-1 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4 p-4 overflow-hidden">
-        <section className="relative bg-slate-900 rounded-2xl overflow-hidden">
+      <main className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4 p-4 overflow-hidden">
+        <section className="relative bg-slate-900 rounded-2xl overflow-hidden min-h-[420px] lg:min-h-0">
           <AvatarStage
             frames={currentFrames}
             speed={settings.speed}
