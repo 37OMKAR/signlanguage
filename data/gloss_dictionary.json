@@ -115,7 +115,7 @@
     "duration_ms": 500,
     "provenance": "hand-authored",
     "commercial_safe": true,
-    "notes": "Approximate: pinched (flat-O) fingertips of both hands tap together. Best-effort, not verified by an ASL signer -- flag for review.",
+    "notes": "Approximate: pinched (flat-O) fingertips of both hands tap together. Best-effort, not verified by an ASL signer -- flag for review. (Left hand mirrored from right: same curls, palm Z-rotation negated -- fixes a bug where the left hand was frozen at rest despite notes describing a two-handed sign.)",
     "frames": [
       {
         "t_ms": 0,
@@ -148,8 +148,37 @@
             40,
             60,
             40
+          ],
+          "L_thumb": [
+            30,
+            60
+          ],
+          "L_index": [
+            40,
+            60,
+            40
+          ],
+          "L_middle": [
+            40,
+            60,
+            40
+          ],
+          "L_ring": [
+            40,
+            60,
+            40
+          ],
+          "L_pinky": [
+            40,
+            60,
+            40
           ]
-        }
+        },
+        "L_palm_deg": [
+          0,
+          0,
+          0
+        ]
       },
       {
         "t_ms": 500,
@@ -182,8 +211,37 @@
             40,
             60,
             40
+          ],
+          "L_thumb": [
+            30,
+            60
+          ],
+          "L_index": [
+            40,
+            60,
+            40
+          ],
+          "L_middle": [
+            40,
+            60,
+            40
+          ],
+          "L_ring": [
+            40,
+            60,
+            40
+          ],
+          "L_pinky": [
+            40,
+            60,
+            40
           ]
-        }
+        },
+        "L_palm_deg": [
+          0,
+          10,
+          0
+        ]
       }
     ]
   },
@@ -425,7 +483,7 @@
     "duration_ms": 700,
     "provenance": "hand-authored",
     "commercial_safe": true,
-    "notes": "Approximate: both open hands, fingers wiggling, held forward. Best-effort, not verified by an ASL signer -- flag for review.",
+    "notes": "Approximate: both open hands, fingers wiggling, held forward. Best-effort, not verified by an ASL signer -- flag for review. (Left hand mirrored from right: same curls, palm Z-rotation negated -- fixes a bug where the left hand was frozen at rest despite notes describing a two-handed sign.)",
     "frames": [
       {
         "t_ms": 0,
@@ -450,6 +508,30 @@
             0
           ],
           "R_pinky": [
+            0,
+            10,
+            0
+          ],
+          "L_thumb": [
+            0,
+            0
+          ],
+          "L_index": [
+            0,
+            10,
+            0
+          ],
+          "L_middle": [
+            0,
+            10,
+            0
+          ],
+          "L_ring": [
+            0,
+            10,
+            0
+          ],
+          "L_pinky": [
             0,
             10,
             0
@@ -482,6 +564,30 @@
             10,
             0,
             10
+          ],
+          "L_thumb": [
+            10,
+            15
+          ],
+          "L_index": [
+            10,
+            0,
+            10
+          ],
+          "L_middle": [
+            10,
+            0,
+            10
+          ],
+          "L_ring": [
+            10,
+            0,
+            10
+          ],
+          "L_pinky": [
+            10,
+            0,
+            10
           ]
         }
       },
@@ -508,6 +614,30 @@
             0
           ],
           "R_pinky": [
+            0,
+            10,
+            0
+          ],
+          "L_thumb": [
+            0,
+            0
+          ],
+          "L_index": [
+            0,
+            10,
+            0
+          ],
+          "L_middle": [
+            0,
+            10,
+            0
+          ],
+          "L_ring": [
+            0,
+            10,
+            0
+          ],
+          "L_pinky": [
             0,
             10,
             0
@@ -598,7 +728,7 @@
     "duration_ms": 500,
     "provenance": "hand-authored",
     "commercial_safe": true,
-    "notes": "Approximate: both open 5-hands twist outward from the wrists. Best-effort, not verified by an ASL signer -- flag for review.",
+    "notes": "Approximate: both open 5-hands twist outward from the wrists. Best-effort, not verified by an ASL signer -- flag for review. (Left hand mirrored from right: same curls, palm Z-rotation negated -- fixes a bug where the left hand was frozen at rest despite notes describing a two-handed sign.)",
     "frames": [
       {
         "t_ms": 0,
@@ -631,8 +761,37 @@
             0,
             0,
             0
+          ],
+          "L_thumb": [
+            0,
+            0
+          ],
+          "L_index": [
+            0,
+            0,
+            0
+          ],
+          "L_middle": [
+            0,
+            0,
+            0
+          ],
+          "L_ring": [
+            0,
+            0,
+            0
+          ],
+          "L_pinky": [
+            0,
+            0,
+            0
           ]
-        }
+        },
+        "L_palm_deg": [
+          0,
+          0,
+          0
+        ]
       },
       {
         "t_ms": 500,
@@ -665,8 +824,37 @@
             0,
             0,
             0
+          ],
+          "L_thumb": [
+            0,
+            0
+          ],
+          "L_index": [
+            0,
+            0,
+            0
+          ],
+          "L_middle": [
+            0,
+            0,
+            0
+          ],
+          "L_ring": [
+            0,
+            0,
+            0
+          ],
+          "L_pinky": [
+            0,
+            0,
+            0
           ]
-        }
+        },
+        "L_palm_deg": [
+          0,
+          0,
+          40
+        ]
       }
     ]
   },
@@ -752,7 +940,7 @@
     "duration_ms": 600,
     "provenance": "hand-authored",
     "commercial_safe": true,
-    "notes": "Approximate: both fists shiver/shake close to the body. Best-effort, not verified by an ASL signer -- flag for review.",
+    "notes": "Approximate: both fists shiver/shake close to the body. Best-effort, not verified by an ASL signer -- flag for review. (Left hand mirrored from right: same curls, palm Z-rotation negated -- fixes a bug where the left hand was frozen at rest despite notes describing a two-handed sign.)",
     "frames": [
       {
         "t_ms": 0,
@@ -785,8 +973,37 @@
             85,
             90,
             70
+          ],
+          "L_thumb": [
+            30,
+            60
+          ],
+          "L_index": [
+            85,
+            90,
+            70
+          ],
+          "L_middle": [
+            85,
+            90,
+            70
+          ],
+          "L_ring": [
+            85,
+            90,
+            70
+          ],
+          "L_pinky": [
+            85,
+            90,
+            70
           ]
-        }
+        },
+        "L_palm_deg": [
+          0,
+          0,
+          -8
+        ]
       },
       {
         "t_ms": 300,
@@ -819,8 +1036,37 @@
             85,
             90,
             70
+          ],
+          "L_thumb": [
+            30,
+            60
+          ],
+          "L_index": [
+            85,
+            90,
+            70
+          ],
+          "L_middle": [
+            85,
+            90,
+            70
+          ],
+          "L_ring": [
+            85,
+            90,
+            70
+          ],
+          "L_pinky": [
+            85,
+            90,
+            70
           ]
-        }
+        },
+        "L_palm_deg": [
+          0,
+          0,
+          8
+        ]
       },
       {
         "t_ms": 600,
@@ -853,8 +1099,37 @@
             85,
             90,
             70
+          ],
+          "L_thumb": [
+            30,
+            60
+          ],
+          "L_index": [
+            85,
+            90,
+            70
+          ],
+          "L_middle": [
+            85,
+            90,
+            70
+          ],
+          "L_ring": [
+            85,
+            90,
+            70
+          ],
+          "L_pinky": [
+            85,
+            90,
+            70
           ]
-        }
+        },
+        "L_palm_deg": [
+          0,
+          0,
+          -8
+        ]
       }
     ]
   },
@@ -1655,7 +1930,7 @@
     "duration_ms": 700,
     "provenance": "hand-authored",
     "commercial_safe": true,
-    "notes": "Approximate: flat hand slides forward across the other palm. Best-effort, not verified by an ASL signer -- flag for review.",
+    "notes": "Approximate: flat hand slides forward across the other palm. Best-effort, not verified by an ASL signer -- flag for review. (Left hand added as a static flat base palm -- previously absent entirely, leaving the left hand at rest instead of held out for the right hand to slide across.)",
     "frames": [
       {
         "t_ms": 0,
@@ -1685,6 +1960,30 @@
             0
           ],
           "R_pinky": [
+            0,
+            0,
+            0
+          ],
+          "L_thumb": [
+            0,
+            0
+          ],
+          "L_index": [
+            0,
+            0,
+            0
+          ],
+          "L_middle": [
+            0,
+            0,
+            0
+          ],
+          "L_ring": [
+            0,
+            0,
+            0
+          ],
+          "L_pinky": [
             0,
             0,
             0
@@ -1719,6 +2018,30 @@
             0
           ],
           "R_pinky": [
+            0,
+            0,
+            0
+          ],
+          "L_thumb": [
+            0,
+            0
+          ],
+          "L_index": [
+            0,
+            0,
+            0
+          ],
+          "L_middle": [
+            0,
+            0,
+            0
+          ],
+          "L_ring": [
+            0,
+            0,
+            0
+          ],
+          "L_pinky": [
             0,
             0,
             0
@@ -3727,7 +4050,7 @@
     "duration_ms": 450,
     "provenance": "hand-authored",
     "commercial_safe": true,
-    "notes": "Index up, thumb perpendicular \u00e2\u20ac\u201d the L-shape.",
+    "notes": "Index up, thumb perpendicular â€” the L-shape.",
     "frames": [
       {
         "t_ms": 0,
@@ -4149,7 +4472,7 @@
     "duration_ms": 450,
     "provenance": "hand-authored",
     "commercial_safe": true,
-    "notes": "Index and middle crossed (approximated \u00e2\u20ac\u201d no lateral spread in placeholder rig).",
+    "notes": "Index and middle crossed (approximated â€” no lateral spread in placeholder rig).",
     "frames": [
       {
         "t_ms": 0,
