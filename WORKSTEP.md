@@ -393,6 +393,50 @@ magnitudes changed), not new untested logic, so risk is low, but the
 user should treat this round's visual result as "reasoned + math-checked"
 rather than "screenshot-confirmed" and report back if it's still off.
 
+## Round 15 — Full paragraph re-test, MS-ASL archive evaluation, vocab growth
+
+- [x] 15.1 Ran a comprehensive 12-sentence paragraph exercising every
+       feature built so far (time-fronting, wh-questions, yes/no
+       questions, negation, the I-LOVE-YOU idiom, two-handed signs,
+       fingerspell fallback). Zero JS errors. Confirmed the queue
+       genuinely progresses (not stuck) by sampling captions over a 4s
+       window and seeing them advance.
+- [x] 15.2 User pointed at `archive/` (Microsoft's MS-ASL dataset).
+       Inspected it fully before using anything from it:
+       - It's **metadata only** — YouTube URLs + timestamps + labels, no
+         video/pose/keypoint data actually included.
+       - License is C-UDA v0.1: permits "Computational Use" only: same
+         category as our existing WLASL/iSign prototype-only entries in
+         docs/LICENSING.md, not a general commercial-use license.
+       - Bulk-downloading the referenced YouTube videos would also raise
+         YouTube's own ToS concerns, independent of C-UDA.
+       - Read the full C-UDA PDF (not just skimmed) before concluding this.
+- [x] 15.3 Decision (user deferred to our judgment): use ONLY the plain
+       English word list (`MSASL_classes.json`, 1000 words) as a
+       prioritization aid for which signs to add next -- a word list
+       isn't copyrightable content requiring a license, and this avoids
+       every licensing/ToS risk of the actual dataset content.
+- [x] 15.4 Cross-referenced MS-ASL's top-60 most frequent words against
+       our 42-word dictionary; found 15 high-value gaps and hand-authored
+       all of them: NICE, HAPPY, WANT, EAT, LIKE, FRIEND, WATER, MOTHER,
+       FATHER, SAD, TIRED, HUNGRY, AGAIN, FINE, DEAF.
+- [x] 15.5 Each new entry's `notes` field honestly flags it as a
+       "best-effort approximation, not verified by an ASL signer" --
+       authored by reasoning about the described handshape/motion, not
+       from real motion capture or native-signer review. Licensing is
+       clean (we wrote every rotation value), linguistic accuracy is
+       unverified and should be checked by a fluent signer before
+       relying on these for real communication.
+- [x] 15.6 Added `archive/` to .gitignore with a comment explaining why
+       (C-UDA + YouTube ToS mean we should not redistribute it, and we
+       don't need to -- only the word list informed our own work, and
+       that's already fully captured in our own hand-authored data).
+- [x] 15.7 Updated data/LICENSE-DATA.md documenting the vocabulary-source
+       decision and the approximation caveat for the new 15 signs.
+- [x] 15.8 Full dictionary sweep: all 57 signs (42 previous + 15 new)
+       load without errors, commercial-safety audit clean.
+- [x] 15.9 Type-check clean, 19/19 tests pass, prod build 1.45MB/442KB gzip.
+
 ## Known caveats for the user to know before testing
 
 - The rigged hand is right-hand-only in the source. Left is mirrored, so

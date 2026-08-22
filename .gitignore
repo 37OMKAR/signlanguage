@@ -14,3 +14,11 @@ coverage
 dist-tsc-node
 scripts/ai-proxy/node_modules
 
+# Third-party dataset (MS-ASL, C-UDA v0.1 license) -- used locally only as a
+# vocabulary-prioritization reference (data/LICENSE-DATA.md). We do not
+# redistribute it: no video/pose data from it ships in this repo, and
+# C-UDA + YouTube ToS make bulk redistribution of its contents inappropriate
+# anyway. Never remove this ignore rule without re-reading C-UDA section 3.
+archive/
+archive.zip
+
