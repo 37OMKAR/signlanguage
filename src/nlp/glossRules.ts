@@ -119,23 +119,38 @@ function glossOneSentence(text: string): string[] {
 
   // Split by category so we can reorder.
   const times: string[] = [];
-  const negations: string[] = [];
   const whs: string[] = [];
   const rest: string[] = [];
+  // NEG_WORDS get attached to the next content word instead of collected
+  // into their own bucket. Collecting every negation across the whole
+  // sentence and appending them after ALL rest words was wrong for
+  // multi-clause input ("My name is not important, but I want to say
+  // goodbye...") -- "not" ended up stranded after "family" at the very
+  // end, negating the wrong clause entirely. Keeping NEG inline right
+  // after the next word (its verb/predicate) matches ASL's actual
+  // negation placement and stays local to the clause it came from.
+  let pendingNeg = false;
   for (const t of remapped) {
     const lower = t.toLowerCase();
     if (TIME_WORDS.has(lower)) times.push(t);
-    else if (NEG_WORDS.has(lower)) negations.push("NO");
+    else if (NEG_WORDS.has(lower)) pendingNeg = true;
     else if (WH_WORDS.has(lower)) whs.push(t);
-    else rest.push(t);
+    else {
+      rest.push(t);
+      if (pendingNeg) {
+        rest.push("NO");
+        pendingNeg = false;
+      }
+    }
   }
+  if (pendingNeg) rest.push("NO");
 
   // ASL order: [TIME] [SUBJECT ...] [VERB] [NEG] [OBJECT ...] [WH]
   // The rule-based pass can't reliably tag subj/verb/obj, so we keep the
-  // remaining word order but move times to front, negations after rest,
-  // wh-words to the end. Question sentences that had no explicit wh-word
-  // still get a "QUESTION" marker appended for the caption/face layer.
-  const ordered = [...times, ...rest, ...negations, ...whs];
+  // remaining word order but move times to front and wh-words to the end.
+  // Question sentences that had no explicit wh-word still get a
+  // "QUESTION" marker appended for the caption/face layer.
+  const ordered = [...times, ...rest, ...whs];
   if (isQuestion && whs.length === 0 && !ordered.includes("QUESTION")) {
     ordered.push("QUESTION");
   }

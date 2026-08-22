@@ -128,20 +128,30 @@ const IDLE_ONLY = new Set([
 // hand shape only, and keeps the idle arm down when a sign is one-handed.
 const ARM_BONES = ["R_armUp", "R_armLo", "L_armUp", "L_armLo"] as const;
 const DEG = Math.PI / 180;
-// Empirically tuned (via live screenshot iteration) so the hand comes up to
-// roughly chest height on ITS OWN side, elbow bent, without crossing to the
-// opposite shoulder.
+// Previously tuned via screenshot iteration, but the screenshot tool used
+// for that tuning turned out to silently serve a stale/cached canvas frame
+// for a WebGL <canvas> unless the page is nudged (e.g. a scroll) right
+// before capture -- confirmed directly by reading bone quaternions/world
+// positions from the live THREE.js scene (see git history), which showed
+// the previous angles below DID move the hand a measurable amount in world
+// space, but the resulting visible pose (verified with the nudge trick)
+// was a subtle elbow bend, not a clear "hand raised into signing space in
+// front of the chest" -- confirmed by direct user report while watching
+// the live preview. Raised the angles so the raise/bend is unambiguous
+// even after accounting for how much the previous numbers underdelivered
+// visually. Elbow bend increased specifically, per the report that the
+// elbow "was not bending".
 const ARM_LIFT: Record<(typeof ARM_BONES)[number], { axis: THREE.Vector3; deg: number }[]> = {
   R_armUp: [
-    { axis: new THREE.Vector3(0, 0, 1), deg: 20 },
-    { axis: new THREE.Vector3(1, 0, 0), deg: 85 },
+    { axis: new THREE.Vector3(0, 0, 1), deg: 32 },
+    { axis: new THREE.Vector3(1, 0, 0), deg: 115 },
   ],
-  R_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -50 }],
+  R_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -85 }],
   L_armUp: [
-    { axis: new THREE.Vector3(0, 0, 1), deg: -20 },
-    { axis: new THREE.Vector3(1, 0, 0), deg: 85 },
+    { axis: new THREE.Vector3(0, 0, 1), deg: -32 },
+    { axis: new THREE.Vector3(1, 0, 0), deg: 115 },
   ],
-  L_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -50 }],
+  L_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -85 }],
 };
 
 export function Godette({ frames, speed, reducedMotion, mood, armReach }: Props) {
