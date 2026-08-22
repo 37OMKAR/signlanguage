@@ -11,3 +11,6 @@ dist-ssr
 .idea
 coverage
 *.tsbuildinfo
+dist-tsc-node
+scripts/ai-proxy/node_modules
+

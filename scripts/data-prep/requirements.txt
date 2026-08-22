@@ -1,0 +1,5 @@
+mediapipe==0.10.14
+numpy>=1.26
+opencv-python-headless>=4.10
+pandas>=2.2
+pyarrow>=17.0
