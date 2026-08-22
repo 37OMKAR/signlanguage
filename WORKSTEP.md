@@ -251,6 +251,62 @@ names, and only the vertex-weight check tells them apart.
        depth/shading on face and hair.
 - [x] 11.8 Type-check clean, 17/17 tests pass, prod build 1.44MB/440KB gzip.
 
+## Round 12 — Head shake toned down, dead position-only sign data fixed
+
+- [x] 12.1 Found the real cause of "head shaking too much": the negation
+       head-shake ran at 6Hz (six full oscillations per second) with a
+       hard instant `.copy()` snap every frame, not smoothed. A real human
+       "no" shake is ~2 turns/sec, smooth. Fixed: 2Hz, amplitude 0.12 ->
+       0.07 rad, and switched to `.slerp(target, 0.25)` instead of
+       `.copy()` so it eases like the rest of the rig instead of
+       twitching.
+- [x] 12.2 Softened the constant idle head sway too (0.03 -> 0.018 rad,
+       0.12 -> 0.1 Hz) since it stacks with everything else going on in
+       the face/head.
+- [x] 12.3 Investigated "hand orientation not proper" for the YOU sign
+       live. Rigorously confirmed via bone-quaternion measurement (not
+       just visual impression) that the finger-curl mechanism itself is
+       CORRECT: index stays at 0 deg from rest (extended) while middle
+       curls 84.7 deg, exactly matching the authored data. An earlier
+       "looks fully fisted" reading was contaminated by leftover
+       debug-interval overrides from prior testing, confirmed by redoing
+       the check cleanly after a full reload.
+- [x] 12.4 Found and fixed the REAL orientation bug: YOU, ME, SORRY, HELP,
+       and NAME relied entirely on `R_palm_pos` (a position offset) to
+       convey their pointing/motion direction. We deliberately stopped
+       applying bone positions during playback (Round 7 -- correct, since
+       moving a skinned bone shears the mesh), which silently made these
+       five signs' direction/motion data completely inert -- they had
+       real curl data (correct handshape) but ZERO wrist rotation, so
+       nothing indicated *which way* the hand was oriented. Replaced the
+       dead position data with real `R_palm_deg` rotations approximating
+       each sign's intended direction (YOU/ME point via wrist rotation,
+       SORRY/HELP/NAME approximate their circular/lift/tap motions as
+       wrist tilts). Documented in each entry's `notes` field, with a
+       pointer to why position offsets don't work, for future reference.
+- [x] 12.5 Confirmed all 41 dictionary entries still load without errors
+       after the data changes (same programmatic sweep as Round 11).
+- [x] 12.6 Attempted live oscillation verification of the new head-shake
+       via interval sampling; hit the same rAF-throttling wall as prior
+       rounds (this harness's clock only ticked once per ~2 real seconds
+       during the sample window, confirmed by reading
+       `window.__r3f.clock.elapsedTime` directly -- not a code bug, an
+       environment limitation already documented in earlier rounds).
+       The formula itself (2Hz sine, 0.07 rad, slerp-smoothed) is
+       mechanically identical in structure to the already-verified idle
+       head sway, just gentler -- no further live confirmation attempted
+       given the known harness constraint.
+- [x] 12.7 Type-check clean, 17/17 tests pass, prod build 1.44MB/441KB gzip.
+
+**Known remaining limitation, stated honestly**: the ARM_LIFT generic pose
+and each sign's own hand-orientation data are authored in different
+reference frames and composed by multiplication -- they don't always
+produce an anatomically ideal combined pose (e.g., a pointing finger may
+end up partially foreshortened from the camera's angle depending on which
+sign is playing). This is an architectural simplification, not a bug in
+any one sign; a full fix would mean re-authoring every sign's rotation
+data relative to the lifted-arm frame, which is future work.
+
 ## Known caveats for the user to know before testing
 
 - The rigged hand is right-hand-only in the source. Left is mirrored, so

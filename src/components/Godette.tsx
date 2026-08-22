@@ -240,7 +240,7 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
     const idleSpec: Record<string, { axis: THREE.Vector3; amp: number; speedHz: number; phase: number }> = {
       spine1: { axis: new THREE.Vector3(1, 0, 0), amp: 0.02, speedHz: 0.28, phase: 0 },
       spine2: { axis: new THREE.Vector3(1, 0, 0), amp: 0.015, speedHz: 0.28, phase: 0.3 },
-      head:   { axis: new THREE.Vector3(0, 1, 0), amp: 0.03, speedHz: 0.12, phase: 1.1 },
+      head:   { axis: new THREE.Vector3(0, 1, 0), amp: 0.018, speedHz: 0.1, phase: 1.1 },
       // Constant upward lip-corner lift (a smile) plus a tiny breathing-rate
       // wobble so it doesn't read as a frozen rictus. Amplitude raised after
       // confirming live that lipCorner only carries weight on 12 vertices —
@@ -340,10 +340,14 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
     const neck = bones.current.neck1;
     const neckRest = rest.current.neck1;
     if (neck && neckRest) {
+      // A real human "no" head-shake is slow and smooth — roughly 2 turns
+      // per second at a modest amplitude, not a rapid twitch. The previous
+      // 6Hz / 0.12 rad version oscillated 6 times a second with a hard
+      // instant snap each frame, which reads as jitter, not a head shake.
       const shakeActive = signing && mood.negation;
-      const shakeAngle = shakeActive ? Math.sin(t * 6 * Math.PI * 2) * 0.12 : 0;
+      const shakeAngle = shakeActive ? Math.sin(t * 2 * Math.PI * 2) * 0.07 : 0;
       _idleDelta.setFromAxisAngle(new THREE.Vector3(0, 1, 0), shakeAngle);
-      neck.quaternion.copy(neckRest.q).multiply(_idleDelta);
+      neck.quaternion.slerp(neckRest.q.clone().multiply(_idleDelta), 0.25);
     }
   };
 
