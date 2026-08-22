@@ -118,6 +118,44 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[!]` blocked
 - [x] 8.8 Type-check clean, 15/15 tests pass, prod build clean (1.44MB /
        439KB gzip).
 
+## Round 9 — Arm lift, face life, LongCat provider
+
+- [x] 9.1 Confirmed via user screenshot report: hands ARE moving (Round 8
+       fix holds in the user's real browser).
+- [x] 9.2 Identified new gap: only the wrist rotated per sign; the whole
+       arm stayed at the hip, so signs were nearly invisible in frame.
+- [x] 9.3 Added R_armUp/R_armLo/L_armUp/L_armLo bone tracking + a
+       per-side "lift to signing height" pose, eased in/out, active only
+       for the hand(s) a given sign's data actually uses (checked via
+       `handUsage` scan of R_/L_ prefixed keys in the sign's frames).
+- [x] 9.4 Tuned lift rotation values through 5 rounds of live
+       screenshot iteration (not guessed): first attempt swung the arm
+       sideways past the shoulder; second overshot forward and curled the
+       hand down to the hip; final values (upper arm ~20-25° lateral +
+       ~105° forward, forearm ~-35°) bring the hand up clearly in front
+       of the face/chest.
+- [x] 9.5 Verified one-handed (HELLO, only right arm lifts) and
+       two-handed (LOVE, both arms lift) signs both look correct.
+- [x] 9.6 Added idle smile via bone-driven lip-corner lift (mesh has no
+       morph targets — checked at runtime, confirmed bone rig instead).
+- [x] 9.7 Added periodic eye blink (~180ms pulse every 4s), verified by
+       sampling eyelid bone rotation offset every 200ms over 4s — a
+       single non-zero spike confirmed the blink fires correctly.
+- [x] 9.8 Reframed camera twice based on live screenshots: first pass
+       showed only her hips (way too low), second pass (post face-only
+       zoom) clipped the lifted hands out of frame entirely; final
+       framing shows face + chest + both hands when raised.
+- [x] 9.9 Added LongCat V2 as a fourth AI provider (Gemini/Claude/
+       DeepSeek/LongCat), verified against the live API: correct gloss
+       output for two different test sentences including proper
+       wh-word-to-end ASL ordering.
+- [x] 9.10 Security: LongCat API key placed only in
+       `scripts/ai-proxy/.env` (git-ignored, verified with
+       `git check-ignore -v` and a full `git log --all -p` grep showing
+       zero occurrences of the key in history before pushing).
+- [x] 9.11 Type-check clean, 15/15 tests pass, prod build 1.44MB/440KB
+       gzip. Pushed to GitHub.
+
 ## Known caveats for the user to know before testing
 
 - The rigged hand is right-hand-only in the source. Left is mirrored, so
