@@ -23,14 +23,25 @@ describe("sign loader", () => {
   });
 
   it("dictionary entry exposes provenance", () => {
-    const e = getEntry("HELLO");
+    const e = getEntry("YES");
     expect(e?.provenance).toBe("hand-authored");
     expect(e?.commercial_safe).toBe(true);
   });
 
-  it("no shipped sign is commercially unsafe", () => {
+  it("correctly flags real-motion-capture-derived signs as commercially unsafe until license-verified", () => {
+    // HELLO's finger curls were retargeted from the AI4Bharat INCLUDE
+    // dataset (repackaged as MediaPipe landmarks on Kaggle). The
+    // repackaging is tagged MIT, but that may not clear the underlying
+    // original dataset's own terms -- deliberately marked unsafe until a
+    // human verifies the license chain. This test is a regression check
+    // that the audit mechanism actually catches this, not that zero
+    // unsafe signs exist (which stopped being true the moment we started
+    // using real third-party motion data instead of only hand-authoring).
+    const e = getEntry("HELLO");
+    expect(e?.provenance).toBe("kaggle-include-isl");
+    expect(e?.commercial_safe).toBe(false);
+
     const r = auditCommercialSafety();
-    expect(r.unsafe).toEqual([]);
-    expect(r.unsafeCount).toBe(0);
+    expect(r.unsafe).toContain("HELLO");
   });
 });

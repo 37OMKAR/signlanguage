@@ -1,8 +1,13 @@
 # Retargeting
 
-> Status: the current build uses a simplified in-tree retargeter (curl
-> degrees → bone quaternions at compile time). The full MediaPipe-to-bone
-> retargeter lives in Phase 2 and is documented here for the design record.
+> Status: **implemented and validated** for finger curls as of
+> `scripts/data-prep/retarget_include.py`. Converts real MediaPipe hand
+> landmarks (from the AI4Bharat INCLUDE dataset, repackaged on Kaggle) into
+> our curl-degree format via the angle-based method below. Currently used
+> for one sign (HELLO's finger curls) as a proof of concept — see
+> `data/LICENSE-DATA.md` for provenance and the commercial-safety caveat.
+> Wrist orientation/position retargeting is not yet implemented; signs
+> still use hand-authored `R_palm_deg`/`R_palm_pos` for that part.
 
 ## What retargeting means
 
@@ -53,12 +58,22 @@ between the two signs instead.
 
 ## Finger noise handling
 
-MediaPipe hand landmarks are noisy in ~10% of frames. Two mitigations:
+Confirmed empirically, not just theoretically: retargeting the same sign
+(HELLO) from 3 independent INCLUDE takes produced consistent curl values
+at most sampled frames, but individual frames occasionally showed one
+finger spike to 60-120deg with no support from neighboring frames —
+motion blur or brief self-occlusion mid-gesture, not real motion. A
+5-frame median filter (`median_smooth_curl` in `retarget_include.py`)
+removes isolated single-frame spikes cleanly. It does NOT fix a take
+where tracking fails across several consecutive frames (seen once, in
+take MVI_0029) — that requires picking a different, cleaner take rather
+than trusting the filter to save bad source data. Always cross-check 2-3
+takes of the same sign before trusting any one of them.
 
+Planned, not yet needed at this scale (one sign):
 1. **Snap to canonical handshapes.** Maintain a set of ~20 canonical
    handshape targets (A-Z + variants). Snap noisy MediaPipe curls to the
    nearest canonical shape by minimum L2 distance in curl-degree space.
-2. **Low-pass filter** across ~3 adjacent frames before snapping.
 
 ## Reference implementations
 

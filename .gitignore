@@ -21,4 +21,5 @@ scripts/ai-proxy/node_modules
 # anyway. Never remove this ignore rule without re-reading C-UDA section 3.
 archive/
 archive.zip
+kaggle-data/
 

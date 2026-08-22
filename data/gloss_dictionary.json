@@ -4828,9 +4828,9 @@
   "HELLO": {
     "gloss": "HELLO",
     "duration_ms": 900,
-    "provenance": "hand-authored",
-    "commercial_safe": true,
-    "notes": "Flat B-hand at temple, sweeps outward like a salute.",
+    "provenance": "kaggle-include-isl",
+    "commercial_safe": false,
+    "notes": "Flat B-hand at temple, sweeps outward like a salute. Finger curl values (not wrist position/rotation) replaced with real motion-capture data retargeted from the AI4Bharat INCLUDE dataset (repackaged as MediaPipe landmarks on Kaggle by user 'swaptr', MIT-licensed), take MVI_0031, right hand, via angle-based retargeting (scripts/data-prep/retarget_include.py) with 5-frame median smoothing to remove tracking-noise spikes. Cross-checked against 2 other independent takes of the same sign for consistency before use. Wrist position/rotation (R_palm_deg/R_palm_pos) remain our own hand-authored approximation -- only the finger curl values come from real motion.",
     "frames": [
       {
         "t_ms": 0,
@@ -4846,28 +4846,28 @@
         ],
         "curls": {
           "R_thumb": [
-            60,
-            80
+            36.2,
+            24.3
           ],
           "R_index": [
-            0,
-            0,
-            0
+            20.0,
+            25.8,
+            15.3
           ],
           "R_middle": [
-            0,
-            0,
-            0
+            26.7,
+            34.2,
+            20.1
           ],
           "R_ring": [
-            0,
-            0,
-            0
+            31.8,
+            31.1,
+            15.0
           ],
           "R_pinky": [
-            0,
-            0,
-            0
+            35.2,
+            22.9,
+            12.9
           ]
         }
       },
@@ -4885,28 +4885,28 @@
         ],
         "curls": {
           "R_thumb": [
-            60,
-            80
+            22.1,
+            11.2
           ],
           "R_index": [
-            0,
-            0,
-            0
+            16.2,
+            12.3,
+            6.5
           ],
           "R_middle": [
-            0,
-            0,
-            0
+            17.2,
+            18.7,
+            9.8
           ],
           "R_ring": [
-            0,
-            0,
-            0
+            19.7,
+            19.3,
+            11.4
           ],
           "R_pinky": [
-            0,
-            0,
-            0
+            25.8,
+            12.3,
+            10.7
           ]
         }
       },
@@ -4924,28 +4924,28 @@
         ],
         "curls": {
           "R_thumb": [
-            60,
-            80
+            35.1,
+            21.2
           ],
           "R_index": [
-            0,
-            0,
-            0
+            24.5,
+            26.0,
+            13.1
           ],
           "R_middle": [
-            0,
-            0,
-            0
+            26.5,
+            33.9,
+            17.5
           ],
           "R_ring": [
-            0,
-            0,
-            0
+            31.9,
+            28.2,
+            12.7
           ],
           "R_pinky": [
-            0,
-            0,
-            0
+            35.1,
+            22.5,
+            12.8
           ]
         }
       }

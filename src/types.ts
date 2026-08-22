@@ -38,6 +38,7 @@ export type Provenance =
   | "self-recorded"
   | "hand-authored"
   | "kaggle-google-asl"
+  | "kaggle-include-isl"
   | "wlasl-derived";
 
 // Dictionary entry as authored in JSON.

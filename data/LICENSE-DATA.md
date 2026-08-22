@@ -7,12 +7,16 @@ commercial launch that nothing carries a research-only license.
 - **hand-authored** — we authored the pose ourselves in code/Blender. MIT, commercial-safe.
 - **self-recorded** — we recorded a signer + extracted with MediaPipe. Commercial-safe with signer consent on file.
 - **kaggle-google-asl** — derived from Google's Kaggle ASL Signs dataset. Prototype-safe under competition terms; verify before commercial ship.
+- **kaggle-include-isl** — real motion retargeted from the AI4Bharat INCLUDE dataset (see below). **Not commercial-safe until license-verified** — the Kaggle repackaging is tagged MIT, but that may not clear the underlying original dataset's own terms.
 - **wlasl-derived** — derived from WLASL pose files. **Prototype only.** Must be replaced before commercial launch.
 
 ## Current entries
 
-All 75 entries are `hand-authored` and `commercial_safe: true`. See
-`gloss_dictionary.json` directly for the full list (26 letters + 49 words).
+74 of 75 entries are `hand-authored` and `commercial_safe: true`. One
+entry (HELLO) is `kaggle-include-isl` and `commercial_safe: false` — see
+below. See `gloss_dictionary.json` for the full list (26 letters + 49
+words).
+
 33 word entries (NICE, HAPPY, WANT, EAT, LIKE, FRIEND, WATER, MOTHER,
 FATHER, SAD, TIRED, HUNGRY, AGAIN, FINE, DEAF, GOODBYE, MORE, NEED,
 UNDERSTAND, KNOW, WAIT, STOP, FINISH, HOT, COLD, SICK, BATHROOM, DRINK,
@@ -23,6 +27,40 @@ from real motion capture or a fluent signer's review. Licensing is clean
 (we wrote the rotation values ourselves), but linguistic accuracy should
 be checked by a native/fluent ASL signer before relying on them for real
 communication.
+
+## HELLO: first real motion-capture retargeting (proof of concept)
+
+HELLO's **finger curl values only** (not wrist position/rotation, which
+remain our own hand-authored approximation) were replaced with real
+motion data via `scripts/data-prep/retarget_include.py`:
+
+- **Source**: AI4Bharat's INCLUDE dataset, repackaged as MediaPipe
+  Holistic landmarks by Kaggle user "swaptr"
+  (`swaptr/indian-sign-language-mediapipe-holistic-landmarks`), tagged
+  MIT on Kaggle. 262 ISL words, 4,284 takes, 553 landmarks/frame.
+- **Take used**: `keypoints/greetings/hello/MVI_0031.parquet`, right hand.
+- **Method**: angle-based retargeting (joint angle between consecutive
+  bone segments, scale-invariant across hand sizes — see
+  `docs/RETARGETING.md`) with a 5-frame median filter to remove
+  MediaPipe tracking-noise spikes (confirmed present in raw data:
+  isolated single-frame jumps to 60-120deg with no support from
+  neighboring frames).
+- **Validated, not just extracted**: cross-checked against 2 other
+  independent takes of the same sign (MVI_0029, MVI_0030) before use.
+  MVI_0029 showed a *sustained* tracking failure across several
+  consecutive frames on ring/pinky that the median filter could not
+  fix — discarded that take rather than trust the filter to save bad
+  source data. MVI_0030 and MVI_0031 were consistent with each other;
+  MVI_0031 was used.
+- **Why `commercial_safe: false` despite the MIT tag**: the Kaggle
+  *repackaging* is MIT-licensed, but the underlying AI4Bharat INCLUDE
+  dataset (the original signer recordings) may carry its own, more
+  restrictive terms that a repackager cannot unilaterally override.
+  Flagged unsafe until a human verifies the actual license chain back to
+  AI4Bharat's own terms. `auditCommercialSafety()` correctly catches this
+  (see `tests/loader.test.ts`).
+- **kaggle-data/** (the downloaded dataset, ~2.6GB) is git-ignored — never
+  committed, and we don't redistribute it.
 
 The second batch (GOODBYE through WHEN) was prompted by a user-shared
 YouTube video ("50 Basic ASL Conversational Signs") — we could not watch
