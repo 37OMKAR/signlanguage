@@ -83,6 +83,41 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[!]` blocked
        requestAnimationFrame entirely (framesFired=0). Verification
        requires a real browser tab.
 
+## Round 8 — REAL root cause of "frozen statue" found and fixed
+
+- [x] 8.1 Instrumented the render loop with a debug bridge (`window.__godette`,
+       `window.__r3f`) to inspect live Three.js state independent of rAF.
+- [x] 8.2 Confirmed all 30 bones are correctly wired to the skinned skeleton
+       (isInSkeleton, correct parent/children links — the earlier "detached
+       bone" theory was ruled out).
+- [x] 8.3 **FOUND THE ACTUAL BUG**: `Godette.tsx` built the render clone with
+       `scene.clone(true)`. Three.js's `SkinnedMesh.copy()` (see
+       `node_modules/three/src/objects/SkinnedMesh.js:96`) does
+       `this.skeleton = source.skeleton` — a **reference copy**, not a
+       rebind. This means the cloned mesh's skeleton still pointed at the
+       ORIGINAL, un-cloned bone hierarchy. Every bone we found and rotated
+       (via traversing the *clone*) had zero effect on what was actually
+       rendered, because the visible mesh was still skinned against the
+       untouched original bones. This is why the model looked perfectly
+       frozen no matter what the animation code did — a textbook Three.js
+       gotcha that has a dedicated fix upstream.
+- [x] 8.4 Fixed: replaced `scene.clone(true)` with
+       `clone as cloneSkeletal` from
+       `three/examples/jsm/utils/SkeletonUtils.js`, which properly rebinds
+       `skeleton.bones` to the new clone.
+- [x] 8.5 Verified the fix mechanically: manually rotated 7 different bones
+       (fingers, head, spine) by 90°, force-rendered, and diffed
+       `skeleton.boneMatrices` before/after — all changed as expected. Also
+       diffed rendered canvas PNG bytes before/after — confirmed different.
+- [x] 8.6 Re-verified against the **production build** (`npm run build` +
+       `npm run preview`), not just the dev server — same result, all
+       bones update correctly.
+- [x] 8.7 Added a subtle idle-motion system (breathing sway on spine/head,
+       independent sine waves per bone) so she's never perfectly static
+       even when no sign is playing, addressing "not a stone statue".
+- [x] 8.8 Type-check clean, 15/15 tests pass, prod build clean (1.44MB /
+       439KB gzip).
+
 ## Known caveats for the user to know before testing
 
 - The rigged hand is right-hand-only in the source. Left is mirrored, so

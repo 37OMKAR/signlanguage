@@ -51,6 +51,9 @@ export function AvatarStage({ frames, speed, reducedMotion, onFinished }: Props)
       dpr={[1, 2]}
       style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
       resize={{ scroll: false, debounce: { scroll: 50, resize: 0 } }}
+      onCreated={(state) => {
+        (window as unknown as { __r3f: unknown }).__r3f = state;
+      }}
     >
       <color attach="background" args={[0.05, 0.07, 0.12]} />
       <ambientLight intensity={0.6} />

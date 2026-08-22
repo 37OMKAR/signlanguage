@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+import { clone as cloneSkeletal } from "three/examples/jsm/utils/SkeletonUtils.js";
 import type { SignFrame } from "../types";
 
 interface Props {
@@ -61,11 +62,31 @@ const BONE_PATTERNS: Record<string, RegExp> = {
   L_pinky0:  re(`Finger_4${D}L`),
   L_pinky1:  re(`Finger_4${D}L${D}001`),
   L_pinky2:  re(`Finger_4${D}L${D}002`),
+
+  // Idle-motion bones — driven by a subtle breathing sway, not by sign data.
+  spine1: re(`Spine_1`),
+  spine2: re(`Spine_2`),
+  head:   re(`Head`),
 };
+
+// Bones in IDLE_ONLY never receive sign-frame data; they only get the
+// continuous idle sway. Keeps her from looking like a mannequin between
+// (and during) signs.
+const IDLE_ONLY = new Set(["spine1", "spine2", "head"]);
 
 export function Godette({ frames, speed, reducedMotion }: Props) {
   const { scene } = useGLTF(MODEL_URL);
-  const cloned = useMemo(() => scene.clone(true), [scene]);
+  // IMPORTANT: plain Object3D.clone()/SkinnedMesh.copy() only copies the
+  // `skeleton` property BY REFERENCE (see three/src/objects/SkinnedMesh.js:
+  // `this.skeleton = source.skeleton;`). It does not rebind the skeleton's
+  // bones array to the newly cloned bone hierarchy. That means rotating a
+  // bone found by traversing a plain-cloned scene has NO visual effect —
+  // the rendered mesh still deforms using the original, untouched skeleton.
+  // SkeletonUtils.clone() properly remaps skeleton.bones to the clone.
+  const cloned = useMemo(
+    () => cloneSkeletal(scene) as THREE.Object3D,
+    [scene],
+  );
 
   const bones = useRef<Record<string, THREE.Object3D>>({});
   const rest = useRef<Record<string, { q: THREE.Quaternion; p: THREE.Vector3 }>>({});
@@ -122,12 +143,35 @@ export function Godette({ frames, speed, reducedMotion }: Props) {
   const _qa = useMemo(() => new THREE.Quaternion(), []);
   const _qb = useMemo(() => new THREE.Quaternion(), []);
 
+  const _idleDelta = useMemo(() => new THREE.Quaternion(), []);
+
+  // Apply a small continuous sway so she never looks like a stone statue,
+  // even mid-sign. Each idle bone gets its own phase/axis/amplitude so the
+  // motion reads as organic breathing, not a single mechanical oscillation.
+  const applyIdle = (t: number) => {
+    const idleSpec: Record<string, { axis: THREE.Vector3; amp: number; speedHz: number; phase: number }> = {
+      spine1: { axis: new THREE.Vector3(1, 0, 0), amp: 0.02, speedHz: 0.28, phase: 0 },
+      spine2: { axis: new THREE.Vector3(1, 0, 0), amp: 0.015, speedHz: 0.28, phase: 0.3 },
+      head:   { axis: new THREE.Vector3(0, 1, 0), amp: 0.03, speedHz: 0.12, phase: 1.1 },
+    };
+    for (const name of IDLE_ONLY) {
+      const obj = bones.current[name];
+      const r = rest.current[name];
+      const spec = idleSpec[name];
+      if (!obj || !r || !spec) continue;
+      const angle = Math.sin(t * spec.speedHz * Math.PI * 2 + spec.phase) * spec.amp;
+      _idleDelta.setFromAxisAngle(spec.axis, angle);
+      obj.quaternion.copy(r.q).multiply(_idleDelta);
+    }
+  };
+
   useFrame(({ clock }) => {
-    (window as unknown as { __godetteFrames?: number }).__godetteFrames =
-      ((window as unknown as { __godetteFrames?: number }).__godetteFrames ?? 0) + 1;
-    (window as unknown as { __godetteLastFrames?: number }).__godetteLastFrames = frames?.length ?? 0;
+    const t = clock.elapsedTime;
+    applyIdle(t);
+
     if (!frames || frames.length === 0) {
       for (const [name, obj] of Object.entries(bones.current)) {
+        if (IDLE_ONLY.has(name)) continue;
         const r = rest.current[name];
         if (!r) continue;
         obj.quaternion.slerp(r.q, 0.15);
@@ -138,10 +182,11 @@ export function Godette({ frames, speed, reducedMotion }: Props) {
     if (start.current === null) start.current = clock.elapsedTime;
     const rate = reducedMotion ? 1 / 1.5 : Math.max(speed, 0.1);
     const elapsedMs = (clock.elapsedTime - start.current) * 1000 * rate;
-    const [a, b, t] = pickPair(frames, elapsedMs);
+    const [a, b, pairT] = pickPair(frames, elapsedMs);
     if (!a) return;
 
     for (const [canonical, obj] of Object.entries(bones.current)) {
+      if (IDLE_ONLY.has(canonical)) continue;
       const qa = a.bones[canonical];
       if (!qa) {
         // No data for this bone in this frame — ease toward rest.
@@ -155,9 +200,9 @@ export function Godette({ frames, speed, reducedMotion }: Props) {
       // Apply on top of rest orientation so the model's rest pose is respected.
       const r = rest.current[canonical];
       if (r) {
-        obj.quaternion.copy(r.q).multiply(_qa.clone().slerp(_qb, THREE.MathUtils.clamp(t, 0, 1)));
+        obj.quaternion.copy(r.q).multiply(_qa.clone().slerp(_qb, THREE.MathUtils.clamp(pairT, 0, 1)));
       } else {
-        obj.quaternion.copy(_qa).slerp(_qb, THREE.MathUtils.clamp(t, 0, 1));
+        obj.quaternion.copy(_qa).slerp(_qb, THREE.MathUtils.clamp(pairT, 0, 1));
       }
     }
     // Note: we deliberately do NOT modify bone positions during playback.
