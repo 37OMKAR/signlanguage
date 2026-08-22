@@ -67,12 +67,53 @@ const BONE_PATTERNS: Record<string, RegExp> = {
   spine1: re(`Spine_1`),
   spine2: re(`Spine_2`),
   head:   re(`Head`),
+
+  // Face — no morph targets on this mesh (checked at runtime: none exist),
+  // so expressions are bone-driven. Lip_L.003 / Lip_R.003 are the mouth
+  // corner controls in this rig.
+  jaw:    re(`Jaw`),
+  lipCornerL: re(`Lip_L${D}003`),
+  lipCornerR: re(`Lip_R${D}003`),
+  eyelidUpperL: re(`Eyelid_Control_Upper${D}L`),
+  eyelidUpperR: re(`Eyelid_Control_Upper${D}R`),
+
+  // Arms — needed so a sign can lift the hand to chest/face height instead
+  // of only rotating the wrist while the arm hangs at the hip.
+  R_armUp: re(`Arm_Upper_1R`),
+  R_armLo: re(`Arm_Lower_1R`),
+  L_armUp: re(`Arm_Upper_1L`),
+  L_armLo: re(`Arm_Lower_1L`),
 };
 
 // Bones in IDLE_ONLY never receive sign-frame data; they only get the
-// continuous idle sway. Keeps her from looking like a mannequin between
-// (and during) signs.
-const IDLE_ONLY = new Set(["spine1", "spine2", "head"]);
+// continuous idle sway/smile. Keeps her from looking like a mannequin
+// between (and during) signs.
+const IDLE_ONLY = new Set([
+  "spine1", "spine2", "head", "jaw", "lipCornerL", "lipCornerR",
+  "eyelidUpperL", "eyelidUpperR",
+]);
+
+// Arm bones get a generic "lift to signing height" pose whenever the CURRENT
+// sign actually uses that side's hand, layered underneath the sign's own
+// wrist/finger rotations. This keeps every sign's authored data focused on
+// hand shape only, and keeps the idle arm down when a sign is one-handed.
+const ARM_BONES = ["R_armUp", "R_armLo", "L_armUp", "L_armLo"] as const;
+const DEG = Math.PI / 180;
+// Empirically tuned (via live screenshot iteration) so the hand comes up to
+// roughly chest height on ITS OWN side, elbow bent, without crossing to the
+// opposite shoulder.
+const ARM_LIFT: Record<(typeof ARM_BONES)[number], { axis: THREE.Vector3; deg: number }[]> = {
+  R_armUp: [
+    { axis: new THREE.Vector3(0, 0, 1), deg: 20 },
+    { axis: new THREE.Vector3(1, 0, 0), deg: 105 },
+  ],
+  R_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -35 }],
+  L_armUp: [
+    { axis: new THREE.Vector3(0, 0, 1), deg: -20 },
+    { axis: new THREE.Vector3(1, 0, 0), deg: 105 },
+  ],
+  L_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -35 }],
+};
 
 export function Godette({ frames, speed, reducedMotion }: Props) {
   const { scene } = useGLTF(MODEL_URL);
@@ -144,34 +185,115 @@ export function Godette({ frames, speed, reducedMotion }: Props) {
   const _qb = useMemo(() => new THREE.Quaternion(), []);
 
   const _idleDelta = useMemo(() => new THREE.Quaternion(), []);
+  const _armDelta = useMemo(() => new THREE.Quaternion(), []);
+  const _armStep = useMemo(() => new THREE.Quaternion(), []);
+  const liftAmount = useRef({ R: 0, L: 0 }); // 0 = arm at rest, 1 = lifted to signing height
 
-  // Apply a small continuous sway so she never looks like a stone statue,
-  // even mid-sign. Each idle bone gets its own phase/axis/amplitude so the
-  // motion reads as organic breathing, not a single mechanical oscillation.
+  // Which hand(s) the current sign actually drives — scanned once per
+  // `frames` change so a one-handed sign (HELLO) doesn't also lift the
+  // idle arm.
+  const handUsage = useMemo(() => {
+    let right = false;
+    let left = false;
+    for (const f of frames ?? []) {
+      for (const key of Object.keys(f.bones)) {
+        if (key.startsWith("R_")) right = true;
+        if (key.startsWith("L_")) left = true;
+      }
+    }
+    return { right, left };
+  }, [frames]);
+
+  // Apply a small continuous sway plus a gentle idle smile so she never
+  // looks like a stone statue, even mid-sign. Each idle bone gets its own
+  // phase/axis/amplitude so the motion reads as organic, not mechanical.
   const applyIdle = (t: number) => {
     const idleSpec: Record<string, { axis: THREE.Vector3; amp: number; speedHz: number; phase: number }> = {
       spine1: { axis: new THREE.Vector3(1, 0, 0), amp: 0.02, speedHz: 0.28, phase: 0 },
       spine2: { axis: new THREE.Vector3(1, 0, 0), amp: 0.015, speedHz: 0.28, phase: 0.3 },
       head:   { axis: new THREE.Vector3(0, 1, 0), amp: 0.03, speedHz: 0.12, phase: 1.1 },
+      // Constant upward lip-corner lift (a smile) plus a tiny breathing-rate
+      // wobble so it doesn't read as a frozen rictus.
+      lipCornerL: { axis: new THREE.Vector3(0, 0, 1), amp: 0.16, speedHz: 0.1, phase: 0 },
+      lipCornerR: { axis: new THREE.Vector3(0, 0, -1), amp: 0.16, speedHz: 0.1, phase: 0.5 },
     };
     for (const name of IDLE_ONLY) {
+      if (name === "eyelidUpperL" || name === "eyelidUpperR") continue; // handled by applyBlink
       const obj = bones.current[name];
       const r = rest.current[name];
       const spec = idleSpec[name];
       if (!obj || !r || !spec) continue;
-      const angle = Math.sin(t * spec.speedHz * Math.PI * 2 + spec.phase) * spec.amp;
+      const isSmile = name.startsWith("lipCorner");
+      // Smile bones hold a constant lift (the smile) plus a small slow
+      // wobble; everything else is pure sine sway around zero.
+      const angle = isSmile
+        ? spec.amp + Math.sin(t * spec.speedHz * Math.PI * 2 + spec.phase) * (spec.amp * 0.15)
+        : Math.sin(t * spec.speedHz * Math.PI * 2 + spec.phase) * spec.amp;
       _idleDelta.setFromAxisAngle(spec.axis, angle);
       obj.quaternion.copy(r.q).multiply(_idleDelta);
+    }
+  };
+
+  // Periodic eye blink: closed eyelids are a downward rotation of the upper
+  // eyelid control bone. Blinks happen every ~4s and last ~180ms, using a
+  // fast in/out triangle pulse rather than a sine so it reads as a snap
+  // blink, not a slow droop.
+  const BLINK_PERIOD = 4.0;
+  const BLINK_DURATION = 0.18;
+  const applyBlink = (t: number) => {
+    const cyclePos = t % BLINK_PERIOD;
+    let closeAmount = 0;
+    if (cyclePos < BLINK_DURATION) {
+      const half = BLINK_DURATION / 2;
+      closeAmount = cyclePos < half ? cyclePos / half : 1 - (cyclePos - half) / half;
+    }
+    const angle = closeAmount * 0.55; // radians, eyelid closing rotation
+    for (const name of ["eyelidUpperL", "eyelidUpperR"] as const) {
+      const obj = bones.current[name];
+      const r = rest.current[name];
+      if (!obj || !r) continue;
+      _idleDelta.setFromAxisAngle(new THREE.Vector3(1, 0, 0), angle);
+      obj.quaternion.copy(r.q).multiply(_idleDelta);
+    }
+  };
+
+  // Blend each arm toward the "ready to sign" lift pose (amount 0..1),
+  // applied underneath whatever the current sign's own bone data does. Only
+  // the side(s) the sign actually uses lift; the idle arm stays down.
+  const applyArmLift = (amountR: number, amountL: number) => {
+    for (const name of ARM_BONES) {
+      const obj = bones.current[name];
+      const r = rest.current[name];
+      const steps = ARM_LIFT[name];
+      if (!obj || !r) continue;
+      const amount = name.startsWith("R_") ? amountR : amountL;
+      _armDelta.identity();
+      for (const step of steps) {
+        _armStep.setFromAxisAngle(step.axis, step.deg * DEG * amount);
+        _armDelta.multiply(_armStep);
+      }
+      obj.quaternion.copy(r.q).multiply(_armDelta);
     }
   };
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
     applyIdle(t);
+    applyBlink(t);
 
-    if (!frames || frames.length === 0) {
+    const signing = !!frames && frames.length > 0;
+    // Ease each side's lift amount toward its target independently.
+    liftAmount.current.R = THREE.MathUtils.lerp(
+      liftAmount.current.R, signing && handUsage.right ? 1 : 0, 0.12,
+    );
+    liftAmount.current.L = THREE.MathUtils.lerp(
+      liftAmount.current.L, signing && handUsage.left ? 1 : 0, 0.12,
+    );
+    applyArmLift(liftAmount.current.R, liftAmount.current.L);
+
+    if (!signing) {
       for (const [name, obj] of Object.entries(bones.current)) {
-        if (IDLE_ONLY.has(name)) continue;
+        if (IDLE_ONLY.has(name) || (ARM_BONES as readonly string[]).includes(name)) continue;
         const r = rest.current[name];
         if (!r) continue;
         obj.quaternion.slerp(r.q, 0.15);
@@ -186,7 +308,7 @@ export function Godette({ frames, speed, reducedMotion }: Props) {
     if (!a) return;
 
     for (const [canonical, obj] of Object.entries(bones.current)) {
-      if (IDLE_ONLY.has(canonical)) continue;
+      if (IDLE_ONLY.has(canonical) || (ARM_BONES as readonly string[]).includes(canonical)) continue;
       const qa = a.bones[canonical];
       if (!qa) {
         // No data for this bone in this frame — ease toward rest.

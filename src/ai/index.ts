@@ -2,8 +2,9 @@ import type { AiProvider, AiProviderConfig } from "./providers/types";
 import { createGeminiProvider } from "./providers/gemini";
 import { createClaudeProvider } from "./providers/claude";
 import { createDeepSeekProvider } from "./providers/deepseek";
+import { createLongCatProvider } from "./providers/longcat";
 
-export type ProviderKey = "gemini" | "claude-sonnet" | "claude-haiku" | "deepseek";
+export type ProviderKey = "gemini" | "claude-sonnet" | "claude-haiku" | "deepseek" | "longcat";
 
 // Factory. Reads env at build time (Vite exposes import.meta.env.VITE_*).
 export function makeProvider(
@@ -23,6 +24,7 @@ export function makeProvider(
     case "claude-sonnet":return createClaudeProvider(cfg, "sonnet");
     case "claude-haiku": return createClaudeProvider(cfg, "haiku");
     case "deepseek":     return createDeepSeekProvider(cfg);
+    case "longcat":      return createLongCatProvider(cfg);
   }
 }
 

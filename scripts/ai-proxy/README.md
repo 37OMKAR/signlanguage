@@ -22,10 +22,16 @@ VITE_AI_PROXY_URL=http://localhost:8787/api/gloss npm run dev
 
 ## Env vars
 
+Copy `.env.example` to `.env` in this folder (git-ignored — never commit it).
+
 - `PORT` (default `8787`)
 - `ALLOWED_ORIGIN` (default `*`; set to your site origin for prod)
-- `GEMINI_API_KEY` / `ANTHROPIC_API_KEY` / `DEEPSEEK_API_KEY` — whichever
-  provider(s) you want available.
+- `GEMINI_API_KEY` / `ANTHROPIC_API_KEY` / `DEEPSEEK_API_KEY` /
+  `LONGCAT_API_KEY` — whichever provider(s) you want available.
+
+LongCat uses the OpenAI-compatible endpoint at
+`https://api.longcat.chat/openai/v1/chat/completions` with model
+`LongCat-2.0`. See https://longcat.chat/platform/docs/api/chat.html.
 
 ## What it does NOT do (yet)
 

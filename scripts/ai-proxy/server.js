@@ -4,6 +4,14 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 
+// Load scripts/ai-proxy/.env (git-ignored) if present. Node 20.6+ built-in;
+// harmless no-op in production where real env vars are injected instead.
+try {
+  process.loadEnvFile();
+} catch {
+  // no .env file — fine, rely on real environment variables
+}
+
 const app = Fastify({ logger: true });
 await app.register(cors, {
   origin: process.env.ALLOWED_ORIGIN ?? "*",
@@ -21,6 +29,7 @@ const PROVIDERS = {
   "claude-sonnet-5": callClaude,
   "claude-haiku-4-5": callClaude,
   "deepseek-v3": callDeepSeek,
+  "longcat-2.0": callLongCat,
 };
 
 app.post("/api/gloss", async (req, reply) => {
@@ -102,6 +111,29 @@ async function callDeepSeek(text) {
         { role: "user", content: text },
       ],
       response_format: { type: "json_object" },
+    }),
+  });
+  const j = await res.json();
+  const raw = j?.choices?.[0]?.message?.content ?? "[]";
+  return safeArray(raw);
+}
+
+async function callLongCat(text) {
+  const key = process.env.LONGCAT_API_KEY;
+  if (!key) throw new Error("LONGCAT_API_KEY not set");
+  // OpenAI-compatible endpoint: https://longcat.chat/platform/docs/api/chat.html
+  const res = await fetch("https://api.longcat.chat/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${key}`,
+    },
+    body: JSON.stringify({
+      model: "LongCat-2.0",
+      messages: [
+        { role: "system", content: SYSTEM },
+        { role: "user", content: text },
+      ],
     }),
   });
   const j = await res.json();

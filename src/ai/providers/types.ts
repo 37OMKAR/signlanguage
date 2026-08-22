@@ -8,7 +8,7 @@ export interface AiProviderConfig {
   // browser — the proxy adds it server-side.
   proxyUrl: string;
   // Which model the proxy should call. The proxy validates.
-  model: "gemini-2.5-flash" | "claude-sonnet-5" | "claude-haiku-4-5" | "deepseek-v3";
+  model: "gemini-2.5-flash" | "claude-sonnet-5" | "claude-haiku-4-5" | "deepseek-v3" | "longcat-2.0";
   // Optional client-side timeout in ms.
   timeoutMs?: number;
 }
