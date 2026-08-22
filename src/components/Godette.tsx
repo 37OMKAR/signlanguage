@@ -211,6 +211,7 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
 
   const _qa = useMemo(() => new THREE.Quaternion(), []);
   const _qb = useMemo(() => new THREE.Quaternion(), []);
+  const _target = useMemo(() => new THREE.Quaternion(), []);
 
   const _idleDelta = useMemo(() => new THREE.Quaternion(), []);
   const _armDelta = useMemo(() => new THREE.Quaternion(), []);
@@ -399,25 +400,35 @@ export function Godette({ frames, speed, reducedMotion, mood }: Props) {
     const [a, b, pairT] = pickPair(frames, elapsedMs);
     if (!a) return;
 
+    // Bones ease TOWARD their target every frame (slerp with a fixed alpha)
+    // instead of snapping straight to it. This is what actually removes the
+    // jerkiness: without it, the moment a new sign starts (or the keyframe
+    // pointer jumps to the next authored frame), the bone's orientation
+    // teleports in a single frame. With it, motion is continuous even
+    // across a sign-to-sign boundary, which reads as natural elbow/wrist
+    // follow-through instead of a robotic snap.
+    const SMOOTH_ALPHA = reducedMotion ? 0.18 : 0.32;
     for (const [canonical, obj] of Object.entries(bones.current)) {
       if (IDLE_ONLY.has(canonical) || (ARM_BONES as readonly string[]).includes(canonical)) continue;
       const qa = a.bones[canonical];
       if (!qa) {
         // No data for this bone in this frame — ease toward rest.
         const r = rest.current[canonical];
-        if (r) obj.quaternion.slerp(r.q, 0.1);
+        if (r) obj.quaternion.slerp(r.q, SMOOTH_ALPHA);
         continue;
       }
       const qb = b?.bones[canonical] ?? qa;
       _qa.set(qa[0], qa[1], qa[2], qa[3]);
       _qb.set(qb[0], qb[1], qb[2], qb[3]);
+      _qa.slerp(_qb, THREE.MathUtils.clamp(pairT, 0, 1));
       // Apply on top of rest orientation so the model's rest pose is respected.
       const r = rest.current[canonical];
       if (r) {
-        obj.quaternion.copy(r.q).multiply(_qa.clone().slerp(_qb, THREE.MathUtils.clamp(pairT, 0, 1)));
+        _target.copy(r.q).multiply(_qa);
       } else {
-        obj.quaternion.copy(_qa).slerp(_qb, THREE.MathUtils.clamp(pairT, 0, 1));
+        _target.copy(_qa);
       }
+      obj.quaternion.slerp(_target, SMOOTH_ALPHA);
     }
     // Note: we deliberately do NOT modify bone positions during playback.
     // Skinned meshes bake bone rest positions into inverseBindMatrices; moving

@@ -207,6 +207,50 @@ mechanically inert on screen if it carries zero skin weight — this rig
 has both deforming bones and IK/FK control bones with identical-looking
 names, and only the vertex-weight check tells them apart.
 
+## Round 11 — Long paragraph test, animation smoothing, studio lighting
+
+- [x] 11.1 Tested a real long paragraph (10 sentences, 66 gloss tokens) end
+       to end via the live app. Found a real bug: the whole paragraph was
+       treated as ONE run-on sentence, so every wh-word/question marker
+       from every sentence got shoved to the very end together instead of
+       staying with its own sentence (e.g. "how" from sentence 1 ending up
+       next to "what" from sentence 3).
+- [x] 11.2 Fixed: `ruleBasedGloss` now splits on `.`/`!`/`?` into
+       sentences first (`splitSentences`), glosses each one independently,
+       then concatenates. Verified live: "How are you today? What is your
+       name? I am not happy." now correctly glosses as
+       `TODAY HOW ... WHAT ... NO` with each marker staying next to its
+       own sentence, not bunched at the end.
+- [x] 11.3 Added 2 new tests locking in the sentence-split behavior
+       (17/17 tests passing total).
+- [x] 11.4 Tested all 41 dictionary entries (26 letters + 15 words)
+       programmatically via the live loader: zero errors, zero
+       zero-frame results, commercial-safety audit clean.
+- [x] 11.5 Fixed animation jerkiness at its real cause: bones were
+       hard-copying their target quaternion every frame instead of
+       easing toward it. Replaced `.copy(target)` with
+       `.slerp(target, SMOOTH_ALPHA)` in the main sign-driving loop.
+       Verified via bone-delta sampling across a real A->B fingerspell
+       transition: per-frame rotation delta now shows a clean exponential
+       decay (21 deg -> 20 deg -> 11.7 deg -> 1.4 deg -> 0.5 deg -> 0.1 deg)
+       instead of one instant snap-then-zero, confirming the transition is
+       genuinely spread across several frames now.
+- [x] 11.6 Replaced the flat navy background with a gradient "photo
+       studio sweep" backdrop (CanvasTexture, dark cool top fading to
+       lighter warm grey bottom).
+- [x] 11.7 Replaced the single ambient+directional light with real
+       three-point studio lighting: warm key light (front-right, casts
+       shadows), cool fill light (opposite side, low intensity), rim/back
+       light (behind her, separates her from the backdrop), plus a
+       dedicated soft spotlight aimed at chest/hand height for extra
+       sparkle on the signing hands. Fixed a real bug in the first pass:
+       SpotLight's `target-position` JSX shorthand doesn't reliably attach
+       to the scene graph — switched to the proper pattern (explicit
+       `<primitive object={target}>` child + `lightRef.current.target =`).
+       Confirmed via screenshot: dramatic visual improvement, proper
+       depth/shading on face and hair.
+- [x] 11.8 Type-check clean, 17/17 tests pass, prod build 1.44MB/440KB gzip.
+
 ## Known caveats for the user to know before testing
 
 - The rigged hand is right-hand-only in the source. Left is mirrored, so

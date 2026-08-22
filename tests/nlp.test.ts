@@ -43,4 +43,32 @@ describe("ruleBasedGloss", () => {
     expect(ruleBasedGloss("")).toEqual([]);
     expect(ruleBasedGloss("   ")).toEqual([]);
   });
+
+  it("keeps each sentence's wh-word/question marker with its own sentence in a paragraph", () => {
+    const g = ruleBasedGloss("How are you today? What is your name? I am not happy.");
+    // "HOW" must land right after sentence 1's content, not at the very end
+    // of the whole paragraph alongside every other sentence's wh-word.
+    const howIdx = g.indexOf("HOW");
+    const todayIdx = g.indexOf("TODAY");
+    const whatIdx = g.indexOf("WHAT");
+    const nameIdx = g.indexOf("NAME");
+    const noIdx = g.indexOf("NO");
+    expect(howIdx).toBeGreaterThan(todayIdx);
+    expect(howIdx).toBeLessThan(whatIdx);
+    expect(whatIdx).toBeGreaterThan(nameIdx);
+    expect(noIdx).toBeGreaterThan(whatIdx);
+  });
+
+  it("processes a long multi-sentence paragraph without throwing and preserves sentence count worth of content", () => {
+    const paragraph =
+      "Hello, how are you today? My name is Godette. Thank you for learning " +
+      "sign language with me. Please help me practice. What is your name? " +
+      "I am not happy. Sorry for the mistake. Can you help me?";
+    const g = ruleBasedGloss(paragraph);
+    expect(g.length).toBeGreaterThan(10);
+    expect(g).toContain("HELLO");
+    expect(g).toContain("THANK-YOU");
+    expect(g).toContain("SORRY");
+    expect(g).toContain("NO");
+  });
 });

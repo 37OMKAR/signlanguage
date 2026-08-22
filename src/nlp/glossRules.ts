@@ -40,7 +40,28 @@ const WH_WORDS = new Set([
 // Negation markers get lifted after the verb in ASL.
 const NEG_WORDS = new Set(["not", "no", "never", "none", "cannot", "can't", "don't", "doesn't", "didn't", "won't"]);
 
+// Split a paragraph into sentences on ./!/?, keeping the terminating
+// punctuation attached to each piece so per-sentence question detection
+// still works. Without this, a multi-sentence paragraph gets glossed as
+// ONE run-on utterance and every wh-word/question marker from every
+// sentence gets shoved to the very end together — wrong order, and it
+// looks like one garbled question instead of several separate sentences.
+function splitSentences(text: string): string[] {
+  const matches = text.match(/[^.!?]+[.!?]*/g);
+  if (!matches) return [text];
+  return matches.map((s) => s.trim()).filter(Boolean);
+}
+
 export function ruleBasedGloss(text: string): string[] {
+  const sentences = splitSentences(text);
+  const out: string[] = [];
+  for (const sentence of sentences) {
+    out.push(...glossOneSentence(sentence));
+  }
+  return out;
+}
+
+function glossOneSentence(text: string): string[] {
   const clean = text.trim();
   if (!clean) return [];
 
