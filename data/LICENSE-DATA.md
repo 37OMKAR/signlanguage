@@ -9,6 +9,18 @@ commercial launch that nothing carries a research-only license.
 - **kaggle-google-asl** — derived from Google's Kaggle ASL Signs dataset. Prototype-safe under competition terms; verify before commercial ship.
 - **kaggle-include-isl** — real motion retargeted from the AI4Bharat INCLUDE dataset (see below). **Not commercial-safe until license-verified** — the Kaggle repackaging is tagged MIT, but that may not clear the underlying original dataset's own terms.
 - **signmatic-asl** — real motion retargeted from the SignMatic ASL Keypoint Dataset (Lebanese International University contributors, Kaggle: `joesarkis/signmatic-asl-keypoint-dataset-50-words-and-idle`). **CC BY 4.0, commercial-safe WITH attribution** — must credit "SignMatic ASL Keypoint Dataset by Joseph Sarkis et al." wherever the derived motion is used.
+
+## Reference datasets on disk but NOT yet retargeted
+
+These are pulled to `kaggle-data/` (all git-ignored) as raw source
+material we may retarget later. Nothing in them ships in the compiled
+dictionary today.
+
+- **AslgPc12** (`thedevastator/unlocking-the-power-of-cross-cultural-language-i`, 13 MB, **CC0 public domain**). English↔ASL gloss parallel corpus, 263 K rows. Text-only, no motion. Currently used only as offline reference for the lemmatizer patterns in `src/nlp/glossRules.ts` (`lemmatize()` and its irregular-verb table). The raw derived word→gloss map is saved to `scripts/data-prep/aslgpc12_word_map.json`.
+
+- **FLEURS-ASL** (`googleai/fleurs-asl`, ~26 GB, **CC BY-SA 4.0**). Google's ASL extension of the FLORES/FLEURS multilingual benchmark. 1,749 sentence-video pairs across 5 signers, 97 MP4 files, avg 15s per sentence. This is raw video, NOT landmarks — using it for our text→motion pipeline requires first running MediaPipe over ~30 h of video to extract landmarks. Deferred until we have a batch landmark-extraction pipeline; noted here so we don't re-download or re-evaluate.
+
+- **Motion-S** (`antonygithinji/motion-s-sign-language-motion-dataset`, ~14 GB, **CC BY-NC 4.0 — non-commercial**). SMPL-X mocap in BVH format, 12,468 text↔gloss↔motion samples, 6,075-word vocabulary. The only Kaggle dataset with real text→sign-motion pairs. **Prototype-only until commercial licensing is negotiated** — would produce entries with the same `commercial_safe: false` posture as INCLUDE.
 - **wlasl-derived** — derived from WLASL pose files. **Prototype only.** Must be replaced before commercial launch.
 
 ## Current entries

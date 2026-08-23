@@ -17,6 +17,13 @@ export function hasSign(gloss: string): boolean {
   return gloss in compiled;
 }
 
+// All gloss keys in the compiled dictionary. Useful for batch validation,
+// long-run E2E tests, and building diagnostic UIs (e.g. a "browse the
+// vocabulary" panel).
+export function listGlosses(): string[] {
+  return Object.keys(compiled);
+}
+
 // Get the frames for a gloss. Missing glosses fall back to fingerspelling:
 // concatenate each letter's frames with time offset.
 export async function loadSign(gloss: string): Promise<SignFrame[]> {
