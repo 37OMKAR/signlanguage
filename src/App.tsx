@@ -5,7 +5,7 @@ import { CaptionOverlay } from "./components/CaptionOverlay";
 import { ControlsPanel } from "./components/ControlsPanel";
 import { textToGloss } from "./nlp";
 import { moodFromGloss } from "./nlp/mood";
-import { speak } from "./a11y/tts";
+import { speak, glossToSpeech, stopSpeaking } from "./a11y/tts";
 import type { PlayerSettings, SignFrame, SentenceMood } from "./types";
 import { NEUTRAL_MOOD } from "./types";
 import { loadSign, getEntry } from "./signs/loader";
@@ -34,17 +34,27 @@ export default function App() {
     ttsEnabled: true,
   });
 
+  // Speak just one gloss token, gated by the TTS setting. Kept as a ref-
+  // free helper so both handleTranslate (first sign) and handleSignFinished
+  // (each subsequent sign) hit it at exactly the moment the sign starts
+  // playing on screen -- that's what "read-out follows the sign" means.
+  const speakGloss = useCallback((gloss: string) => {
+    if (!settings.ttsEnabled) return;
+    const phrase = glossToSpeech(gloss);
+    if (!phrase) return;
+    try { speak(phrase); }
+    catch (e) { console.warn("[translate] tts failed:", e); }
+  }, [settings.ttsEnabled]);
+
   const handleTranslate = useCallback(async () => {
     console.log("[translate] click, text=", JSON.stringify(inputText));
     if (!inputText.trim()) {
       console.warn("[translate] empty input, bailing");
       return;
     }
-    try {
-      if (settings.ttsEnabled) speak(inputText);
-    } catch (e) {
-      console.warn("[translate] tts failed:", e);
-    }
+    // Cancel any previous utterance -- otherwise a fast-clicking user
+    // stacks up sentence-length audio that plays over the new signs.
+    stopSpeaking();
     let gloss: string[] = [];
     try {
       gloss = await textToGloss(inputText);
@@ -59,6 +69,7 @@ export default function App() {
       const first = gloss[0];
       setCurrentGloss(first);
       setArmReach(getEntry(first)?.armReach ?? DEFAULT_ARM_REACH);
+      speakGloss(first);
       try {
         const frames = await loadSign(first);
         console.log("[translate] frames for", first, "=", frames.length);
@@ -67,7 +78,7 @@ export default function App() {
         console.error("[translate] loadSign failed:", e);
       }
     }
-  }, [inputText, settings.ttsEnabled]);
+  }, [inputText, speakGloss]);
 
   const handleSignFinished = useCallback(async () => {
     setGlossQueue((prev) => {
@@ -81,10 +92,11 @@ export default function App() {
       const next = rest[0];
       setCurrentGloss(next);
       setArmReach(getEntry(next)?.armReach ?? DEFAULT_ARM_REACH);
+      speakGloss(next);
       loadSign(next).then(setCurrentFrames);
       return rest;
     });
-  }, []);
+  }, [speakGloss]);
 
   const rootClass = useMemo(
     () =>
