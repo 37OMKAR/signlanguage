@@ -1,4 +1,56 @@
 import nlp from "compromise";
+import { hasSign } from "../signs/loader";
+
+// Lemmatize an inflected English word toward the base form our dictionary
+// most likely stores (verbs uninflected, nouns singular). Derived from
+// scanning the AslgPc12 English<->ASL gloss parallel corpus (CC0), where
+// "minutes"->MINUTE, "written"->WRITE, "sat"->SIT, etc. is the dominant
+// pattern -- ASL gloss uses base forms. Order of checks matters (past
+// tense before plural, since some words end -s from both roots).
+//
+// Only returns a variant if it actually exists in our dictionary; the
+// caller falls back to the original token otherwise so we don't rewrite
+// a word into a form that has no sign entry either.
+function lemmatize(word: string): string {
+  const gloss = word.toUpperCase();
+  if (hasSign(gloss)) return gloss;
+  // Irregular past-tense / participles we can name explicitly.
+  const IRREGULAR: Record<string, string> = {
+    said: "SAY", written: "WRITE", sat: "SIT", ate: "EAT",
+    given: "GIVE", gave: "GIVE", been: "BE", was: "BE", were: "BE",
+    is: "BE", are: "BE", am: "BE", got: "GET", took: "TAKE",
+    made: "MAKE", saw: "SEE", seen: "SEE", went: "GO", gone: "GO",
+    had: "HAVE", did: "DO", done: "DO", ran: "RUN", knew: "KNOW",
+    known: "KNOW", thought: "THINK", felt: "FEEL", meant: "MEAN",
+    kept: "KEEP", left: "LEAVE", brought: "BRING", bought: "BUY",
+    caught: "CATCH", taught: "TEACH", told: "TELL", found: "FIND",
+    heard: "HEAR", held: "HOLD", lost: "LOSE", paid: "PAY",
+    read: "READ", sold: "SELL", sent: "SEND", spent: "SPEND",
+    stood: "STAND", understood: "UNDERSTAND", won: "WIN", wrote: "WRITE",
+    children: "CHILD", people: "PERSON", men: "MAN", women: "WOMAN",
+    feet: "FOOT", teeth: "TOOTH",
+  };
+  if (IRREGULAR[word] && hasSign(IRREGULAR[word])) return IRREGULAR[word];
+  // Regular endings, longest-suffix-first.
+  const tries = [
+    // -ing removal
+    word.endsWith("ing") && word.length > 5 ? [word.slice(0, -3), word.slice(0, -3) + "e"] : [],
+    // -ied -> -y (studied -> STUDY), -ies -> -y (parties -> PARTY)
+    word.endsWith("ied") ? [word.slice(0, -3) + "y"] : [],
+    word.endsWith("ies") ? [word.slice(0, -3) + "y"] : [],
+    // -ed removal
+    word.endsWith("ed") && word.length > 3 ? [word.slice(0, -2), word.slice(0, -1)] : [],
+    // -es removal (foxes -> FOX)
+    word.endsWith("es") && word.length > 3 ? [word.slice(0, -2), word.slice(0, -1)] : [],
+    // -s removal (documents -> DOCUMENT), last check so it doesn't preempt richer suffixes
+    word.endsWith("s") && !word.endsWith("ss") && word.length > 2 ? [word.slice(0, -1)] : [],
+  ].flat();
+  for (const cand of tries) {
+    const g = cand.toUpperCase();
+    if (hasSign(g)) return g;
+  }
+  return gloss;   // No dictionary match found -- caller decides what to do.
+}
 
 // Words dropped in ASL-style gloss.
 const DROP = new Set([
@@ -113,9 +165,18 @@ function glossOneSentence(text: string): string[] {
   // isn't broken up by time-fronting or other reordering rules.
   const phraseCollapsed = collapseILYPhrase(rawTokens);
 
+  // For each surviving token: apply the explicit REMAP first (pronouns and
+  // fixed idioms), otherwise try to lemmatize toward a base form the
+  // dictionary actually has (children->CHILD, minutes->MINUTE, sat->SIT,
+  // ...). If lemmatization also finds nothing, keep the raw token so
+  // downstream code can still fingerspell it letter-by-letter.
   const remapped = phraseCollapsed
     .filter((t) => !DROP.has(t))
-    .map((t) => REMAP[t] ?? t);
+    .map((t) => {
+      if (REMAP[t]) return REMAP[t];
+      const lemma = lemmatize(t);
+      return lemma;
+    });
 
   // Split by category so we can reorder.
   const times: string[] = [];

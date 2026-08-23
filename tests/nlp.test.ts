@@ -59,6 +59,15 @@ describe("ruleBasedGloss", () => {
     expect(noIdx).toBeGreaterThan(whatIdx);
   });
 
+  it("lemmatizes inflected words toward a base gloss the dictionary has", () => {
+    // 'children' should collapse to CHILD, 'meetings' to MEETING (if it
+    // exists, otherwise stays as-is), and past-tense verbs stay recognisable.
+    // Pattern derived from scanning AslgPc12 English<->gloss pairs.
+    const g = ruleBasedGloss("mothers and fathers");
+    expect(g).toContain("MOTHER");
+    expect(g).toContain("FATHER");
+  });
+
   it("collapses 'I love you' into the single ILY idiom sign", () => {
     expect(ruleBasedGloss("I love you")).toEqual(["I-LOVE-YOU"]);
     expect(ruleBasedGloss("I loved you")).toEqual(["I-LOVE-YOU"]);
