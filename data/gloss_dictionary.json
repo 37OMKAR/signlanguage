@@ -5150,37 +5150,37 @@
   },
   "HELLO": {
     "gloss": "HELLO",
-    "duration_ms": 1800,
-    "provenance": "kaggle-include-isl",
-    "commercial_safe": false,
-    "notes": "Finger curls retargeted from AI4Bharat INCLUDE dataset (repackaged as MediaPipe landmarks on Kaggle by 'swaptr'), source take: MVI_9955.parquet, right hand, via angle-based retargeting with 5-frame median smoothing (scripts/data-prep/retarget_include.py). Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Not commercial-safe until license chain to AI4Bharat original is verified (see data/LICENSE-DATA.md).",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from hello.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
     "frames": [
       {
-        "t_ms": 0,
+        "t_ms": 138,
         "curls": {
           "R_thumb": [
-            37.6,
-            21.5
+            35.1,
+            20.8
           ],
           "R_index": [
-            12.3,
-            109.6,
-            48.9
+            19.7,
+            10.8,
+            7.0
           ],
           "R_middle": [
-            30.8,
-            98.0,
-            57.1
+            13.6,
+            10.0,
+            10.6
           ],
           "R_ring": [
-            38.1,
-            95.1,
-            60.5
+            21.9,
+            5.8,
+            10.3
           ],
           "R_pinky": [
-            42.3,
-            82.9,
-            67.7
+            32.9,
+            10.7,
+            10.1
           ]
         },
         "R_palm_deg": [
@@ -5195,109 +5195,109 @@
         ]
       },
       {
-        "t_ms": 651,
+        "t_ms": 310,
         "curls": {
           "R_thumb": [
-            23.8,
-            9.8
+            39.0,
+            31.7
           ],
           "R_index": [
-            34.8,
-            5.2,
+            18.5,
+            9.1,
+            3.2
+          ],
+          "R_middle": [
+            8.4,
+            8.7,
+            1.8
+          ],
+          "R_ring": [
+            9.8,
+            5.6,
+            2.7
+          ],
+          "R_pinky": [
+            18.5,
+            8.8,
+            4.1
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 448,
+        "curls": {
+          "R_thumb": [
+            28.8,
+            23.0
+          ],
+          "R_index": [
+            15.8,
+            9.3,
+            3.1
+          ],
+          "R_middle": [
+            8.3,
+            8.3,
+            2.1
+          ],
+          "R_ring": [
+            9.1,
+            5.6,
+            3.0
+          ],
+          "R_pinky": [
+            16.6,
+            6.9,
+            3.6
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 621,
+        "curls": {
+          "R_thumb": [
+            35.5,
+            16.6
+          ],
+          "R_index": [
+            14.5,
+            17.3,
             5.8
           ],
           "R_middle": [
-            34.3,
-            4.7,
-            6.7
+            8.7,
+            15.3,
+            12.3
           ],
           "R_ring": [
-            30.0,
-            8.8,
-            7.2
-          ],
-          "R_pinky": [
-            26.4,
             13.4,
-            5.2
-          ]
-        },
-        "R_palm_deg": [
-          0,
-          0,
-          0
-        ],
-        "R_palm_pos": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      {
-        "t_ms": 1279,
-        "curls": {
-          "R_thumb": [
-            41.8,
-            12.8
-          ],
-          "R_index": [
-            39.1,
-            86.6,
-            55.2
-          ],
-          "R_middle": [
-            48.9,
-            80.9,
-            52.5
-          ],
-          "R_ring": [
-            52.8,
-            81.2,
-            57.9
+            12.4,
+            10.7
           ],
           "R_pinky": [
-            54.5,
-            78.4,
-            63.2
-          ]
-        },
-        "R_palm_deg": [
-          0,
-          0,
-          0
-        ],
-        "R_palm_pos": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      {
-        "t_ms": 1800,
-        "curls": {
-          "R_thumb": [
-            39.6,
-            17.2
-          ],
-          "R_index": [
-            26.2,
-            107.4,
-            53.3
-          ],
-          "R_middle": [
-            41.7,
-            96.6,
-            62.3
-          ],
-          "R_ring": [
-            48.3,
-            92.3,
-            66.3
-          ],
-          "R_pinky": [
-            50.4,
-            87.1,
-            69.6
+            21.2,
+            14.8,
+            9.2
           ]
         },
         "R_palm_deg": [
@@ -9903,154 +9903,154 @@
   },
   "HARD": {
     "gloss": "HARD",
-    "duration_ms": 1800,
-    "provenance": "kaggle-include-isl",
-    "commercial_safe": false,
-    "notes": "Finger curls retargeted from AI4Bharat INCLUDE dataset (repackaged as MediaPipe landmarks on Kaggle by 'swaptr'), source take: MVI_9667.parquet, right hand, via angle-based retargeting with 5-frame median smoothing (scripts/data-prep/retarget_include.py). Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Not commercial-safe until license chain to AI4Bharat original is verified (see data/LICENSE-DATA.md).",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from hard.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
     "frames": [
       {
-        "t_ms": 0,
+        "t_ms": 310,
         "curls": {
           "R_thumb": [
-            34.3,
-            9.7
+            39.6,
+            29.9
           ],
           "R_index": [
-            9.7,
-            11.5,
-            9.7
+            50.8,
+            91.7,
+            67.7
           ],
           "R_middle": [
-            6.9,
-            17.6,
-            9.6
+            38.0,
+            107.8,
+            74.8
+          ],
+          "R_ring": [
+            18.7,
+            127.1,
+            50.5
+          ],
+          "R_pinky": [
+            25.4,
+            116.0,
+            32.0
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 448,
+        "curls": {
+          "R_thumb": [
+            39.8,
+            43.5
+          ],
+          "R_index": [
+            51.4,
+            81.9,
+            67.7
+          ],
+          "R_middle": [
+            44.6,
+            102.9,
+            79.6
+          ],
+          "R_ring": [
+            36.1,
+            127.1,
+            51.8
+          ],
+          "R_pinky": [
+            40.4,
+            113.2,
+            31.9
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 621,
+        "curls": {
+          "R_thumb": [
+            40.6,
+            49.5
+          ],
+          "R_index": [
+            46.7,
+            85.9,
+            66.0
+          ],
+          "R_middle": [
+            32.6,
+            118.5,
+            56.5
+          ],
+          "R_ring": [
+            15.8,
+            143.3,
+            38.7
+          ],
+          "R_pinky": [
+            51.0,
+            111.6,
+            23.0
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 759,
+        "curls": {
+          "R_thumb": [
+            40.6,
+            47.1
+          ],
+          "R_index": [
+            31.4,
+            125.4,
+            41.3
+          ],
+          "R_middle": [
+            18.0,
+            145.1,
+            41.3
           ],
           "R_ring": [
             15.6,
-            15.0,
-            13.1
+            154.1,
+            22.5
           ],
           "R_pinky": [
-            18.3,
-            15.1,
-            17.6
-          ]
-        },
-        "R_palm_deg": [
-          0,
-          0,
-          0
-        ],
-        "R_palm_pos": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      {
-        "t_ms": 789,
-        "curls": {
-          "R_thumb": [
-            17.8,
-            17.0
-          ],
-          "R_index": [
-            13.6,
-            34.0,
-            17.8
-          ],
-          "R_middle": [
-            18.8,
-            42.4,
-            27.1
-          ],
-          "R_ring": [
-            24.9,
-            56.3,
-            26.7
-          ],
-          "R_pinky": [
-            29.0,
-            52.6,
-            36.1
-          ]
-        },
-        "R_palm_deg": [
-          0,
-          0,
-          0
-        ],
-        "R_palm_pos": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      {
-        "t_ms": 1405,
-        "curls": {
-          "R_thumb": [
-            43.8,
-            7.2
-          ],
-          "R_index": [
-            6.0,
-            13.5,
-            6.8
-          ],
-          "R_middle": [
-            16.2,
-            15.6,
-            6.0
-          ],
-          "R_ring": [
-            25.2,
-            9.9,
-            5.5
-          ],
-          "R_pinky": [
-            24.8,
-            11.1,
-            6.9
-          ]
-        },
-        "R_palm_deg": [
-          0,
-          0,
-          0
-        ],
-        "R_palm_pos": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      {
-        "t_ms": 1800,
-        "curls": {
-          "R_thumb": [
-            44.5,
-            10.1
-          ],
-          "R_index": [
-            5.4,
-            16.5,
-            9.2
-          ],
-          "R_middle": [
-            15.1,
-            20.1,
-            9.0
-          ],
-          "R_ring": [
-            25.5,
-            12.6,
-            8.0
-          ],
-          "R_pinky": [
-            27.7,
-            11.2,
-            11.0
+            51.0,
+            112.1,
+            15.0
           ]
         },
         "R_palm_deg": [
@@ -10401,76 +10401,37 @@
   },
   "HIGH": {
     "gloss": "HIGH",
-    "duration_ms": 1800,
-    "provenance": "kaggle-include-isl",
-    "commercial_safe": false,
-    "notes": "Finger curls retargeted from AI4Bharat INCLUDE dataset (repackaged as MediaPipe landmarks on Kaggle by 'swaptr'), source take: MVI_9657.parquet, right hand, via angle-based retargeting with 5-frame median smoothing (scripts/data-prep/retarget_include.py). Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Not commercial-safe until license chain to AI4Bharat original is verified (see data/LICENSE-DATA.md).",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from high.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
     "frames": [
       {
-        "t_ms": 0,
+        "t_ms": 310,
         "curls": {
           "R_thumb": [
-            38.5,
-            7.6
+            44.0,
+            44.1
           ],
           "R_index": [
-            10.4,
-            13.0,
-            3.9
+            37.3,
+            4.8,
+            3.5
           ],
           "R_middle": [
-            20.2,
-            16.4,
-            7.7
+            18.0,
+            4.5,
+            1.0
           ],
           "R_ring": [
-            26.6,
-            12.5,
-            8.8
-          ],
-          "R_pinky": [
-            25.9,
-            11.8,
-            10.7
-          ]
-        },
-        "R_palm_deg": [
-          0,
-          0,
-          0
-        ],
-        "R_palm_pos": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      {
-        "t_ms": 757,
-        "curls": {
-          "R_thumb": [
-            25.7,
-            10.8
-          ],
-          "R_index": [
-            79.0,
-            20.3,
-            7.1
-          ],
-          "R_middle": [
-            81.8,
-            20.4,
-            9.2
-          ],
-          "R_ring": [
-            74.7,
-            23.0,
-            11.9
-          ],
-          "R_pinky": [
+            45.8,
             61.7,
-            24.0,
-            10.8
+            43.8
+          ],
+          "R_pinky": [
+            74.9,
+            45.5,
+            40.2
           ]
         },
         "R_palm_deg": [
@@ -10485,31 +10446,31 @@
         ]
       },
       {
-        "t_ms": 1383,
+        "t_ms": 483,
         "curls": {
           "R_thumb": [
-            35.6,
-            10.1
+            39.5,
+            48.8
           ],
           "R_index": [
-            10.1,
-            9.9,
-            5.3
+            62.1,
+            8.8,
+            2.7
           ],
           "R_middle": [
-            6.0,
-            11.6,
-            6.8
+            54.1,
+            6.1,
+            3.2
           ],
           "R_ring": [
-            13.7,
-            10.8,
-            8.8
+            41.8,
+            145.5,
+            18.6
           ],
           "R_pinky": [
-            10.4,
-            12.0,
-            9.7
+            42.3,
+            141.5,
+            27.1
           ]
         },
         "R_palm_deg": [
@@ -10524,31 +10485,70 @@
         ]
       },
       {
-        "t_ms": 1800,
+        "t_ms": 690,
         "curls": {
           "R_thumb": [
-            42.1,
-            10.6
+            32.2,
+            48.3
           ],
           "R_index": [
-            5.1,
-            11.4,
-            7.0
+            65.4,
+            9.0,
+            2.3
           ],
           "R_middle": [
-            13.7,
-            19.4,
-            7.0
+            60.0,
+            5.8,
+            2.0
           ],
           "R_ring": [
-            24.2,
-            17.2,
-            7.8
+            60.0,
+            135.7,
+            32.9
           ],
           "R_pinky": [
-            28.1,
-            18.9,
-            11.6
+            47.1,
+            144.3,
+            30.4
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 862,
+        "curls": {
+          "R_thumb": [
+            42.8,
+            45.0
+          ],
+          "R_index": [
+            58.1,
+            8.4,
+            2.5
+          ],
+          "R_middle": [
+            47.2,
+            4.8,
+            2.4
+          ],
+          "R_ring": [
+            37.3,
+            162.1,
+            13.6
+          ],
+          "R_pinky": [
+            37.5,
+            138.1,
+            22.9
           ]
         },
         "R_palm_deg": [
@@ -24179,154 +24179,154 @@
   },
   "COMPUTER": {
     "gloss": "COMPUTER",
-    "duration_ms": 1800,
-    "provenance": "kaggle-include-isl",
-    "commercial_safe": false,
-    "notes": "Finger curls retargeted from AI4Bharat INCLUDE dataset (repackaged as MediaPipe landmarks on Kaggle by 'swaptr'), source take: MVI_9105.parquet, right hand, via angle-based retargeting with 5-frame median smoothing (scripts/data-prep/retarget_include.py). Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Not commercial-safe until license chain to AI4Bharat original is verified (see data/LICENSE-DATA.md).",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from computer.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
     "frames": [
       {
-        "t_ms": 0,
+        "t_ms": 241,
         "curls": {
           "R_thumb": [
-            36.6,
-            18.5
+            19.1,
+            11.0
           ],
           "R_index": [
-            32.3,
-            54.2,
-            42.9
-          ],
-          "R_middle": [
-            58.9,
-            74.4,
-            49.9
-          ],
-          "R_ring": [
-            67.3,
-            69.0,
-            52.1
-          ],
-          "R_pinky": [
-            70.7,
-            67.7,
-            50.1
-          ]
-        },
-        "R_palm_deg": [
-          0,
-          0,
-          0
-        ],
-        "R_palm_pos": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      {
-        "t_ms": 656,
-        "curls": {
-          "R_thumb": [
-            35.2,
-            24.0
-          ],
-          "R_index": [
-            108.1,
-            53.6,
-            62.5
-          ],
-          "R_middle": [
-            117.1,
-            49.1,
-            81.9
-          ],
-          "R_ring": [
-            115.2,
-            55.8,
-            84.8
-          ],
-          "R_pinky": [
-            111.5,
-            49.8,
-            88.4
-          ]
-        },
-        "R_palm_deg": [
-          0,
-          0,
-          0
-        ],
-        "R_palm_pos": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      {
-        "t_ms": 1294,
-        "curls": {
-          "R_thumb": [
-            38.2,
-            10.6
-          ],
-          "R_index": [
-            30.1,
-            97.0,
-            47.8
-          ],
-          "R_middle": [
-            45.0,
-            88.1,
-            52.4
-          ],
-          "R_ring": [
-            48.6,
-            84.0,
-            55.8
-          ],
-          "R_pinky": [
-            52.8,
-            79.1,
-            58.1
-          ]
-        },
-        "R_palm_deg": [
-          0,
-          0,
-          0
-        ],
-        "R_palm_pos": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      {
-        "t_ms": 1800,
-        "curls": {
-          "R_thumb": [
-            31.3,
-            10.5
-          ],
-          "R_index": [
-            20.2,
-            96.6,
-            40.0
-          ],
-          "R_middle": [
             34.8,
-            85.8,
-            40.7
+            28.6,
+            13.4
+          ],
+          "R_middle": [
+            43.6,
+            19.0,
+            11.4
           ],
           "R_ring": [
-            43.6,
-            81.1,
-            43.6
+            54.8,
+            23.6,
+            12.2
           ],
           "R_pinky": [
-            51.1,
-            70.0,
-            49.1
+            77.3,
+            20.0,
+            11.0
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 448,
+        "curls": {
+          "R_thumb": [
+            15.3,
+            33.0
+          ],
+          "R_index": [
+            19.3,
+            42.2,
+            18.1
+          ],
+          "R_middle": [
+            11.4,
+            49.2,
+            23.1
+          ],
+          "R_ring": [
+            7.8,
+            49.8,
+            22.2
+          ],
+          "R_pinky": [
+            13.7,
+            36.7,
+            14.2
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 759,
+        "curls": {
+          "R_thumb": [
+            23.3,
+            17.6
+          ],
+          "R_index": [
+            22.1,
+            35.9,
+            32.8
+          ],
+          "R_middle": [
+            13.8,
+            40.8,
+            51.0
+          ],
+          "R_ring": [
+            10.2,
+            34.4,
+            37.5
+          ],
+          "R_pinky": [
+            17.0,
+            26.7,
+            22.6
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 966,
+        "curls": {
+          "R_thumb": [
+            31.5,
+            5.9
+          ],
+          "R_index": [
+            25.4,
+            65.9,
+            22.5
+          ],
+          "R_middle": [
+            31.0,
+            56.3,
+            22.4
+          ],
+          "R_ring": [
+            36.6,
+            54.8,
+            22.9
+          ],
+          "R_pinky": [
+            47.2,
+            51.2,
+            24.1
           ]
         },
         "R_palm_deg": [
@@ -27001,115 +27001,37 @@
   },
   "BOOK": {
     "gloss": "BOOK",
-    "duration_ms": 1800,
-    "provenance": "kaggle-include-isl",
-    "commercial_safe": false,
-    "notes": "Finger curls retargeted from AI4Bharat INCLUDE dataset (repackaged as MediaPipe landmarks on Kaggle by 'swaptr'), source take: MVI_8805.parquet, right hand, via angle-based retargeting with 5-frame median smoothing (scripts/data-prep/retarget_include.py). Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Not commercial-safe until license chain to AI4Bharat original is verified (see data/LICENSE-DATA.md).",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from book.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
     "frames": [
       {
-        "t_ms": 420,
+        "t_ms": 276,
         "curls": {
           "R_thumb": [
-            25.9,
-            11.8
-          ],
-          "R_index": [
-            17.1,
-            6.8,
-            2.5
-          ],
-          "R_middle": [
-            11.0,
-            7.0,
-            3.9
-          ],
-          "R_ring": [
-            6.2,
-            4.0,
-            3.5
-          ],
-          "R_pinky": [
-            3.5,
-            9.1,
-            2.2
-          ]
-        },
-        "R_palm_deg": [
-          0,
-          0,
-          0
-        ],
-        "R_palm_pos": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      {
-        "t_ms": 641,
-        "curls": {
-          "R_thumb": [
-            12.3,
-            5.1
-          ],
-          "R_index": [
-            19.0,
-            3.5,
-            5.4
-          ],
-          "R_middle": [
-            9.8,
-            3.5,
-            2.4
-          ],
-          "R_ring": [
-            16.1,
-            5.3,
-            3.2
-          ],
-          "R_pinky": [
-            31.6,
-            9.9,
-            4.2
-          ]
-        },
-        "R_palm_deg": [
-          0,
-          0,
-          0
-        ],
-        "R_palm_pos": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      {
-        "t_ms": 838,
-        "curls": {
-          "R_thumb": [
-            5.7,
-            1.7
-          ],
-          "R_index": [
-            31.4,
-            3.2,
-            5.1
-          ],
-          "R_middle": [
-            25.1,
-            7.4,
-            1.3
-          ],
-          "R_ring": [
-            33.8,
-            10.4,
-            2.1
-          ],
-          "R_pinky": [
-            41.7,
             12.8,
-            4.0
+            20.2
+          ],
+          "R_index": [
+            56.2,
+            14.0,
+            10.7
+          ],
+          "R_middle": [
+            29.8,
+            8.7,
+            5.9
+          ],
+          "R_ring": [
+            41.2,
+            23.4,
+            16.6
+          ],
+          "R_pinky": [
+            44.5,
+            48.0,
+            24.4
           ]
         },
         "R_palm_deg": [
@@ -27124,31 +27046,109 @@
         ]
       },
       {
-        "t_ms": 1011,
+        "t_ms": 483,
         "curls": {
           "R_thumb": [
-            9.4,
-            6.8
+            10.5,
+            37.6
           ],
           "R_index": [
-            32.2,
-            3.8,
-            5.4
+            46.3,
+            39.6,
+            24.0
           ],
           "R_middle": [
-            19.8,
-            5.8,
-            0.8
+            95.9,
+            18.2,
+            11.7
           ],
           "R_ring": [
-            26.8,
-            10.5,
-            2.6
+            129.8,
+            32.0,
+            34.6
           ],
           "R_pinky": [
-            38.6,
-            14.6,
-            2.8
+            115.7,
+            33.7,
+            37.7
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 690,
+        "curls": {
+          "R_thumb": [
+            21.4,
+            31.6
+          ],
+          "R_index": [
+            71.9,
+            39.1,
+            35.1
+          ],
+          "R_middle": [
+            45.9,
+            53.5,
+            40.7
+          ],
+          "R_ring": [
+            54.0,
+            37.0,
+            24.5
+          ],
+          "R_pinky": [
+            60.4,
+            67.0,
+            69.9
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 897,
+        "curls": {
+          "R_thumb": [
+            13.8,
+            17.4
+          ],
+          "R_index": [
+            61.7,
+            17.9,
+            7.4
+          ],
+          "R_middle": [
+            50.3,
+            18.1,
+            10.9
+          ],
+          "R_ring": [
+            47.9,
+            25.0,
+            13.1
+          ],
+          "R_pinky": [
+            63.9,
+            26.2,
+            10.2
           ]
         },
         "R_palm_deg": [
@@ -33143,37 +33143,37 @@
   },
   "TEACHER": {
     "gloss": "TEACHER",
-    "duration_ms": 1800,
-    "provenance": "kaggle-include-isl",
-    "commercial_safe": false,
-    "notes": "Finger curls retargeted from AI4Bharat INCLUDE dataset (repackaged as MediaPipe landmarks on Kaggle by 'swaptr'), source take: MVI_4459.parquet, right hand, via angle-based retargeting with 5-frame median smoothing (scripts/data-prep/retarget_include.py). Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Not commercial-safe until license chain to AI4Bharat original is verified (see data/LICENSE-DATA.md).",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from teacher.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
     "frames": [
       {
-        "t_ms": 0,
+        "t_ms": 310,
         "curls": {
           "R_thumb": [
-            36.1,
-            21.7
+            25.2,
+            11.4
           ],
           "R_index": [
-            8.2,
-            17.7,
-            20.0
+            26.4,
+            53.2,
+            18.8
           ],
           "R_middle": [
-            11.3,
-            18.3,
-            7.7
+            23.9,
+            74.2,
+            29.9
           ],
           "R_ring": [
-            27.5,
-            41.1,
-            20.4
+            24.9,
+            109.5,
+            31.1
           ],
           "R_pinky": [
-            33.4,
-            39.6,
-            41.8
+            32.5,
+            97.4,
+            35.9
           ]
         },
         "R_palm_deg": [
@@ -33188,70 +33188,70 @@
         ]
       },
       {
-        "t_ms": 1131,
+        "t_ms": 517,
         "curls": {
           "R_thumb": [
-            37.4,
-            12.9
+            26.4,
+            15.7
           ],
           "R_index": [
-            18.9,
-            7.8,
-            3.1
+            29.0,
+            58.6,
+            7.5
           ],
           "R_middle": [
-            30.7,
-            9.9,
+            29.9,
+            72.9,
+            18.8
+          ],
+          "R_ring": [
+            25.9,
+            131.3,
+            32.4
+          ],
+          "R_pinky": [
+            36.8,
+            123.9,
+            37.9
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 724,
+        "curls": {
+          "R_thumb": [
+            32.0,
+            7.4
+          ],
+          "R_index": [
+            13.8,
+            5.7,
             4.4
           ],
-          "R_ring": [
-            38.2,
-            8.9,
-            4.3
-          ],
-          "R_pinky": [
-            36.9,
-            9.6,
-            6.7
-          ]
-        },
-        "R_palm_deg": [
-          0,
-          0,
-          0
-        ],
-        "R_palm_pos": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      {
-        "t_ms": 1292,
-        "curls": {
-          "R_thumb": [
-            33.4,
-            8.3
-          ],
-          "R_index": [
-            19.0,
-            3.3,
-            8.2
-          ],
           "R_middle": [
-            27.6,
-            3.3,
-            7.8
+            8.6,
+            6.9,
+            3.7
           ],
           "R_ring": [
-            35.1,
-            4.5,
-            6.2
-          ],
-          "R_pinky": [
-            33.2,
-            9.4,
+            7.0,
+            5.5,
             4.4
+          ],
+          "R_pinky": [
+            7.9,
+            4.9,
+            4.9
           ]
         },
         "R_palm_deg": [
@@ -33266,31 +33266,31 @@
         ]
       },
       {
-        "t_ms": 1384,
+        "t_ms": 931,
         "curls": {
           "R_thumb": [
-            36.3,
-            9.3
-          ],
-          "R_index": [
-            17.5,
-            7.2,
-            5.4
-          ],
-          "R_middle": [
-            28.8,
-            9.0,
+            32.7,
             4.1
           ],
-          "R_ring": [
-            37.8,
-            7.9,
+          "R_index": [
+            14.6,
+            1.4,
             3.3
           ],
+          "R_middle": [
+            7.6,
+            1.2,
+            3.9
+          ],
+          "R_ring": [
+            2.1,
+            2.4,
+            5.0
+          ],
           "R_pinky": [
-            38.1,
-            15.2,
-            6.4
+            10.0,
+            5.5,
+            4.2
           ]
         },
         "R_palm_deg": [
@@ -40945,154 +40945,154 @@
   },
   "SCHOOL": {
     "gloss": "SCHOOL",
-    "duration_ms": 1800,
-    "provenance": "kaggle-include-isl",
-    "commercial_safe": false,
-    "notes": "Finger curls retargeted from AI4Bharat INCLUDE dataset (repackaged as MediaPipe landmarks on Kaggle by 'swaptr'), source take: MVI_3371.parquet, right hand, via angle-based retargeting with 5-frame median smoothing (scripts/data-prep/retarget_include.py). Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Not commercial-safe until license chain to AI4Bharat original is verified (see data/LICENSE-DATA.md).",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from school.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
     "frames": [
       {
-        "t_ms": 0,
+        "t_ms": 379,
         "curls": {
           "R_thumb": [
-            39.4,
-            17.4
+            30.6,
+            22.6
           ],
           "R_index": [
-            16.4,
-            20.6,
-            9.6
+            35.5,
+            7.3,
+            9.3
           ],
           "R_middle": [
-            26.8,
-            26.8,
-            14.7
+            21.5,
+            12.0,
+            8.2
           ],
           "R_ring": [
-            33.2,
-            24.3,
-            10.5
+            24.2,
+            20.2,
+            12.0
           ],
           "R_pinky": [
-            34.0,
-            20.7,
-            14.3
-          ]
-        },
-        "R_palm_deg": [
-          0,
-          0,
-          0
-        ],
-        "R_palm_pos": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      {
-        "t_ms": 632,
-        "curls": {
-          "R_thumb": [
-            24.9,
-            12.8
-          ],
-          "R_index": [
-            31.4,
-            6.4,
-            4.7
-          ],
-          "R_middle": [
-            18.2,
-            5.0,
-            1.2
-          ],
-          "R_ring": [
-            14.9,
-            5.3,
-            1.3
-          ],
-          "R_pinky": [
-            29.5,
-            7.4,
-            1.1
-          ]
-        },
-        "R_palm_deg": [
-          0,
-          0,
-          0
-        ],
-        "R_palm_pos": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      {
-        "t_ms": 1362,
-        "curls": {
-          "R_thumb": [
-            41.0,
-            12.7
-          ],
-          "R_index": [
-            21.0,
-            64.3,
-            33.1
-          ],
-          "R_middle": [
-            33.3,
-            58.6,
-            28.9
-          ],
-          "R_ring": [
-            41.0,
-            50.4,
-            26.3
-          ],
-          "R_pinky": [
-            41.4,
-            42.4,
-            24.9
-          ]
-        },
-        "R_palm_deg": [
-          0,
-          0,
-          0
-        ],
-        "R_palm_pos": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      {
-        "t_ms": 1800,
-        "curls": {
-          "R_thumb": [
             40.3,
-            15.8
+            21.4,
+            11.7
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 586,
+        "curls": {
+          "R_thumb": [
+            13.2,
+            4.3
           ],
           "R_index": [
-            15.5,
-            72.4,
-            42.1
+            47.1,
+            21.5,
+            10.1
           ],
           "R_middle": [
-            28.6,
-            70.3,
-            37.8
+            51.5,
+            8.5,
+            5.1
           ],
           "R_ring": [
-            34.8,
-            65.2,
-            39.7
+            39.5,
+            11.1,
+            3.8
           ],
           "R_pinky": [
-            36.7,
-            52.5,
-            42.8
+            28.5,
+            17.4,
+            8.4
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 724,
+        "curls": {
+          "R_thumb": [
+            12.0,
+            5.2
+          ],
+          "R_index": [
+            48.8,
+            22.9,
+            11.5
+          ],
+          "R_middle": [
+            49.4,
+            20.3,
+            7.4
+          ],
+          "R_ring": [
+            34.2,
+            16.4,
+            5.6
+          ],
+          "R_pinky": [
+            23.4,
+            15.4,
+            6.7
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 828,
+        "curls": {
+          "R_thumb": [
+            9.8,
+            6.3
+          ],
+          "R_index": [
+            53.1,
+            22.9,
+            14.1
+          ],
+          "R_middle": [
+            69.1,
+            24.7,
+            10.2
+          ],
+          "R_ring": [
+            75.5,
+            21.4,
+            5.8
+          ],
+          "R_pinky": [
+            63.8,
+            16.1,
+            8.4
           ]
         },
         "R_palm_deg": [
@@ -41775,37 +41775,37 @@
   },
   "UNIVERSITY": {
     "gloss": "UNIVERSITY",
-    "duration_ms": 1800,
-    "provenance": "kaggle-include-isl",
-    "commercial_safe": false,
-    "notes": "Finger curls retargeted from AI4Bharat INCLUDE dataset (repackaged as MediaPipe landmarks on Kaggle by 'swaptr'), source take: MVI_3298.parquet, right hand, via angle-based retargeting with 5-frame median smoothing (scripts/data-prep/retarget_include.py). Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Not commercial-safe until license chain to AI4Bharat original is verified (see data/LICENSE-DATA.md).",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from university.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
     "frames": [
       {
-        "t_ms": 0,
+        "t_ms": 241,
         "curls": {
           "R_thumb": [
-            39.4,
-            12.9
+            22.6,
+            16.3
           ],
           "R_index": [
-            23.9,
-            51.2,
-            26.7
+            17.4,
+            7.4,
+            7.4
           ],
           "R_middle": [
-            41.4,
-            39.9,
-            26.5
+            48.4,
+            40.1,
+            50.3
           ],
           "R_ring": [
-            49.9,
-            32.4,
-            21.6
+            102.9,
+            67.2,
+            77.1
           ],
           "R_pinky": [
-            50.1,
-            29.0,
-            18.0
+            104.7,
+            62.9,
+            81.9
           ]
         },
         "R_palm_deg": [
@@ -41820,31 +41820,31 @@
         ]
       },
       {
-        "t_ms": 672,
+        "t_ms": 448,
         "curls": {
           "R_thumb": [
-            24.0,
-            8.5
+            26.4,
+            31.7
           ],
           "R_index": [
-            30.4,
-            11.3,
-            5.0
+            30.0,
+            6.0,
+            10.0
           ],
           "R_middle": [
-            43.0,
-            108.6,
-            37.1
+            46.6,
+            44.4,
+            33.6
           ],
           "R_ring": [
-            59.5,
-            112.1,
-            47.5
+            107.4,
+            74.4,
+            23.6
           ],
           "R_pinky": [
-            70.6,
-            97.6,
-            50.8
+            114.8,
+            68.8,
+            28.4
           ]
         },
         "R_palm_deg": [
@@ -41859,31 +41859,31 @@
         ]
       },
       {
-        "t_ms": 1262,
+        "t_ms": 655,
         "curls": {
           "R_thumb": [
-            24.3,
+            34.1,
+            21.3
+          ],
+          "R_index": [
+            16.1,
+            3.9,
             6.6
           ],
-          "R_index": [
-            36.8,
-            80.4,
-            41.5
-          ],
           "R_middle": [
-            47.2,
-            77.8,
-            42.8
+            16.4,
+            13.6,
+            13.1
           ],
           "R_ring": [
-            52.7,
-            75.9,
-            47.6
+            95.1,
+            78.5,
+            39.9
           ],
           "R_pinky": [
-            52.5,
-            63.8,
-            49.6
+            116.2,
+            62.9,
+            73.4
           ]
         },
         "R_palm_deg": [
@@ -41898,31 +41898,31 @@
         ]
       },
       {
-        "t_ms": 1800,
+        "t_ms": 828,
         "curls": {
           "R_thumb": [
-            32.8,
-            9.7
+            34.3,
+            16.4
           ],
           "R_index": [
-            37.8,
-            110.7,
-            47.0
+            56.1,
+            26.1,
+            13.0
           ],
           "R_middle": [
-            55.6,
-            94.8,
-            59.8
+            74.5,
+            34.7,
+            13.2
           ],
           "R_ring": [
-            63.3,
-            89.1,
-            66.9
+            85.7,
+            61.5,
+            41.5
           ],
           "R_pinky": [
-            64.4,
-            89.4,
-            64.8
+            99.6,
+            63.8,
+            56.1
           ]
         },
         "R_palm_deg": [
@@ -42605,37 +42605,37 @@
   },
   "WE": {
     "gloss": "WE",
-    "duration_ms": 1800,
-    "provenance": "kaggle-include-isl",
-    "commercial_safe": false,
-    "notes": "Finger curls retargeted from AI4Bharat INCLUDE dataset (repackaged as MediaPipe landmarks on Kaggle by 'swaptr'), source take: MVI_9943.parquet, right hand, via angle-based retargeting with 5-frame median smoothing (scripts/data-prep/retarget_include.py). Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Not commercial-safe until license chain to AI4Bharat original is verified (see data/LICENSE-DATA.md).",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from we.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
     "frames": [
       {
-        "t_ms": 0,
+        "t_ms": 103,
         "curls": {
           "R_thumb": [
-            35.9,
-            14.5
+            31.0,
+            30.8
           ],
           "R_index": [
-            25.0,
-            100.8,
-            50.1
+            69.7,
+            6.8,
+            5.9
           ],
           "R_middle": [
-            37.0,
-            95.7,
-            53.6
+            67.8,
+            88.1,
+            41.0
           ],
           "R_ring": [
-            40.0,
-            94.5,
-            57.7
+            65.0,
+            137.6,
+            28.1
           ],
           "R_pinky": [
-            40.2,
-            85.5,
-            67.0
+            67.2,
+            99.2,
+            21.3
           ]
         },
         "R_palm_deg": [
@@ -42650,31 +42650,31 @@
         ]
       },
       {
-        "t_ms": 511,
+        "t_ms": 310,
         "curls": {
           "R_thumb": [
-            37.0,
-            27.3
+            16.7,
+            46.7
           ],
           "R_index": [
-            7.6,
-            4.1,
-            5.1
+            111.3,
+            9.7,
+            6.6
           ],
           "R_middle": [
-            5.8,
-            5.9,
-            2.9
+            121.0,
+            125.5,
+            41.2
           ],
           "R_ring": [
-            5.9,
-            8.8,
-            3.0
+            114.4,
+            152.1,
+            17.0
           ],
           "R_pinky": [
-            12.0,
-            4.8,
-            3.3
+            89.0,
+            154.1,
+            13.3
           ]
         },
         "R_palm_deg": [
@@ -42689,31 +42689,31 @@
         ]
       },
       {
-        "t_ms": 1411,
+        "t_ms": 517,
         "curls": {
           "R_thumb": [
-            34.8,
-            8.6
+            43.7,
+            36.0
           ],
           "R_index": [
-            31.5,
-            43.3,
-            25.9
+            80.1,
+            10.4,
+            2.3
           ],
           "R_middle": [
-            31.6,
-            45.4,
-            23.4
+            74.6,
+            13.4,
+            10.2
           ],
           "R_ring": [
-            30.1,
-            46.3,
-            22.4
+            63.6,
+            85.6,
+            40.7
           ],
           "R_pinky": [
-            28.3,
-            39.4,
-            22.2
+            46.1,
+            88.9,
+            32.7
           ]
         },
         "R_palm_deg": [
@@ -42728,31 +42728,31 @@
         ]
       },
       {
-        "t_ms": 1800,
+        "t_ms": 724,
         "curls": {
           "R_thumb": [
-            40.9,
-            20.5
+            49.3,
+            40.2
           ],
           "R_index": [
-            14.2,
-            22.8,
-            8.0
+            85.6,
+            5.0,
+            2.2
           ],
           "R_middle": [
-            21.9,
-            38.7,
-            22.4
+            82.5,
+            58.0,
+            54.5
           ],
           "R_ring": [
-            26.8,
-            36.2,
-            20.2
+            71.6,
+            76.0,
+            53.0
           ],
           "R_pinky": [
-            29.1,
-            22.5,
-            17.2
+            57.1,
+            81.8,
+            41.8
           ]
         },
         "R_palm_deg": [
@@ -47733,6 +47733,1500 @@
             25.1,
             21.5,
             12.4
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "armReach": 0.55
+  },
+  "FORGET": {
+    "gloss": "FORGET",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from forget.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
+    "frames": [
+      {
+        "t_ms": 138,
+        "curls": {
+          "R_thumb": [
+            11.3,
+            6.2
+          ],
+          "R_index": [
+            39.8,
+            10.2,
+            6.7
+          ],
+          "R_middle": [
+            31.3,
+            6.1,
+            5.4
+          ],
+          "R_ring": [
+            18.5,
+            8.6,
+            2.7
+          ],
+          "R_pinky": [
+            20.9,
+            14.0,
+            5.1
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 276,
+        "curls": {
+          "R_thumb": [
+            14.1,
+            6.2
+          ],
+          "R_index": [
+            46.8,
+            10.3,
+            4.7
+          ],
+          "R_middle": [
+            37.2,
+            6.1,
+            3.8
+          ],
+          "R_ring": [
+            23.8,
+            7.2,
+            3.8
+          ],
+          "R_pinky": [
+            20.9,
+            10.9,
+            3.7
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 414,
+        "curls": {
+          "R_thumb": [
+            9.3,
+            8.2
+          ],
+          "R_index": [
+            64.0,
+            7.2,
+            4.6
+          ],
+          "R_middle": [
+            57.9,
+            6.8,
+            3.5
+          ],
+          "R_ring": [
+            47.5,
+            7.4,
+            5.7
+          ],
+          "R_pinky": [
+            33.3,
+            8.6,
+            9.3
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 552,
+        "curls": {
+          "R_thumb": [
+            8.3,
+            11.6
+          ],
+          "R_index": [
+            62.0,
+            15.0,
+            13.3
+          ],
+          "R_middle": [
+            56.3,
+            16.1,
+            11.4
+          ],
+          "R_ring": [
+            43.8,
+            24.2,
+            12.1
+          ],
+          "R_pinky": [
+            32.6,
+            21.9,
+            9.5
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "armReach": 0.55
+  },
+  "GIVE": {
+    "gloss": "GIVE",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from give.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
+    "frames": [
+      {
+        "t_ms": 172,
+        "curls": {
+          "R_thumb": [
+            31.5,
+            22.0
+          ],
+          "R_index": [
+            53.2,
+            12.0,
+            5.8
+          ],
+          "R_middle": [
+            46.9,
+            8.4,
+            4.5
+          ],
+          "R_ring": [
+            35.2,
+            15.4,
+            3.2
+          ],
+          "R_pinky": [
+            27.4,
+            15.4,
+            1.8
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 345,
+        "curls": {
+          "R_thumb": [
+            16.6,
+            12.3
+          ],
+          "R_index": [
+            59.4,
+            34.7,
+            15.8
+          ],
+          "R_middle": [
+            69.8,
+            30.0,
+            12.8
+          ],
+          "R_ring": [
+            84.7,
+            27.5,
+            12.6
+          ],
+          "R_pinky": [
+            89.5,
+            20.9,
+            9.1
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 552,
+        "curls": {
+          "R_thumb": [
+            30.6,
+            40.0
+          ],
+          "R_index": [
+            71.4,
+            35.6,
+            20.5
+          ],
+          "R_middle": [
+            56.3,
+            42.1,
+            23.1
+          ],
+          "R_ring": [
+            53.5,
+            40.3,
+            20.9
+          ],
+          "R_pinky": [
+            43.9,
+            52.0,
+            25.8
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 724,
+        "curls": {
+          "R_thumb": [
+            33.6,
+            43.1
+          ],
+          "R_index": [
+            37.1,
+            124.2,
+            35.9
+          ],
+          "R_middle": [
+            16.9,
+            149.4,
+            27.2
+          ],
+          "R_ring": [
+            15.3,
+            147.1,
+            21.1
+          ],
+          "R_pinky": [
+            44.6,
+            113.1,
+            22.3
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "armReach": 0.55
+  },
+  "GRADE": {
+    "gloss": "GRADE",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from grade.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
+    "frames": [
+      {
+        "t_ms": 310,
+        "curls": {
+          "R_thumb": [
+            15.5,
+            26.7
+          ],
+          "R_index": [
+            50.4,
+            50.6,
+            11.2
+          ],
+          "R_middle": [
+            130.9,
+            27.5,
+            58.7
+          ],
+          "R_ring": [
+            142.6,
+            28.6,
+            135.3
+          ],
+          "R_pinky": [
+            142.5,
+            23.4,
+            141.4
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 517,
+        "curls": {
+          "R_thumb": [
+            19.4,
+            25.5
+          ],
+          "R_index": [
+            32.6,
+            48.5,
+            30.5
+          ],
+          "R_middle": [
+            114.0,
+            50.2,
+            52.9
+          ],
+          "R_ring": [
+            126.1,
+            46.8,
+            87.2
+          ],
+          "R_pinky": [
+            131.8,
+            39.8,
+            96.2
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 690,
+        "curls": {
+          "R_thumb": [
+            22.1,
+            17.8
+          ],
+          "R_index": [
+            29.3,
+            58.4,
+            25.4
+          ],
+          "R_middle": [
+            116.3,
+            40.1,
+            53.5
+          ],
+          "R_ring": [
+            127.6,
+            40.5,
+            99.3
+          ],
+          "R_pinky": [
+            132.3,
+            36.9,
+            105.4
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 897,
+        "curls": {
+          "R_thumb": [
+            21.3,
+            25.0
+          ],
+          "R_index": [
+            30.8,
+            53.1,
+            30.1
+          ],
+          "R_middle": [
+            119.3,
+            42.4,
+            50.1
+          ],
+          "R_ring": [
+            134.6,
+            36.3,
+            105.6
+          ],
+          "R_pinky": [
+            141.0,
+            28.1,
+            122.6
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "armReach": 0.55
+  },
+  "HAVE": {
+    "gloss": "HAVE",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from have.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
+    "frames": [
+      {
+        "t_ms": 276,
+        "curls": {
+          "R_thumb": [
+            17.2,
+            9.0
+          ],
+          "R_index": [
+            22.4,
+            55.3,
+            25.7
+          ],
+          "R_middle": [
+            18.8,
+            67.1,
+            25.8
+          ],
+          "R_ring": [
+            19.3,
+            61.1,
+            23.4
+          ],
+          "R_pinky": [
+            35.7,
+            46.2,
+            19.5
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 448,
+        "curls": {
+          "R_thumb": [
+            14.7,
+            9.2
+          ],
+          "R_index": [
+            38.8,
+            48.0,
+            18.2
+          ],
+          "R_middle": [
+            39.9,
+            62.3,
+            15.7
+          ],
+          "R_ring": [
+            25.8,
+            68.5,
+            23.1
+          ],
+          "R_pinky": [
+            33.4,
+            54.5,
+            17.6
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 655,
+        "curls": {
+          "R_thumb": [
+            18.7,
+            12.3
+          ],
+          "R_index": [
+            47.9,
+            103.9,
+            51.5
+          ],
+          "R_middle": [
+            24.6,
+            139.4,
+            27.8
+          ],
+          "R_ring": [
+            16.0,
+            126.5,
+            34.9
+          ],
+          "R_pinky": [
+            31.3,
+            97.2,
+            38.3
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 828,
+        "curls": {
+          "R_thumb": [
+            15.2,
+            11.2
+          ],
+          "R_index": [
+            41.0,
+            88.3,
+            51.2
+          ],
+          "R_middle": [
+            18.8,
+            123.2,
+            26.3
+          ],
+          "R_ring": [
+            18.4,
+            102.9,
+            47.4
+          ],
+          "R_pinky": [
+            34.1,
+            70.8,
+            46.9
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "armReach": 0.55
+  },
+  "INTERNATIONAL": {
+    "gloss": "INTERNATIONAL",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from international.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
+    "frames": [
+      {
+        "t_ms": 310,
+        "curls": {
+          "R_thumb": [
+            39.9,
+            24.4
+          ],
+          "R_index": [
+            39.7,
+            142.2,
+            25.5
+          ],
+          "R_middle": [
+            22.3,
+            156.1,
+            19.6
+          ],
+          "R_ring": [
+            17.1,
+            143.4,
+            19.5
+          ],
+          "R_pinky": [
+            28.3,
+            11.2,
+            8.4
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 517,
+        "curls": {
+          "R_thumb": [
+            25.5,
+            24.6
+          ],
+          "R_index": [
+            51.5,
+            118.9,
+            41.6
+          ],
+          "R_middle": [
+            45.2,
+            121.2,
+            38.3
+          ],
+          "R_ring": [
+            30.9,
+            130.3,
+            31.3
+          ],
+          "R_pinky": [
+            28.5,
+            9.6,
+            8.5
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 759,
+        "curls": {
+          "R_thumb": [
+            30.1,
+            38.2
+          ],
+          "R_index": [
+            48.8,
+            130.5,
+            37.9
+          ],
+          "R_middle": [
+            40.6,
+            135.4,
+            35.8
+          ],
+          "R_ring": [
+            24.7,
+            130.8,
+            32.4
+          ],
+          "R_pinky": [
+            20.3,
+            10.3,
+            14.4
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 966,
+        "curls": {
+          "R_thumb": [
+            31.0,
+            38.6
+          ],
+          "R_index": [
+            38.7,
+            123.3,
+            39.8
+          ],
+          "R_middle": [
+            28.6,
+            129.0,
+            38.8
+          ],
+          "R_ring": [
+            22.6,
+            133.2,
+            35.6
+          ],
+          "R_pinky": [
+            24.7,
+            12.4,
+            14.9
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "armReach": 0.55
+  },
+  "LEARN": {
+    "gloss": "LEARN",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from learn.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
+    "frames": [
+      {
+        "t_ms": 276,
+        "curls": {
+          "R_thumb": [
+            28.3,
+            22.5
+          ],
+          "R_index": [
+            45.5,
+            14.1,
+            10.0
+          ],
+          "R_middle": [
+            39.8,
+            10.4,
+            8.3
+          ],
+          "R_ring": [
+            33.2,
+            8.3,
+            1.0
+          ],
+          "R_pinky": [
+            27.9,
+            11.3,
+            1.9
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 448,
+        "curls": {
+          "R_thumb": [
+            17.6,
+            17.9
+          ],
+          "R_index": [
+            67.7,
+            27.3,
+            9.9
+          ],
+          "R_middle": [
+            73.4,
+            30.6,
+            10.4
+          ],
+          "R_ring": [
+            72.6,
+            22.2,
+            9.2
+          ],
+          "R_pinky": [
+            56.3,
+            12.5,
+            4.8
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 655,
+        "curls": {
+          "R_thumb": [
+            17.7,
+            27.9
+          ],
+          "R_index": [
+            58.8,
+            48.9,
+            26.4
+          ],
+          "R_middle": [
+            54.7,
+            52.6,
+            25.3
+          ],
+          "R_ring": [
+            46.1,
+            50.9,
+            21.7
+          ],
+          "R_pinky": [
+            38.4,
+            31.8,
+            23.9
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 828,
+        "curls": {
+          "R_thumb": [
+            27.2,
+            12.8
+          ],
+          "R_index": [
+            57.7,
+            41.6,
+            32.5
+          ],
+          "R_middle": [
+            53.4,
+            47.0,
+            32.9
+          ],
+          "R_ring": [
+            45.0,
+            47.5,
+            29.2
+          ],
+          "R_pinky": [
+            36.2,
+            43.6,
+            29.4
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "armReach": 0.55
+  },
+  "LEBANESE": {
+    "gloss": "LEBANESE",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from lebanese.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
+    "frames": [
+      {
+        "t_ms": 207,
+        "curls": {
+          "R_thumb": [
+            19.9,
+            22.0
+          ],
+          "R_index": [
+            55.9,
+            32.9,
+            7.1
+          ],
+          "R_middle": [
+            64.6,
+            43.9,
+            11.4
+          ],
+          "R_ring": [
+            99.8,
+            73.0,
+            54.3
+          ],
+          "R_pinky": [
+            102.1,
+            72.4,
+            67.1
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 448,
+        "curls": {
+          "R_thumb": [
+            21.1,
+            14.8
+          ],
+          "R_index": [
+            15.1,
+            5.3,
+            5.0
+          ],
+          "R_middle": [
+            18.3,
+            26.4,
+            10.6
+          ],
+          "R_ring": [
+            99.5,
+            81.5,
+            34.0
+          ],
+          "R_pinky": [
+            112.3,
+            75.5,
+            46.3
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 655,
+        "curls": {
+          "R_thumb": [
+            14.2,
+            23.4
+          ],
+          "R_index": [
+            54.9,
+            30.4,
+            11.0
+          ],
+          "R_middle": [
+            67.3,
+            26.3,
+            7.3
+          ],
+          "R_ring": [
+            116.1,
+            58.9,
+            51.2
+          ],
+          "R_pinky": [
+            122.2,
+            55.3,
+            101.7
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 897,
+        "curls": {
+          "R_thumb": [
+            25.4,
+            38.4
+          ],
+          "R_index": [
+            55.1,
+            17.1,
+            5.7
+          ],
+          "R_middle": [
+            44.0,
+            14.2,
+            6.1
+          ],
+          "R_ring": [
+            37.3,
+            103.3,
+            21.9
+          ],
+          "R_pinky": [
+            46.9,
+            113.4,
+            28.9
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "armReach": 0.55
+  },
+  "LIVE": {
+    "gloss": "LIVE",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from live.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
+    "frames": [
+      {
+        "t_ms": 103,
+        "curls": {
+          "R_thumb": [
+            18.3,
+            3.5
+          ],
+          "R_index": [
+            48.4,
+            23.3,
+            28.3
+          ],
+          "R_middle": [
+            42.4,
+            155.6,
+            23.6
+          ],
+          "R_ring": [
+            32.8,
+            151.1,
+            16.4
+          ],
+          "R_pinky": [
+            51.5,
+            145.7,
+            16.9
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 276,
+        "curls": {
+          "R_thumb": [
+            10.9,
+            4.0
+          ],
+          "R_index": [
+            53.8,
+            128.5,
+            30.0
+          ],
+          "R_middle": [
+            35.1,
+            153.5,
+            19.3
+          ],
+          "R_ring": [
+            20.0,
+            154.1,
+            15.0
+          ],
+          "R_pinky": [
+            42.4,
+            147.6,
+            14.5
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 448,
+        "curls": {
+          "R_thumb": [
+            13.0,
+            2.7
+          ],
+          "R_index": [
+            56.1,
+            128.3,
+            28.9
+          ],
+          "R_middle": [
+            36.6,
+            151.2,
+            18.7
+          ],
+          "R_ring": [
+            21.6,
+            154.1,
+            14.1
+          ],
+          "R_pinky": [
+            44.2,
+            146.7,
+            15.5
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 621,
+        "curls": {
+          "R_thumb": [
+            9.1,
+            24.6
+          ],
+          "R_index": [
+            91.3,
+            11.9,
+            4.8
+          ],
+          "R_middle": [
+            94.4,
+            21.1,
+            5.4
+          ],
+          "R_ring": [
+            71.3,
+            26.5,
+            8.5
+          ],
+          "R_pinky": [
+            58.4,
+            27.8,
+            13.5
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "armReach": 0.55
+  },
+  "NOTHING": {
+    "gloss": "NOTHING",
+    "duration_ms": 1000,
+    "provenance": "signmatic-asl",
+    "commercial_safe": true,
+    "notes": "Finger curls retargeted from the SignMatic ASL Keypoint Dataset (CC BY 4.0) via angle-based retargeting of MediaPipe Holistic right-hand landmarks; median-of-shard sequence from nothing.npz. Wrist rotation/position are placeholders (0,0,0) -- only finger curls are real motion data. Attribution: 'SignMatic ASL Keypoint Dataset' by Joseph Sarkis et al. (Lebanese International University), Kaggle.",
+    "frames": [
+      {
+        "t_ms": 276,
+        "curls": {
+          "R_thumb": [
+            16.1,
+            7.2
+          ],
+          "R_index": [
+            19.3,
+            64.6,
+            37.9
+          ],
+          "R_middle": [
+            15.1,
+            75.7,
+            42.8
+          ],
+          "R_ring": [
+            12.4,
+            67.9,
+            37.4
+          ],
+          "R_pinky": [
+            29.0,
+            49.3,
+            29.6
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 448,
+        "curls": {
+          "R_thumb": [
+            18.5,
+            7.6
+          ],
+          "R_index": [
+            36.5,
+            66.8,
+            29.1
+          ],
+          "R_middle": [
+            35.5,
+            77.8,
+            29.3
+          ],
+          "R_ring": [
+            45.1,
+            72.0,
+            24.5
+          ],
+          "R_pinky": [
+            74.5,
+            29.3,
+            13.2
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 586,
+        "curls": {
+          "R_thumb": [
+            18.5,
+            9.6
+          ],
+          "R_index": [
+            36.5,
+            74.5,
+            29.8
+          ],
+          "R_middle": [
+            35.5,
+            77.8,
+            30.4
+          ],
+          "R_ring": [
+            45.1,
+            72.0,
+            24.8
+          ],
+          "R_pinky": [
+            75.5,
+            29.3,
+            15.5
+          ]
+        },
+        "R_palm_deg": [
+          0,
+          0,
+          0
+        ],
+        "R_palm_pos": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "t_ms": 759,
+        "curls": {
+          "R_thumb": [
+            18.7,
+            7.8
+          ],
+          "R_index": [
+            53.7,
+            58.9,
+            21.2
+          ],
+          "R_middle": [
+            57.8,
+            59.6,
+            21.4
+          ],
+          "R_ring": [
+            74.0,
+            43.5,
+            16.5
+          ],
+          "R_pinky": [
+            84.2,
+            17.6,
+            9.0
           ]
         },
         "R_palm_deg": [

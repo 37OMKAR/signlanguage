@@ -8,6 +8,7 @@ commercial launch that nothing carries a research-only license.
 - **self-recorded** — we recorded a signer + extracted with MediaPipe. Commercial-safe with signer consent on file.
 - **kaggle-google-asl** — derived from Google's Kaggle ASL Signs dataset. Prototype-safe under competition terms; verify before commercial ship.
 - **kaggle-include-isl** — real motion retargeted from the AI4Bharat INCLUDE dataset (see below). **Not commercial-safe until license-verified** — the Kaggle repackaging is tagged MIT, but that may not clear the underlying original dataset's own terms.
+- **signmatic-asl** — real motion retargeted from the SignMatic ASL Keypoint Dataset (Lebanese International University contributors, Kaggle: `joesarkis/signmatic-asl-keypoint-dataset-50-words-and-idle`). **CC BY 4.0, commercial-safe WITH attribution** — must credit "SignMatic ASL Keypoint Dataset by Joseph Sarkis et al." wherever the derived motion is used.
 - **wlasl-derived** — derived from WLASL pose files. **Prototype only.** Must be replaced before commercial launch.
 
 ## Current entries

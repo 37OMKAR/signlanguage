@@ -39,6 +39,7 @@ export type Provenance =
   | "hand-authored"
   | "kaggle-google-asl"
   | "kaggle-include-isl"
+  | "signmatic-asl"
   | "wlasl-derived";
 
 // Dictionary entry as authored in JSON.

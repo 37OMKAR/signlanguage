@@ -29,19 +29,20 @@ describe("sign loader", () => {
   });
 
   it("correctly flags real-motion-capture-derived signs as commercially unsafe until license-verified", () => {
-    // HELLO's finger curls were retargeted from the AI4Bharat INCLUDE
-    // dataset (repackaged as MediaPipe landmarks on Kaggle). The
-    // repackaging is tagged MIT, but that may not clear the underlying
-    // original dataset's own terms -- deliberately marked unsafe until a
-    // human verifies the license chain. This test is a regression check
-    // that the audit mechanism actually catches this, not that zero
-    // unsafe signs exist (which stopped being true the moment we started
-    // using real third-party motion data instead of only hand-authoring).
-    const e = getEntry("HELLO");
-    expect(e?.provenance).toBe("kaggle-include-isl");
-    expect(e?.commercial_safe).toBe(false);
-
+    // The commercial-safety audit mechanism is a hard requirement: we
+    // must never ship any entry that traces back to a license-restricted
+    // source. Regression-check that (a) the audit actually returns a
+    // non-empty unsafe list once at least one such entry exists in the
+    // dictionary (INCLUDE-derived entries, which we correctly flag as
+    // commercial_safe: false because the Kaggle repackaging's MIT tag
+    // doesn't clear the underlying AI4Bharat original), and (b) every
+    // entry the audit returns actually IS commercial_safe: false in the
+    // dictionary (not a false positive).
     const r = auditCommercialSafety();
-    expect(r.unsafe).toContain("HELLO");
+    expect(r.unsafe.length).toBeGreaterThan(0);
+    for (const gloss of r.unsafe) {
+      const e = getEntry(gloss);
+      expect(e?.commercial_safe).toBe(false);
+    }
   });
 });
