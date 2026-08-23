@@ -53,7 +53,15 @@ function SigningCameraTracker() {
   const controls = useThree((s) => s.controls) as
     | (THREE.EventDispatcher & { target: THREE.Vector3; update: () => void })
     | null;
-  const idleTarget = useMemo(() => new THREE.Vector3(0, 1.18, 0.05), []);
+  // Idle target sits on the upper-torso / sternum, not the mid-chest --
+  // higher up so face + collar are the visual anchor, and the framing
+  // reads as portrait/interview, not full-body wide.
+  const idleTarget = useMemo(() => new THREE.Vector3(0, 1.30, 0.10), []);
+  // Anticipatory "signing zone" target used the moment mood.signing goes
+  // true, BEFORE the arm has actually risen. Lets the camera start its
+  // slow pan up during the arm-lift ramp instead of waiting for the hand
+  // to reach position -- matches user request "camera must move before".
+  const anticipatoryTarget = useMemo(() => new THREE.Vector3(0, 1.40, 0.18), []);
   const desired = useRef(idleTarget.clone());
   const _tmp = useMemo(() => new THREE.Vector3(), []);
   const _handR = useMemo(() => new THREE.Vector3(), []);
@@ -69,17 +77,13 @@ function SigningCameraTracker() {
     if (!g || !controls?.target) return;
 
     if (!mood?.signing) {
-      // Ease back to the standard upper-body framing.
-      desired.current.lerp(idleTarget, Math.min(delta * 2.5, 1));
+      desired.current.lerp(idleTarget, Math.min(delta * 1.2, 1));
     } else {
       const rBone = g.bones["R_palm"];
       const lBone = g.bones["L_palm"];
       const headBone = g.bones["head"];
       if (!headBone) return;
       headBone.getWorldPosition(_head);
-      // Pick the ACTIVE hand -- one that's actually raised into signing
-      // space (Y above hip ~0.95). Falls back to both-hands midpoint when
-      // both are up, or the idle target if neither is.
       let active: THREE.Vector3 | null = null;
       if (rBone) rBone.getWorldPosition(_handR);
       if (lBone) lBone.getWorldPosition(_handL);
@@ -93,22 +97,24 @@ function SigningCameraTracker() {
         active = _handL;
       }
       if (active) {
-        // Blend the hand's world position with the head's so the face
-        // stays visible even when tracking the hand -- otherwise a
-        // face-level sign centered on the hand crops out the head, and a
-        // chest-level sign centered on the hand crops out the face.
-        // Weights tuned so the frame contains BOTH.
         _tmp.set(
           active.x * 0.35 + _head.x * 0.65,
           active.y * 0.55 + _head.y * 0.45,
           active.z * 0.25 + _head.z * 0.75,
         );
-        desired.current.lerp(_tmp, Math.min(delta * 2.5, 1));
+        desired.current.lerp(_tmp, Math.min(delta * 1.2, 1));
       } else {
-        desired.current.lerp(idleTarget, Math.min(delta * 2.5, 1));
+        // signing=true but arm not yet lifted (mid ramp-up).
+        // Pan toward the anticipatory signing-space target so the camera
+        // is already moving BEFORE the hand arrives.
+        desired.current.lerp(anticipatoryTarget, Math.min(delta * 1.2, 1));
       }
     }
-    controls.target.lerp(desired.current, Math.min(delta * 3.5, 1));
+    // Slow, cinematic-glide follow. Combined with the desired-target
+    // easing above this gives roughly 1.5-2s to reach a new pose --
+    // deliberately slow so the pan reads as intentional camerawork, not
+    // a react-to-hand snap.
+    controls.target.lerp(desired.current, Math.min(delta * 1.5, 1));
     controls.update();
   });
   return null;
@@ -118,10 +124,16 @@ function SigningCameraTracker() {
 // graph for its matrixWorld to update — the `target-position` JSX shorthand
 // alone doesn't guarantee that. Rendering the target as an explicit child
 // primitive is the reliable r3f pattern.
+//
+// This spotlight is aimed at the signing space -- upper-chest to face
+// area, in front of the body. Intensity and angle tuned so finger
+// individuality (curl vs. extension) is legible even from the wider
+// upper-torso framing the tracker resettles to. Previously (0.7 int,
+// 0.5 rad angle) it was so subtle it barely lit the fingers.
 function HandSpotlight() {
   const target = useMemo(() => {
     const obj = new THREE.Object3D();
-    obj.position.set(0, 1.15, 0.15);
+    obj.position.set(0, 1.30, 0.25);
     return obj;
   }, []);
   const lightRef = useRef<THREE.SpotLight>(null);
@@ -134,12 +146,43 @@ function HandSpotlight() {
       <primitive object={target} />
       <spotLight
         ref={lightRef}
-        position={[0.4, 2.2, 1.4]}
-        angle={0.5}
-        penumbra={0.6}
-        intensity={0.7}
+        position={[0.3, 2.0, 1.6]}
+        angle={0.7}
+        penumbra={0.5}
+        intensity={1.6}
         color="#fff8ec"
         distance={5}
+      />
+    </>
+  );
+}
+
+// A second, camera-mounted-style front fill light aimed straight at the
+// signing space from just above the camera. Kills the harsh shadows that
+// hide finger separation when the key light glances off the palm. Kept
+// low-intensity + cool-toned so it doesn't flatten the studio look; its
+// job is finger legibility, not primary illumination.
+function HandFillLight() {
+  const target = useMemo(() => {
+    const obj = new THREE.Object3D();
+    obj.position.set(0, 1.30, 0.25);
+    return obj;
+  }, []);
+  const lightRef = useRef<THREE.SpotLight>(null);
+  useEffect(() => {
+    if (lightRef.current) lightRef.current.target = target;
+  }, [target]);
+  return (
+    <>
+      <primitive object={target} />
+      <spotLight
+        ref={lightRef}
+        position={[0, 1.55, 1.4]}
+        angle={0.9}
+        penumbra={0.7}
+        intensity={0.9}
+        color="#e6efff"
+        distance={4}
       />
     </>
   );
@@ -187,7 +230,7 @@ export function AvatarStage({ frames, speed, reducedMotion, mood, armReach, onFi
 
   return (
     <Canvas
-      camera={{ position: [0, 1.2, 1.25], fov: 40 }}
+      camera={{ position: [0, 1.36, 0.95], fov: 36 }}
       gl={{ antialias: true, preserveDrawingBuffer: true }}
       dpr={[1, 2]}
       style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
@@ -203,7 +246,7 @@ export function AvatarStage({ frames, speed, reducedMotion, mood, armReach, onFi
           not black), and rim/back (behind her, catches hair + shoulder edge
           so she reads as separated from the backdrop). A dedicated hand
           spotlight adds a little extra sparkle on the signing hands. */}
-      <ambientLight intensity={0.35} color="#dfe6ff" />
+      <ambientLight intensity={0.55} color="#dfe6ff" />
       <directionalLight
         position={[2.2, 2.6, 2.2]}
         intensity={1.6}
@@ -222,6 +265,7 @@ export function AvatarStage({ frames, speed, reducedMotion, mood, armReach, onFi
         color="#e8f0ff"
       />
       <HandSpotlight />
+      <HandFillLight />
 
       <Suspense fallback={null}>
         <Godette frames={frames} speed={speed} reducedMotion={reducedMotion} mood={mood} armReach={armReach} />
@@ -232,7 +276,7 @@ export function AvatarStage({ frames, speed, reducedMotion, mood, armReach, onFi
         enableZoom
         minDistance={0.4}
         maxDistance={5}
-        target={[0, 1.18, 0.05]}
+        target={[0, 1.30, 0.10]}
       />
       <SigningCameraTracker />
     </Canvas>
