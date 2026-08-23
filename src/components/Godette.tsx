@@ -138,30 +138,48 @@ const IDLE_ONLY = new Set([
 // hand shape only, and keeps the idle arm down when a sign is one-handed.
 const ARM_BONES = ["R_armUp", "R_armLo", "L_armUp", "L_armLo"] as const;
 const DEG = Math.PI / 180;
-// Previously tuned via screenshot iteration, but the screenshot tool used
-// for that tuning turned out to silently serve a stale/cached canvas frame
-// for a WebGL <canvas> unless the page is nudged (e.g. a scroll) right
-// before capture -- confirmed directly by reading bone quaternions/world
-// positions from the live THREE.js scene (see git history), which showed
-// the previous angles below DID move the hand a measurable amount in world
-// space, but the resulting visible pose (verified with the nudge trick)
-// was a subtle elbow bend, not a clear "hand raised into signing space in
-// front of the chest" -- confirmed by direct user report while watching
-// the live preview. Raised the angles so the raise/bend is unambiguous
-// even after accounting for how much the previous numbers underdelivered
-// visually. Elbow bend increased specifically, per the report that the
-// elbow "was not bending".
+// Rig axis frame (measured by reading each bone's matrixWorld columns at
+// runtime, not guessed): every arm bone has local +Y running DOWN the bone
+// (Blender convention; shoulder root, elbow at +Y tip), local +X pointing
+// OUTWARD from the body (her right for R-side bones, her left for L-side),
+// and local +Z pointing FORWARD out of her chest.
+//
+// So on the upper arm: rotating around +X raises the arm forward-and-up
+// (a positive angle rotates the +Y-pointing arm tip toward +Z-forward,
+// then past +Z toward -Y-overhead). Rotating around +Z is abduction --
+// swinging the arm out sideways from the body. On the forearm the same
+// axes apply, so rotating around +X flexes the elbow forward-up (biceps
+// curl direction, hand toward face); rotating around -X hyperextends
+// backward (impossible in a real human).
+//
+// The previous values here had the wrong sign on the elbow (-X, folding
+// backward) and too much shoulder abduction, so the arm swung out to the
+// side and the forearm folded behind the body -- confirmed visually via
+// a screenshot the user sent showing exactly that pose. Fixed by flipping
+// the elbow sign and reducing the abduction to a small adduction so the
+// hand ends up in front of the chest / near the face instead of out at
+// shoulder level.
 const ARM_LIFT: Record<(typeof ARM_BONES)[number], { axis: THREE.Vector3; deg: number }[]> = {
   R_armUp: [
-    { axis: new THREE.Vector3(0, 0, 1), deg: 32 },
-    { axis: new THREE.Vector3(1, 0, 0), deg: 115 },
+    // Small INWARD swing so the hand ends up in front of the sternum
+    // rather than way out to her right side.
+    { axis: new THREE.Vector3(0, 0, 1), deg: -8 },
+    // Raise arm forward + up to signing height. 95deg puts the upper arm
+    // roughly horizontal-forward; the elbow-flex below then brings the
+    // forearm and hand up to face height.
+    { axis: new THREE.Vector3(1, 0, 0), deg: 95 },
   ],
-  R_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -85 }],
+  // Flex elbow forward-up (biceps curl direction), NOT backward. This
+  // brings the hand up toward the temple/face for signs like HELLO.
+  R_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: 100 }],
   L_armUp: [
-    { axis: new THREE.Vector3(0, 0, 1), deg: -32 },
-    { axis: new THREE.Vector3(1, 0, 0), deg: 115 },
+    // Mirror of R_armUp: local +X on the L side points outward-left, so
+    // "small adduction" flips sign to +8 (rotate hand toward body midline
+    // from the left side).
+    { axis: new THREE.Vector3(0, 0, 1), deg: 8 },
+    { axis: new THREE.Vector3(1, 0, 0), deg: 95 },
   ],
-  L_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: -85 }],
+  L_armLo: [{ axis: new THREE.Vector3(1, 0, 0), deg: 100 }],
 };
 
 export function Godette({ frames, speed, reducedMotion, mood, armReach }: Props) {
