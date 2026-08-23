@@ -13,19 +13,23 @@ import { Suspense } from "react";
 function StudioBackdrop() {
   const { scene } = useThree();
   const texture = useMemo(() => {
+    // 2D radial gradient centered slightly above the horizon: cinematic
+    // dark-vignette look with a faint warm glow behind where the subject
+    // stands, fading to near-black at every corner. This alone makes the
+    // subject read as lit-from-a-void rather than pasted-on-a-sheet, and
+    // pairs with the RIM lights below to create hero-portrait edges.
     const canvas = document.createElement("canvas");
-    canvas.width = 8;
-    canvas.height = 256;
+    canvas.width = 512;
+    canvas.height = 512;
     const ctx = canvas.getContext("2d")!;
-    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    // Deeper, more even top-to-bottom so the physical backdrop plane
-    // introduced below can pick up colored light and add its own
-    // brightness on top -- if the scene background is already bright,
-    // the plane's rim-glow washes get lost.
-    gradient.addColorStop(0, "#0d1018");
-    gradient.addColorStop(0.55, "#171b28");
-    gradient.addColorStop(1, "#242939");
-    ctx.fillStyle = gradient;
+    const cx = canvas.width * 0.5;
+    const cy = canvas.height * 0.42;    // slightly high -- follows the framing
+    const g = ctx.createRadialGradient(cx, cy, 20, cx, cy, canvas.width * 0.85);
+    g.addColorStop(0.00, "#2a2233");   // warm-ish center glow behind subject
+    g.addColorStop(0.28, "#181828");
+    g.addColorStop(0.65, "#0a0b13");
+    g.addColorStop(1.00, "#020207");   // near-black corners = vignette
+    ctx.fillStyle = g;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     const tex = new THREE.CanvasTexture(canvas);
     tex.colorSpace = THREE.SRGBColorSpace;
@@ -52,14 +56,23 @@ function StudioBackdrop() {
 // halo behind the subject.
 function BackdropPlane() {
   return (
-    <mesh position={[0, 1.0, -1.8]} receiveShadow>
-      <planeGeometry args={[7, 5, 16, 16]} />
-      <meshStandardMaterial
-        color="#1a1e2a"
-        roughness={0.95}
-        metalness={0}
-      />
-    </mesh>
+    <>
+      <mesh position={[0, 1.0, -1.8]} receiveShadow>
+        <planeGeometry args={[7, 5, 16, 16]} />
+        <meshStandardMaterial
+          color="#0f1119"
+          roughness={0.95}
+          metalness={0}
+        />
+      </mesh>
+      {/* A soft glow disc suspended behind the subject -- gives the
+          hero-portrait halo effect the vignette gradient hints at.
+          Emissive-only material so no lighting affects it. */}
+      <mesh position={[0, 1.35, -1.4]}>
+        <circleGeometry args={[0.9, 40]} />
+        <meshBasicMaterial color="#3a2e4a" transparent opacity={0.55} />
+      </mesh>
+    </>
   );
 }
 
@@ -107,19 +120,49 @@ function StudioLights() {
         color="#c9d8ff"
       />
 
-      {/* RIM / BACK: cool, from behind-above, edges the silhouette. */}
+      {/* Original centered rim/back kept as a broad silhouette wash. */}
       <directionalLight
         position={[-0.6, 2.6, -2.4]}
         intensity={1.15}
         color="#e6f0ff"
       />
 
-      {/* HAIR: narrow warm spotlight from above-behind. */}
+      {/* KICKER RIGHT: strong cool-blue rim from behind-right, aimed
+          across the shoulder toward the camera. Its job is a sharp,
+          bright edge along the right silhouette -- hair, right arm,
+          right side of face -- the "3/4 back light" beloved of
+          portrait photographers. High intensity so the edge really
+          pops against the dark vignette. */}
       <spotLight
-        position={[0.8, 3.2, -1.2]}
-        angle={0.45}
-        penumbra={0.6}
-        intensity={1.2}
+        position={[2.6, 2.0, -1.8]}
+        angle={0.55}
+        penumbra={0.7}
+        intensity={3.2}
+        color="#a8c8ff"
+        distance={7}
+        target-position={[0, 1.30, 0]}
+      />
+
+      {/* KICKER LEFT: warm amber counterpart from behind-left. Softer
+          than the right kicker so the two rims aren't symmetrical --
+          asymmetry is what gives portraits shape. */}
+      <spotLight
+        position={[-2.6, 1.9, -1.8]}
+        angle={0.6}
+        penumbra={0.75}
+        intensity={2.4}
+        color="#ffb87a"
+        distance={7}
+        target-position={[0, 1.30, 0]}
+      />
+
+      {/* HAIR: narrow warm spotlight from directly above-behind for a
+          crisp top-of-head highlight (visible in profile orbits). */}
+      <spotLight
+        position={[0.6, 3.4, -1.0]}
+        angle={0.4}
+        penumbra={0.55}
+        intensity={1.6}
         color="#fff2e0"
         distance={6}
       />
