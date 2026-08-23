@@ -18,9 +18,13 @@ function StudioBackdrop() {
     canvas.height = 256;
     const ctx = canvas.getContext("2d")!;
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, "#12141f");
-    gradient.addColorStop(0.55, "#232637");
-    gradient.addColorStop(1, "#3a3d4d");
+    // Deeper, more even top-to-bottom so the physical backdrop plane
+    // introduced below can pick up colored light and add its own
+    // brightness on top -- if the scene background is already bright,
+    // the plane's rim-glow washes get lost.
+    gradient.addColorStop(0, "#0d1018");
+    gradient.addColorStop(0.55, "#171b28");
+    gradient.addColorStop(1, "#242939");
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     const tex = new THREE.CanvasTexture(canvas);
@@ -37,6 +41,113 @@ function StudioBackdrop() {
   }, [scene, texture]);
 
   return null;
+}
+
+// A physical cyclorama-style backdrop plane behind the character, so the
+// background wash lights below actually have a surface to light. The
+// scene.background CanvasTexture alone can't receive light -- it's just
+// a raw color painted before geometry -- so without this plane, adding
+// "background lights" produces zero visible effect. Curved via a mild
+// bend so light rakes across it and creates the classic studio gradient
+// halo behind the subject.
+function BackdropPlane() {
+  return (
+    <mesh position={[0, 1.0, -1.8]} receiveShadow>
+      <planeGeometry args={[7, 5, 16, 16]} />
+      <meshStandardMaterial
+        color="#1a1e2a"
+        roughness={0.95}
+        metalness={0}
+      />
+    </mesh>
+  );
+}
+
+// Three-point studio lighting formalized into named lights + backdrop
+// washes. Positions and intensities are tuned so:
+// - KEY (warm, camera-right, high): the main modeling light. Casts the
+//   softest visible shadow. Where the sculpting of the face/hands
+//   actually happens.
+// - FILL (cool, camera-left, low): fills the shadow side without
+//   competing with the key. About 1/3 the key's intensity.
+// - RIM/BACK (cool, behind-above): separates hair/shoulder from the
+//   backdrop with a bright edge. Slightly stronger than the fill so
+//   the silhouette pops.
+// - HAIR (narrow spot, from above-behind): sharper highlight along
+//   the top of the head/shoulders. Optional -- makes the studio feel
+//   deliberate rather than "just three DirLights".
+// - Two BACKDROP WASH spots aimed at the physical backdrop plane give
+//   the classic soft gradient glow behind the subject.
+function StudioLights() {
+  return (
+    <>
+      {/* Ambient sets the shadow floor -- without it, hand shadows go
+          almost black at this camera distance. */}
+      <ambientLight intensity={0.55} color="#dfe6ff" />
+
+      {/* KEY: main modeling light, warm, camera-right, high. */}
+      <directionalLight
+        position={[2.4, 2.8, 2.2]}
+        intensity={1.9}
+        color="#fff2d8"
+        castShadow
+        shadow-mapSize={new THREE.Vector2(2048, 2048)}
+        shadow-camera-near={0.5}
+        shadow-camera-far={8}
+        shadow-camera-left={-2}
+        shadow-camera-right={2}
+        shadow-camera-top={3}
+        shadow-camera-bottom={-1}
+      />
+
+      {/* FILL: soft cool, camera-left, low. */}
+      <directionalLight
+        position={[-2.6, 1.4, 1.8]}
+        intensity={0.65}
+        color="#c9d8ff"
+      />
+
+      {/* RIM / BACK: cool, from behind-above, edges the silhouette. */}
+      <directionalLight
+        position={[-0.6, 2.6, -2.4]}
+        intensity={1.15}
+        color="#e6f0ff"
+      />
+
+      {/* HAIR: narrow warm spotlight from above-behind. */}
+      <spotLight
+        position={[0.8, 3.2, -1.2]}
+        angle={0.45}
+        penumbra={0.6}
+        intensity={1.2}
+        color="#fff2e0"
+        distance={6}
+      />
+
+      {/* Two BACKDROP WASH lights aimed at the plane behind the
+          subject, one warm (camera-right side) and one cool (camera-
+          left side). They rake across the physical backdrop and
+          create the classic soft gradient halo. */}
+      <spotLight
+        position={[2.4, 2.2, -0.6]}
+        angle={0.9}
+        penumbra={0.9}
+        intensity={2.2}
+        color="#c98a5a"
+        distance={5}
+        target-position={[1.0, 1.0, -1.8]}
+      />
+      <spotLight
+        position={[-2.4, 2.2, -0.6]}
+        angle={0.9}
+        penumbra={0.9}
+        intensity={2.2}
+        color="#5a90c9"
+        distance={5}
+        target-position={[-1.0, 1.0, -1.8]}
+      />
+    </>
+  );
 }
 
 // Follow the signing action with a smooth-pan camera. Reads the current
@@ -240,30 +351,8 @@ export function AvatarStage({ frames, speed, reducedMotion, mood, armReach, onFi
       }}
     >
       <StudioBackdrop />
-
-      {/* Three-point studio lighting: key (main, warm, from camera-right),
-          fill (soft, cool, opposite side, low intensity so shadows stay soft
-          not black), and rim/back (behind her, catches hair + shoulder edge
-          so she reads as separated from the backdrop). A dedicated hand
-          spotlight adds a little extra sparkle on the signing hands. */}
-      <ambientLight intensity={0.55} color="#dfe6ff" />
-      <directionalLight
-        position={[2.2, 2.6, 2.2]}
-        intensity={1.6}
-        color="#fff3e0"
-        castShadow
-        shadow-mapSize={new THREE.Vector2(1024, 1024)}
-      />
-      <directionalLight
-        position={[-2.4, 1.4, 1.6]}
-        intensity={0.55}
-        color="#cfe0ff"
-      />
-      <directionalLight
-        position={[-0.6, 2.4, -2.2]}
-        intensity={0.9}
-        color="#e8f0ff"
-      />
+      <BackdropPlane />
+      <StudioLights />
       <HandSpotlight />
       <HandFillLight />
 
