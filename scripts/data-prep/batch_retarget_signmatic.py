@@ -68,9 +68,9 @@ def label_to_gloss(label: str) -> str | None:
     return label.upper()
 
 
-def npz_to_hand_frames(npz_path: Path) -> dict:
+def npz_to_hand_frames(npz_path: Path, hand: str = "right") -> dict:
     """Load a SignMatic shard and return {frame_index: {landmark_index: np.array([x,y,z])}}
-    for the RIGHT hand of the MEDIAN sequence in the shard.
+    for the requested hand of the MEDIAN sequence in the shard.
 
     Picking the median-length "real" sequence (by non-zero-frame count) rather
     than the first happens to avoid any leading/trailing all-zero padding
@@ -80,8 +80,10 @@ def npz_to_hand_frames(npz_path: Path) -> dict:
     if "real" not in arr:
         return {}
     real = arr["real"]  # shape (N_sequences, 30, 258)
-    # Score each sequence by how many non-zero frames the right hand has.
-    r_hand_slice = real[:, :, 195:258]  # (N, 30, 63)
+    # Left hand [132:195], right hand [195:258] per the shipped
+    # feature_schema.json.
+    hand_slice = slice(195, 258) if hand == "right" else slice(132, 195)
+    r_hand_slice = real[:, :, hand_slice]  # (N, 30, 63)
     per_frame_norm = np.linalg.norm(r_hand_slice, axis=2)  # (N, 30)
     nonzero_frames = np.sum(per_frame_norm > 1e-6, axis=1)  # (N,)
     if nonzero_frames.max() == 0:
@@ -95,13 +97,10 @@ def npz_to_hand_frames(npz_path: Path) -> dict:
     out = {}
     for f in range(seq.shape[0]):
         frame = seq[f]
-        r_hand = frame[195:258].reshape(21, 3)
-        # Drop frames where the whole hand is zero (tracking failure /
-        # padding). Also insert a synthetic WRIST at index 0 -- the finger-
-        # curl math wants a WRIST->MCP vector as the first segment.
-        if np.linalg.norm(r_hand) < 1e-6:
+        h = frame[hand_slice].reshape(21, 3)
+        if np.linalg.norm(h) < 1e-6:
             continue
-        pts = {i: r_hand[i] for i in range(21)}
+        pts = {i: h[i] for i in range(21)}
         out[f] = pts
     return out
 
@@ -126,14 +125,15 @@ def median_smooth_curl(hand_frames: dict, center_frame: int, finger: str, window
     return [round(float(v), 1) for v in np.median(a, axis=0)]
 
 
-def build_entry(gloss: str, shard: Path, keyframes: int, prefix: str = "R") -> dict:
-    hand_frames = npz_to_hand_frames(shard)
-    if not hand_frames:
+def build_entry(gloss: str, shard: Path, keyframes: int) -> dict:
+    r_frames = npz_to_hand_frames(shard, "right")
+    l_frames = npz_to_hand_frames(shard, "left")
+    if not r_frames:
         raise ValueError(f"no right-hand frames in {shard.name}")
-    available = sorted(hand_frames.keys())
+    two_handed = len(l_frames) >= 5  # signer's left actually did something
+    available = sorted(r_frames.keys())
     keys = pick_keyframes(available, keyframes)
 
-    # SignMatic sequences are exactly 30 frames at ~30fps = 1000ms.
     duration_ms = 1000
     max_frame = max(30, available[-1])
 
@@ -141,14 +141,20 @@ def build_entry(gloss: str, shard: Path, keyframes: int, prefix: str = "R") -> d
     for fi in keys:
         curls = {}
         for finger in ("thumb", "index", "middle", "ring", "pinky"):
-            curls[f"{prefix}_{finger}"] = median_smooth_curl(hand_frames, fi, finger, window=5)
+            curls[f"R_{finger}"] = median_smooth_curl(r_frames, fi, finger, window=5)
+            if two_handed:
+                curls[f"L_{finger}"] = median_smooth_curl(l_frames, fi, finger, window=5)
         t_ms = round(fi / max(max_frame - 1, 1) * duration_ms)
-        frames_out.append({
+        frame_out = {
             "t_ms": t_ms,
             "curls": curls,
             "R_palm_deg": [0, 0, 0],
             "R_palm_pos": [0.0, 0.0, 0.0],
-        })
+        }
+        if two_handed:
+            frame_out["L_palm_deg"] = [0, 0, 0]
+            frame_out["L_palm_pos"] = [0.0, 0.0, 0.0]
+        frames_out.append(frame_out)
 
     entry = OrderedDict()
     entry["gloss"] = gloss

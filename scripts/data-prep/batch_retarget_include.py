@@ -30,7 +30,8 @@ from pathlib import Path
 
 # Import the single-file retargeter as a module.
 sys.path.insert(0, str(Path(__file__).parent))
-from retarget_include import retarget  # noqa: E402
+from retarget_include import retarget, load_hand_frames  # noqa: E402
+import pandas as pd  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 EXTRACTED_ROOT = REPO_ROOT / "kaggle-data" / "extracted" / "keypoints"
@@ -92,23 +93,34 @@ def find_all_parquets():
 
 
 def build_entry(gloss: str, parquet_path: Path, keyframes: int) -> dict:
-    result = retarget(str(parquet_path), hand="right", n_frames=keyframes)
-    # retarget() gives us frames with just curls; we still need to wrap
-    # into the AuthoredEntry shape (gloss, duration, provenance, ...).
-    duration_ms = result["duration_ms"]
-    # Cap absurdly long takes -- some INCLUDE takes run 6+ seconds which
-    # feels sluggish in the app. Clamp to a max, but proportionally
-    # squish the keyframe times to match.
+    # Retarget the right hand first (guaranteed present in one-handed
+    # takes). Then look at the source for left-hand landmarks; if the
+    # signer used their left hand too, retarget that in parallel and
+    # merge L_* curls into each frame so the sign is two-handed in our
+    # avatar the way it was for the human signer. Previously the batch
+    # ONLY captured the right hand, so every mocap-derived two-handed
+    # sign (~half the vocabulary) came out one-handed on Godette --
+    # confirmed by user feedback: "it uses one hand, is that how it is".
+    r_result = retarget(str(parquet_path), hand="right", n_frames=keyframes)
+    df = pd.read_parquet(parquet_path)
+    l_frames_avail = load_hand_frames(df, "left")
+    two_handed = len(l_frames_avail) >= 5
+    l_result = retarget(str(parquet_path), hand="left", n_frames=keyframes) if two_handed else None
+
+    duration_ms = r_result["duration_ms"]
     max_duration = 1800
     scale = 1.0
     if duration_ms > max_duration:
         scale = max_duration / duration_ms
         duration_ms = max_duration
     frames_scaled = []
-    for f in result["frames"]:
+    for i, f in enumerate(r_result["frames"]):
+        curls = dict(f["curls"])
+        if l_result and i < len(l_result["frames"]):
+            curls.update(l_result["frames"][i]["curls"])
         frames_scaled.append({
             "t_ms": round(f["t_ms"] * scale),
-            "curls": f["curls"],
+            "curls": curls,
         })
     # Attach a default wrist rotation + position offset at each frame so
     # the entry has the same shape as our hand-authored ones. Kept
@@ -118,6 +130,9 @@ def build_entry(gloss: str, parquet_path: Path, keyframes: int) -> dict:
     for f in frames_scaled:
         f["R_palm_deg"] = [0, 0, 0]
         f["R_palm_pos"] = [0.0, 0.0, 0.0]
+        if two_handed:
+            f["L_palm_deg"] = [0, 0, 0]
+            f["L_palm_pos"] = [0.0, 0.0, 0.0]
     entry = OrderedDict()
     entry["gloss"] = gloss
     entry["duration_ms"] = duration_ms

@@ -25,8 +25,14 @@ export default function App() {
   const [currentFrames, setCurrentFrames] = useState<SignFrame[]>([]);
   const [armReach, setArmReach] = useState<number>(DEFAULT_ARM_REACH);
   const [mood, setMood] = useState<SentenceMood>(NEUTRAL_MOOD);
+  // Track the last translated sentence so the Replay button can re-fire
+  // it without the user retyping.
+  const [lastTranslated, setLastTranslated] = useState<string>("");
   const [settings, setSettings] = useState<PlayerSettings>({
-    speed: 0.7,
+    // Lowered from 0.7 to 0.45 after user feedback that default was
+    // "too fast" -- signs blur past before they're recognisable. Still
+    // adjustable via the Accessibility panel slider.
+    speed: 0.45,
     fontSize: 24,
     highContrast: false,
     dyslexicFont: false,
@@ -46,9 +52,9 @@ export default function App() {
     catch (e) { console.warn("[translate] tts failed:", e); }
   }, [settings.ttsEnabled]);
 
-  const handleTranslate = useCallback(async () => {
-    console.log("[translate] click, text=", JSON.stringify(inputText));
-    if (!inputText.trim()) {
+  const translateText = useCallback(async (text: string) => {
+    console.log("[translate] text=", JSON.stringify(text));
+    if (!text.trim()) {
       console.warn("[translate] empty input, bailing");
       return;
     }
@@ -57,12 +63,13 @@ export default function App() {
     stopSpeaking();
     let gloss: string[] = [];
     try {
-      gloss = await textToGloss(inputText);
+      gloss = await textToGloss(text);
       console.log("[translate] gloss=", gloss);
     } catch (e) {
       console.error("[translate] gloss failed:", e);
       return;
     }
+    setLastTranslated(text);
     setGlossQueue(gloss);
     setMood(moodFromGloss(gloss));
     if (gloss.length > 0) {
@@ -78,7 +85,21 @@ export default function App() {
         console.error("[translate] loadSign failed:", e);
       }
     }
-  }, [inputText, speakGloss]);
+  }, [speakGloss]);
+
+  const handleTranslate = useCallback(
+    () => translateText(inputText),
+    [inputText, translateText],
+  );
+
+  // Re-fire the most recently translated sentence without needing the user
+  // to retype -- helpful for practice / re-watching a sign at a slower
+  // speed. Falls back to whatever is currently in the input box if we
+  // haven't translated anything yet this session.
+  const handleReplay = useCallback(
+    () => translateText(lastTranslated || inputText),
+    [lastTranslated, inputText, translateText],
+  );
 
   const handleSignFinished = useCallback(async () => {
     setGlossQueue((prev) => {
@@ -141,6 +162,8 @@ export default function App() {
             value={inputText}
             onChange={setInputText}
             onSubmit={handleTranslate}
+            onReplay={handleReplay}
+            canReplay={Boolean((lastTranslated || inputText).trim())}
             fontSize={settings.fontSize}
           />
           <ControlsPanel settings={settings} onChange={setSettings} />
