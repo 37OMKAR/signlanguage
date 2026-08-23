@@ -12,10 +12,21 @@ commercial launch that nothing carries a research-only license.
 
 ## Current entries
 
-74 of 75 entries are `hand-authored` and `commercial_safe: true`. One
-entry (HELLO) is `kaggle-include-isl` and `commercial_safe: false` — see
-below. See `gloss_dictionary.json` for the full list (26 letters + 49
-words).
+**320 total entries.** 74 hand-authored (`commercial_safe: true`) and
+246 retargeted from the AI4Bharat INCLUDE dataset via
+`scripts/data-prep/batch_retarget_include.py`
+(`kaggle-include-isl`, `commercial_safe: false`). The batch runs the
+same angle-based retargeter that produced HELLO across every extracted
+INCLUDE word folder in `kaggle-data/extracted/keypoints/`, taking one
+"best" take per word (largest file = most frames for the median
+smoother). Hand-authored entries covering the same gloss are skipped
+by default, so this expansion adds vocabulary without clobbering
+manually tuned poses.
+
+Wrist rotation/position of the 246 mocap-derived entries are
+placeholders (0,0,0) — only the finger curl values come from real
+motion. Wrist retargeting from landmarks is a separate not-yet-done
+step (see docs/RETARGETING.md).
 
 33 word entries (NICE, HAPPY, WANT, EAT, LIKE, FRIEND, WATER, MOTHER,
 FATHER, SAD, TIRED, HUNGRY, AGAIN, FINE, DEAF, GOODBYE, MORE, NEED,
