@@ -23,15 +23,19 @@ function eulerQuat(xd: number, yd: number, zd: number): Quat {
   return [q.x, q.y, q.z, q.w];
 }
 
-// Given a finger name and its 2- or 3-segment curl array, emit bone
-// quaternions keyed as `{finger}0`, `{finger}1`, `{finger}2`.
+// Given a finger name and its curl array, emit bone quaternions keyed as
+// `{finger}0`, `{finger}1`, `{finger}2`. All fingers -- thumb included --
+// have three articulated segments in the Godette rig. If the authored
+// entry only supplies two thumb values (older data uses [base, middle]),
+// the tip falls through to 0 (straight) via the `?? 0` default rather
+// than staying at its rest pose, which for a naturally-curved rest thumb
+// tip looks closer to relaxed than to over-flexed.
 function fingerBones(
   finger: FingerName,
   curls: number[],
 ): Record<string, Quat> {
   const out: Record<string, Quat> = {};
-  const max = finger.endsWith("thumb") ? 2 : 3;
-  for (let i = 0; i < max; i++) {
+  for (let i = 0; i < 3; i++) {
     const deg = curls[i] ?? 0;
     out[`${finger}${i}`] = curlQuat(deg);
   }

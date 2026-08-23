@@ -32,38 +32,48 @@ const BONE_PATTERNS: Record<string, RegExp> = {
   R_palm:    re(`Hand${D}R`),
   L_palm:    re(`Hand${D}L`),
 
+  // Confirmed by walking the actual bone hierarchy at runtime:
+  // Finger_1R (base) -> child Finger_1R002 (middle) -> grandchild Finger_1R001 (tip)
+  // and Thumb likewise: ThumbR -> ThumbR002 (middle) -> ThumbR001 (tip).
+  // So `002` is the MIDDLE joint and `001` is the TIP -- opposite of what a
+  // naive lexical read would suggest. Authored curls of [base, middle, tip]
+  // used to land on [base, tip, middle] before this was corrected, which
+  // made every hand shape's curl-shape subtly wrong (tip-of-finger flexion
+  // driving the middle knuckle, and vice versa).
   R_thumb0:  re(`Thumb${D}R`),
-  R_thumb1:  re(`Thumb${D}R${D}001`),
+  R_thumb1:  re(`Thumb${D}R${D}002`),
+  R_thumb2:  re(`Thumb${D}R${D}001`),
   L_thumb0:  re(`Thumb${D}L`),
-  L_thumb1:  re(`Thumb${D}L${D}001`),
+  L_thumb1:  re(`Thumb${D}L${D}002`),
+  L_thumb2:  re(`Thumb${D}L${D}001`),
 
   R_index0:  re(`Finger_1${D}R`),
-  R_index1:  re(`Finger_1${D}R${D}001`),
-  R_index2:  re(`Finger_1${D}R${D}002`),
+  R_index1:  re(`Finger_1${D}R${D}002`),
+  R_index2:  re(`Finger_1${D}R${D}001`),
   L_index0:  re(`Finger_1${D}L`),
-  L_index1:  re(`Finger_1${D}L${D}001`),
-  L_index2:  re(`Finger_1${D}L${D}002`),
+  L_index1:  re(`Finger_1${D}L${D}002`),
+  L_index2:  re(`Finger_1${D}L${D}001`),
 
   R_middle0: re(`Finger_2${D}R`),
-  R_middle1: re(`Finger_2${D}R${D}001`),
-  R_middle2: re(`Finger_2${D}R${D}002`),
+  R_middle1: re(`Finger_2${D}R${D}002`),
+  R_middle2: re(`Finger_2${D}R${D}001`),
   L_middle0: re(`Finger_2${D}L`),
-  L_middle1: re(`Finger_2${D}L${D}001`),
-  L_middle2: re(`Finger_2${D}L${D}002`),
+  L_middle1: re(`Finger_2${D}L${D}002`),
+  L_middle2: re(`Finger_2${D}L${D}001`),
 
   R_ring0:   re(`Finger_3${D}R`),
-  R_ring1:   re(`Finger_3${D}R${D}001`),
-  R_ring2:   re(`Finger_3${D}R${D}002`),
+  R_ring1:   re(`Finger_3${D}R${D}002`),
+  R_ring2:   re(`Finger_3${D}R${D}001`),
   L_ring0:   re(`Finger_3${D}L`),
-  L_ring1:   re(`Finger_3${D}L${D}001`),
-  L_ring2:   re(`Finger_3${D}L${D}002`),
+  L_ring1:   re(`Finger_3${D}L${D}002`),
+  L_ring2:   re(`Finger_3${D}L${D}001`),
 
   R_pinky0:  re(`Finger_4${D}R`),
-  R_pinky1:  re(`Finger_4${D}R${D}001`),
-  R_pinky2:  re(`Finger_4${D}R${D}002`),
+  R_pinky1:  re(`Finger_4${D}R${D}002`),
+  R_pinky2:  re(`Finger_4${D}R${D}001`),
   L_pinky0:  re(`Finger_4${D}L`),
-  L_pinky1:  re(`Finger_4${D}L${D}001`),
-  L_pinky2:  re(`Finger_4${D}L${D}002`),
+  L_pinky1:  re(`Finger_4${D}L${D}002`),
+  L_pinky2:  re(`Finger_4${D}L${D}001`),
 
   // Idle-motion bones — driven by a subtle breathing sway, not by sign data.
   spine1: re(`Spine_1`),
