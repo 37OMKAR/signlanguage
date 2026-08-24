@@ -3,6 +3,7 @@ import { AvatarStage } from "./components/AvatarStage";
 import { TextInput } from "./components/TextInput";
 import { CaptionOverlay } from "./components/CaptionOverlay";
 import { ControlsPanel } from "./components/ControlsPanel";
+import { SignRecognizer } from "./components/SignRecognizer";
 import { textToGloss } from "./nlp";
 import { moodFromGloss } from "./nlp/mood";
 import { speak, glossToSpeech, stopSpeaking } from "./a11y/tts";
@@ -18,7 +19,10 @@ import { loadSign, getEntry } from "./signs/loader";
 // touch the forehead, chin, or chest.
 const DEFAULT_ARM_REACH = 0.55;
 
+type Tab = "text-to-sign" | "sign-to-text";
+
 export default function App() {
+  const [tab, setTab] = useState<Tab>("text-to-sign");
   const [inputText, setInputText] = useState("");
   const [glossQueue, setGlossQueue] = useState<string[]>([]);
   const [currentGloss, setCurrentGloss] = useState<string>("");
@@ -137,40 +141,75 @@ export default function App() {
   return (
     <div className={rootClass}>
       <header className="p-4 border-b border-slate-800">
-        <h1 className="text-2xl font-bold">Text → Sign Language</h1>
-        <p className="text-sm opacity-70">
-          Type a sentence. The avatar will sign it. Fully accessible.
-        </p>
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div>
+            <h1 className="text-2xl font-bold">
+              {tab === "text-to-sign" ? "Text → Sign Language" : "Sign → Text"}
+            </h1>
+            <p className="text-sm opacity-70">
+              {tab === "text-to-sign"
+                ? "Type a sentence. The avatar will sign it. Fully accessible."
+                : "Sign into your camera; we'll show what we recognize."}
+            </p>
+          </div>
+          <nav aria-label="Mode" className="flex bg-slate-900 rounded-xl p-1 text-sm">
+            <button
+              className={`px-3 py-1 rounded-lg ${tab === "text-to-sign" ? "bg-sky-500 text-slate-950 font-bold" : "hover:bg-slate-800"}`}
+              onClick={() => setTab("text-to-sign")}
+            >
+              Text → Sign
+            </button>
+            <button
+              className={`px-3 py-1 rounded-lg ${tab === "sign-to-text" ? "bg-sky-500 text-slate-950 font-bold" : "hover:bg-slate-800"}`}
+              onClick={() => setTab("sign-to-text")}
+            >
+              Sign → Text
+            </button>
+          </nav>
+        </div>
       </header>
 
       <main className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4 p-4 overflow-hidden">
-        <section className="relative bg-slate-900 rounded-2xl overflow-hidden min-h-[420px] lg:min-h-0">
-          <AvatarStage
-            frames={currentFrames}
-            speed={settings.speed}
-            reducedMotion={settings.reducedMotion}
-            mood={mood}
-            armReach={armReach}
-            onFinished={handleSignFinished}
-          />
-          <CaptionOverlay
-            currentGloss={currentGloss}
-            upcoming={glossQueue.slice(1)}
-            fontSize={settings.fontSize}
-          />
-        </section>
+        {tab === "text-to-sign" ? (
+          <>
+            <section className="relative bg-slate-900 rounded-2xl overflow-hidden min-h-[420px] lg:min-h-0">
+              <AvatarStage
+                frames={currentFrames}
+                speed={settings.speed}
+                reducedMotion={settings.reducedMotion}
+                mood={mood}
+                armReach={armReach}
+                onFinished={handleSignFinished}
+              />
+              <CaptionOverlay
+                currentGloss={currentGloss}
+                upcoming={glossQueue.slice(1)}
+                fontSize={settings.fontSize}
+              />
+            </section>
 
-        <aside className="flex flex-col gap-4 overflow-auto">
-          <TextInput
-            value={inputText}
-            onChange={setInputText}
-            onSubmit={handleTranslate}
-            onReplay={handleReplay}
-            canReplay={Boolean((lastTranslated || inputText).trim())}
-            fontSize={settings.fontSize}
-          />
-          <ControlsPanel settings={settings} onChange={setSettings} />
-        </aside>
+            <aside className="flex flex-col gap-4 overflow-auto">
+              <TextInput
+                value={inputText}
+                onChange={setInputText}
+                onSubmit={handleTranslate}
+                onReplay={handleReplay}
+                canReplay={Boolean((lastTranslated || inputText).trim())}
+                fontSize={settings.fontSize}
+              />
+              <ControlsPanel settings={settings} onChange={setSettings} />
+            </aside>
+          </>
+        ) : (
+          <>
+            <section className="min-h-[420px] lg:min-h-0">
+              <SignRecognizer />
+            </section>
+            <aside className="flex flex-col gap-4 overflow-auto">
+              <ControlsPanel settings={settings} onChange={setSettings} />
+            </aside>
+          </>
+        )}
       </main>
 
       <footer className="p-2 text-xs text-center opacity-60 border-t border-slate-800">
