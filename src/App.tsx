@@ -38,6 +38,9 @@ export default function App() {
     dyslexicFont: false,
     reducedMotion: false,
     ttsEnabled: true,
+    // "any" defaults to whatever exists (ASL preferred). Users pick
+    // "ASL" or "ISL" in the accessibility panel to filter the pool.
+    signLanguage: "any",
   });
 
   // Speak just one gloss token, gated by the TTS setting. Kept as a ref-
@@ -78,14 +81,14 @@ export default function App() {
       setArmReach(getEntry(first)?.armReach ?? DEFAULT_ARM_REACH);
       speakGloss(first);
       try {
-        const frames = await loadSign(first);
+        const frames = await loadSign(first, settings.signLanguage);
         console.log("[translate] frames for", first, "=", frames.length);
         setCurrentFrames(frames);
       } catch (e) {
         console.error("[translate] loadSign failed:", e);
       }
     }
-  }, [speakGloss]);
+  }, [speakGloss, settings.signLanguage]);
 
   const handleTranslate = useCallback(
     () => translateText(inputText),
@@ -114,10 +117,10 @@ export default function App() {
       setCurrentGloss(next);
       setArmReach(getEntry(next)?.armReach ?? DEFAULT_ARM_REACH);
       speakGloss(next);
-      loadSign(next).then(setCurrentFrames);
+      loadSign(next, settings.signLanguage).then(setCurrentFrames);
       return rest;
     });
-  }, [speakGloss]);
+  }, [speakGloss, settings.signLanguage]);
 
   const rootClass = useMemo(
     () =>

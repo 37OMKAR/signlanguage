@@ -90,6 +90,13 @@ export const NEUTRAL_MOOD: SentenceMood = {
   negation: false,
 };
 
+// Which sign language the user wants to see. Every dictionary entry
+// derives its language from its `provenance` field via provenanceLanguage()
+// in the loader: kaggle-include-isl -> "ISL", everything else -> "ASL".
+// "any" means don't filter -- fall through to whichever variant exists,
+// preferring ASL when both do.
+export type SignLanguage = "ASL" | "ISL" | "any";
+
 export interface PlayerSettings {
   speed: number;
   fontSize: number;
@@ -97,4 +104,5 @@ export interface PlayerSettings {
   dyslexicFont: boolean;
   reducedMotion: boolean;
   ttsEnabled: boolean;
+  signLanguage: SignLanguage;
 }

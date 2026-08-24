@@ -1,4 +1,6 @@
-import type { SignEntry, SignFrame, AuthoredEntry } from "../types";
+import type {
+  SignEntry, SignFrame, AuthoredEntry, Provenance, SignLanguage,
+} from "../types";
 import rawDictionary from "../../data/gloss_dictionary.json";
 import { compileDictionary } from "./compile";
 
@@ -8,13 +10,32 @@ const compiled: Record<string, SignEntry> = compileDictionary(
 
 const cache = new Map<string, SignFrame[]>();
 
+// Derive which sign language an entry represents from its provenance.
+// kaggle-include-isl is the only ISL source we have; everything else is
+// ASL (hand-authored used ASL conventions, signmatic-asl explicitly,
+// kaggle-google-asl/wlasl-derived explicitly). Letters A-Z are treated
+// as language-agnostic since fingerspelling of English words works the
+// same either way at our fidelity.
+export function provenanceLanguage(p: Provenance): "ASL" | "ISL" {
+  return p === "kaggle-include-isl" ? "ISL" : "ASL";
+}
+
+function entryMatchesLanguage(e: SignEntry, lang: SignLanguage): boolean {
+  if (lang === "any") return true;
+  // Letters stay available in either mode (fingerspelling fallback).
+  if (e.gloss.length === 1 && /^[A-Z]$/.test(e.gloss)) return true;
+  return provenanceLanguage(e.provenance) === lang;
+}
+
 // Public metadata about a gloss.
 export function getEntry(gloss: string): SignEntry | undefined {
   return compiled[gloss];
 }
 
-export function hasSign(gloss: string): boolean {
-  return gloss in compiled;
+export function hasSign(gloss: string, lang: SignLanguage = "any"): boolean {
+  const e = compiled[gloss];
+  if (!e) return false;
+  return entryMatchesLanguage(e, lang);
 }
 
 // All gloss keys in the compiled dictionary. Useful for batch validation,
@@ -24,13 +45,20 @@ export function listGlosses(): string[] {
   return Object.keys(compiled);
 }
 
-// Get the frames for a gloss. Missing glosses fall back to fingerspelling:
-// concatenate each letter's frames with time offset.
-export async function loadSign(gloss: string): Promise<SignFrame[]> {
-  if (cache.has(gloss)) return cache.get(gloss)!;
+// Get the frames for a gloss, respecting a language filter. If the sign
+// exists but is in a DIFFERENT language than requested, we treat it as
+// "not present" and fall back to fingerspelling -- so if the user picks
+// ASL and asks for RESTAURANT (only in our ISL dict), they see the
+// letter-by-letter fingerspelling of the word instead of the ISL sign.
+// Missing/unavailable glosses always fingerspell.
+export async function loadSign(
+  gloss: string, lang: SignLanguage = "any",
+): Promise<SignFrame[]> {
+  const cacheKey = `${lang}:${gloss}`;
+  if (cache.has(cacheKey)) return cache.get(cacheKey)!;
   const entry = compiled[gloss];
-  if (entry) {
-    cache.set(gloss, entry.frames);
+  if (entry && entryMatchesLanguage(entry, lang)) {
+    cache.set(cacheKey, entry.frames);
     return entry.frames;
   }
   const letters = gloss.toUpperCase().split("").filter((c) => /[A-Z]/.test(c));
@@ -46,7 +74,7 @@ export async function loadSign(gloss: string): Promise<SignFrame[]> {
     offset += le.duration_ms + gapMs;
   }
   if (frames.length === 0) frames.push(restFrame());
-  cache.set(gloss, frames);
+  cache.set(cacheKey, frames);
   return frames;
 }
 

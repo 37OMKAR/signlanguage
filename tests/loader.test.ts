@@ -28,6 +28,26 @@ describe("sign loader", () => {
     expect(e?.commercial_safe).toBe(true);
   });
 
+  it("filters signs by chosen sign language and fingerspells cross-language misses", async () => {
+    // HELLO exists as a signmatic-asl entry (commercial_safe, ASL).
+    // RESTAURANT only exists as a kaggle-include-isl entry (ISL).
+    expect(hasSign("HELLO", "ASL")).toBe(true);
+    expect(hasSign("HELLO", "ISL")).toBe(false);   // ASL-only, no ISL variant
+    expect(hasSign("RESTAURANT", "ISL")).toBe(true);
+    expect(hasSign("RESTAURANT", "ASL")).toBe(false); // ISL-only, no ASL variant
+    expect(hasSign("HELLO", "any")).toBe(true);
+
+    // loadSign should return the native frames when language matches, and
+    // fall through to fingerspelling when it doesn't.
+    const helloAsl = await loadSign("HELLO", "ASL");
+    const helloIsl = await loadSign("HELLO", "ISL"); // fingerspelled H-E-L-L-O
+    expect(helloAsl.length).toBeGreaterThan(0);
+    expect(helloIsl.length).toBeGreaterThan(0);
+    // Fingerspelled version stitches per-letter frames -- always has more
+    // than a single-word sign for a 5-letter word.
+    expect(helloIsl.length).toBeGreaterThan(helloAsl.length);
+  });
+
   it("correctly flags real-motion-capture-derived signs as commercially unsafe until license-verified", () => {
     // The commercial-safety audit mechanism is a hard requirement: we
     // must never ship any entry that traces back to a license-restricted

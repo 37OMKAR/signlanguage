@@ -1,4 +1,4 @@
-import type { PlayerSettings } from "../types";
+import type { PlayerSettings, SignLanguage } from "../types";
 
 interface Props {
   settings: PlayerSettings;
@@ -12,6 +12,22 @@ export function ControlsPanel({ settings, onChange }: Props) {
   return (
     <div className="bg-slate-900 rounded-2xl p-4 flex flex-col gap-4">
       <h2 className="text-lg font-semibold">Accessibility</h2>
+
+      <label className="flex flex-col gap-1 text-sm">
+        Sign language
+        <select
+          value={settings.signLanguage}
+          onChange={(e) => set("signLanguage", e.target.value as SignLanguage)}
+          className="bg-slate-800 rounded-lg px-2 py-1"
+        >
+          <option value="any">Any (prefer ASL, fall back to ISL)</option>
+          <option value="ASL">American Sign Language (ASL)</option>
+          <option value="ISL">Indian Sign Language (ISL)</option>
+        </select>
+        <span className="text-xs opacity-60">
+          Signs outside the selected language are fingerspelled.
+        </span>
+      </label>
 
       <label className="flex flex-col gap-1 text-sm">
         Playback speed: {settings.speed.toFixed(2)}×
