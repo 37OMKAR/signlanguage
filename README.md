@@ -120,6 +120,11 @@ flowchart LR
 4. **Player** (`src/components/Godette.tsx`). Interpolates keyframes, eases between signs, runs the arm IK, and layers idle breathing, blinking and the grammar face markers on top.
 5. **Captions and speech** (`src/components/CaptionOverlay.tsx`, `src/a11y/tts.ts`). The current sign is captioned and spoken as it starts.
 
+<p align="center">
+  <img src="docs/screenshots/architecture.png" width="900" alt="Runtime architecture diagram">
+  <br><sub>Runtime architecture. <a href="docs/architecture-diagram.html">Interactive version</a> (download and open locally).</sub>
+</p>
+
 Details: [Architecture](docs/ARCHITECTURE.md), [Arm IK](docs/ARM_IK.md), [Data format](docs/DATA_FORMAT.md), [Retargeting](docs/RETARGETING.md).
 
 ## Project layout
@@ -202,8 +207,26 @@ Feedback from Deaf signers and interpreters is the most valuable contribution th
 - [ ] Signer-reviewed core vocabulary (about 100 words)
 - [ ] Blending between signs (co-articulation) and `noBlend` flags
 - [ ] Face blendshapes, mouth shapes and eye gaze
+- [ ] **Next: Video → ASL.** Take speech from a video, transcribe it, and sign it with the avatar in sync with playback
+- [ ] **Then: Audio → ASL.** Live microphone or audio-file speech to a signing avatar, using the same text pipeline
 - [ ] Hindi and other Indian-language input
 - [ ] Per-sign pose regression tests
+
+### Direction: text → video → audio
+
+Text is the foundation because every later input reduces to it. The plan is to add inputs in this order, reusing the same gloss, dictionary and avatar pipeline:
+
+```mermaid
+flowchart LR
+  T[Text<br/>today] --> G[Gloss + signs + avatar]
+  V[Video<br/>next] -->|speech to text, timed captions| T
+  A[Audio<br/>eventually] -->|streaming speech to text| T
+```
+
+- **Video → ASL (next).** Extract the audio track, transcribe it with timestamps, and queue signs against those timestamps so the avatar stays in step with the video.
+- **Audio → ASL (eventually).** Live and recorded speech through streaming speech recognition, with the signing avatar following along. This needs low-latency sentence chunking and is the hardest of the three.
+
+Both depend on the accuracy work above, since a wrong sign is more costly when it is produced automatically.
 
 Longer plan and risk register: [PLAN.md](PLAN.md).
 

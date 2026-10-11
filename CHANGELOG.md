@@ -9,6 +9,8 @@ All notable changes. Format follows [Keep a Changelog](https://keepachangelog.co
   chin, forehead, chest and more. 35 signs annotated. See `docs/ARM_IK.md`.
 - ESLint flat config, lint step in CI.
 - `docs/AUDIT.md`, `docs/ARM_IK.md`, `CONTRIBUTING.md`, issue and PR templates.
+- Runtime architecture diagram (`docs/architecture-diagram.html`, `docs/screenshots/architecture.png`).
+- Roadmap: Video → ASL next, Audio → ASL eventually.
 - Screenshots in `docs/screenshots/` and a rewritten README.
 
 ### Fixed

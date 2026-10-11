@@ -5,6 +5,10 @@
 
 Zero video files anywhere in production. All motion is numeric bone rotations.
 
+![Runtime architecture: text input, gloss rules, sign queue, player and 3D avatar on the main path; optional AI proxy above; dictionary and compiler below; Sign to Text branch with MediaPipe](screenshots/architecture.png)
+
+Open the [interactive version](architecture-diagram.html) (download it and open in a browser; it supports zoom, path and lens modes, and export). Blue boxes are the browser UI, green are logic modules, purple is the sign data, red is the optional server, grey is external.
+
 ## Layers
 
 ### 1. Text input
