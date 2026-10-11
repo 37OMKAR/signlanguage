@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { AvatarStage } from "./components/AvatarStage";
 import { TextInput } from "./components/TextInput";
 import { CaptionOverlay } from "./components/CaptionOverlay";
@@ -25,6 +25,10 @@ export default function App() {
   const [tab, setTab] = useState<Tab>("text-to-sign");
   const [inputText, setInputText] = useState("");
   const [glossQueue, setGlossQueue] = useState<string[]>([]);
+  // Mirror of glossQueue so handleSignFinished can read the latest queue and
+  // run its side effects (TTS, loading) outside a state updater, which
+  // React StrictMode invokes twice in dev.
+  const queueRef = useRef<string[]>([]);
   const [currentGloss, setCurrentGloss] = useState<string>("");
   const [currentFrames, setCurrentFrames] = useState<SignFrame[]>([]);
   const [armReach, setArmReach] = useState<number>(DEFAULT_ARM_REACH);
@@ -77,6 +81,7 @@ export default function App() {
       return;
     }
     setLastTranslated(text);
+    queueRef.current = gloss;
     setGlossQueue(gloss);
     setMood(moodFromGloss(gloss));
     if (gloss.length > 0) {
@@ -87,7 +92,10 @@ export default function App() {
       try {
         const frames = await loadSign(first, settings.signLanguage);
         console.log("[translate] frames for", first, "=", frames.length);
-        setCurrentFrames(frames);
+        // Fresh array each play: loadSign returns the cached array, so a repeated
+        // gloss ("yes yes") would be the same reference and AvatarStage's finish
+        // timer would never re-arm, stalling the queue.
+        setCurrentFrames([...frames]);
       } catch (e) {
         console.error("[translate] loadSign failed:", e);
       }
@@ -108,22 +116,26 @@ export default function App() {
     [lastTranslated, inputText, translateText],
   );
 
-  const handleSignFinished = useCallback(async () => {
-    setGlossQueue((prev) => {
-      const [, ...rest] = prev;
-      if (rest.length === 0) {
-        setCurrentGloss("");
-        setCurrentFrames([]);
-        setMood(NEUTRAL_MOOD);
-        return rest;
-      }
-      const next = rest[0];
-      setCurrentGloss(next);
-      setArmReach(getEntry(next)?.armReach ?? DEFAULT_ARM_REACH);
-      speakGloss(next);
-      loadSign(next, settings.signLanguage).then(setCurrentFrames);
-      return rest;
-    });
+  const handleSignFinished = useCallback(() => {
+    const [, ...rest] = queueRef.current;
+    queueRef.current = rest;
+    setGlossQueue(rest);
+    if (rest.length === 0) {
+      setCurrentGloss("");
+      setCurrentFrames([]);
+      setMood(NEUTRAL_MOOD);
+      return;
+    }
+    const next = rest[0];
+    setCurrentGloss(next);
+    setArmReach(getEntry(next)?.armReach ?? DEFAULT_ARM_REACH);
+    speakGloss(next);
+    loadSign(next, settings.signLanguage)
+      .then((frames) => {
+        // Ignore a stale load if the queue moved on (new translation).
+        if (queueRef.current[0] === next) setCurrentFrames([...frames]);
+      })
+      .catch((e) => console.error("[translate] loadSign failed:", e));
   }, [speakGloss, settings.signLanguage]);
 
   const rootClass = useMemo(

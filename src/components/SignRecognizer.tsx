@@ -259,7 +259,7 @@ function drawOverlay(canvas: HTMLCanvasElement, video: HTMLVideoElement, result:
     [13,17],[17,18],[18,19],[19,20],
     [0,17],
   ];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   for (const hand of result.landmarks) {
     for (const [a, b] of conn) {
       const A = hand[a], B = hand[b];

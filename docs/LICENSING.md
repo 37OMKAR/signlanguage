@@ -74,3 +74,10 @@ provider APIs and are your responsibility to secure and pay for. Rules:
    `provenance` not equal to `wlasl-derived`.
 4. AI proxy runs on your own infra with your own keys.
 5. Signer consent forms on file for every `self-recorded` entry.
+
+## Full-body avatar ("Godette")
+
+The avatar in `public/godette/godette.glb` has **no confirmed author or
+licence recorded yet**. Identify the source, record the licence and credit
+line here and in the README, or replace the model, before any public release
+or commercial use.

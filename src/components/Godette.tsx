@@ -4,6 +4,7 @@ import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { clone as cloneSkeletal } from "three/examples/jsm/utils/SkeletonUtils.js";
 import type { SignFrame, SentenceMood } from "../types";
+import { resolveAnchor, solveArm, type ArmRig } from "../signs/armIK";
 
 interface Props {
   frames: SignFrame[];
@@ -231,15 +232,15 @@ export function Godette({ frames, speed, reducedMotion, mood, armReach }: Props)
       cloned,
     };
     const mapped = Object.keys(bones.current);
-    // eslint-disable-next-line no-console
+     
     console.log(
       "[godette] mapped bones:", mapped.length, "/", Object.keys(BONE_PATTERNS).length,
     );
     if (mapped.length < Object.keys(BONE_PATTERNS).length) {
       const missing = Object.keys(BONE_PATTERNS).filter((k) => !mapped.includes(k));
-      // eslint-disable-next-line no-console
+       
       console.warn("[godette] missing:", missing);
-      // eslint-disable-next-line no-console
+       
       console.log("[godette] sample bone names:",
         seenNames.filter((n) => /finger|thumb|hand/i.test(n)));
     }
@@ -423,6 +424,7 @@ export function Godette({ frames, speed, reducedMotion, mood, armReach }: Props)
       const steps = ARM_LIFT[name];
       if (!obj || !r) continue;
       const amount = name.startsWith("R_") ? amountR : amountL;
+      if (amount < 0) continue; // this side is IK-driven this frame
       _armDelta.identity();
       for (const step of steps) {
         _armStep.setFromAxisAngle(step.axis, step.deg * DEG * amount);
@@ -430,6 +432,36 @@ export function Godette({ frames, speed, reducedMotion, mood, armReach }: Props)
       }
       obj.quaternion.copy(r.q).multiply(_armDelta);
     }
+  };
+
+  // IK-driven arms. A side uses IK when the current sign names a body anchor
+  // for it; otherwise the generic armReach lift above is the fallback.
+  const smoothTarget = useRef({ R: new THREE.Vector3(), L: new THREE.Vector3() });
+  const targetInit = useRef({ R: false, L: false });
+  const _head = useMemo(() => new THREE.Vector3(), []);
+  const _ta = useMemo(() => new THREE.Vector3(), []);
+  const _tb = useMemo(() => new THREE.Vector3(), []);
+  const armRig = (side: "R" | "L"): ArmRig | null => {
+    const upper = bones.current[`${side}_armUp`];
+    const lower = bones.current[`${side}_armLo`];
+    const hand = bones.current[`${side}_palm`];
+    const ru = rest.current[`${side}_armUp`];
+    const rl = rest.current[`${side}_armLo`];
+    if (!upper || !lower || !hand || !ru || !rl) return null;
+    return { upper, lower, hand, restUpper: ru.q, restLower: rl.q };
+  };
+  // Wrist target for `side` at this moment of the sign, or null if the sign
+  // has no anchor for that side.
+  const sideTarget = (
+    side: "R" | "L", a: SignFrame, b: SignFrame | null, t: number,
+  ): THREE.Vector3 | null => {
+    const ta = a.targets?.[side];
+    if (!ta) return null;
+    bones.current.head?.getWorldPosition(_head);
+    resolveAnchor(ta, _head, side, _ta);
+    const tb = b?.targets?.[side];
+    if (tb) _ta.lerp(resolveAnchor(tb, _head, side, _tb), THREE.MathUtils.clamp(t, 0, 1));
+    return _ta;
   };
 
   // Smoothstep: 0..1 in, 0..1 out, with zero velocity at both ends —
@@ -479,10 +511,33 @@ export function Godette({ frames, speed, reducedMotion, mood, armReach }: Props)
     // regardless of what it's supposed to touch — measured and confirmed
     // identical to the millimeter before this existed.
     const reachClamped = THREE.MathUtils.clamp(armReach, 0, 1);
-    applyArmLift(
-      smoothstep(liftAmount.current.R) * reachClamped,
-      smoothstep(liftAmount.current.L) * reachClamped,
-    );
+
+    // Which frames are we between right now? Needed before the arm pass so
+    // IK can follow the sign's own body anchors.
+    if (signing && start.current === null) start.current = clock.elapsedTime;
+    const rate = reducedMotion ? 1 / 1.5 : Math.max(speed, 0.1);
+    const elapsedMs = signing ? (clock.elapsedTime - (start.current ?? 0)) * 1000 * rate : 0;
+    const [a, b, pairT] = signing ? pickPair(frames, elapsedMs) : [null, null, 0];
+
+    let liftR = smoothstep(liftAmount.current.R) * reachClamped;
+    let liftL = smoothstep(liftAmount.current.L) * reachClamped;
+    for (const side of ["R", "L"] as const) {
+      const tgt = a ? sideTarget(side, a, b, pairT) : null;
+      const st = smoothTarget.current[side];
+      // After the sign ends (or between signs) keep lowering the arm from
+      // its last IK pose instead of snapping to the generic lift pose.
+      const lowering = !tgt && targetInit.current[side] && liftAmount.current[side] > 0.001;
+      const rig = tgt || lowering ? armRig(side) : null;
+      if (!rig) { if (!lowering) targetInit.current[side] = false; continue; }
+      // Ease the wrist target so sign-to-sign moves glide instead of snap.
+      if (tgt) {
+        if (!targetInit.current[side]) { st.copy(tgt); targetInit.current[side] = true; }
+        else st.lerp(tgt, 1 - Math.exp(-delta * 14));
+      }
+      solveArm(rig, st, side, smoothstep(liftAmount.current[side]));
+      if (side === "R") liftR = -1; else liftL = -1;
+    }
+    applyArmLift(liftR, liftL);
 
     if (!signing) {
       for (const [name, obj] of Object.entries(bones.current)) {
@@ -494,10 +549,6 @@ export function Godette({ frames, speed, reducedMotion, mood, armReach }: Props)
       }
       return;
     }
-    if (start.current === null) start.current = clock.elapsedTime;
-    const rate = reducedMotion ? 1 / 1.5 : Math.max(speed, 0.1);
-    const elapsedMs = (clock.elapsedTime - start.current) * 1000 * rate;
-    const [a, b, pairT] = pickPair(frames, elapsedMs);
     if (!a) return;
 
     // Bones ease TOWARD their target every frame (slerp with a fixed alpha)

@@ -24,6 +24,20 @@ export interface AuthoredFrame {
   L_palm_pos?: [number, number, number];
   // Head/face expression weights, name -> 0..1
   blendshapes?: Record<string, number>;
+  // Where the wrist should be, as a named body anchor ("chin", "forehead",
+  // "chest", ...) plus an optional world-space offset in meters. Solved with
+  // two-bone IK at runtime so the hand actually reaches that spot on the
+  // body. Persists to later frames until another `_at` replaces it.
+  R_at?: AnchorSpec;
+  L_at?: AnchorSpec;
+}
+
+export type AnchorSpec = string | { at: string; off?: Vec3 };
+
+// Compiled arm target: anchor name + offset.
+export interface ArmTarget {
+  anchor: string;
+  off: Vec3;
 }
 
 // Compiled runtime frame — pure quaternions per bone. What the player uses.
@@ -32,6 +46,7 @@ export interface SignFrame {
   bones: Record<string, Quat>;
   positions?: Record<string, Vec3>;
   blendshapes?: Record<string, number>;
+  targets?: { R?: ArmTarget; L?: ArmTarget };
 }
 
 export type Provenance =

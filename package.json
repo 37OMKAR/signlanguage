@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Web app that translates typed text into 3D sign language animation. Hands+head architecture, MediaPipe pose data, zero video playback.",
+  "description": "Type a sentence and a 3D avatar signs it. Browser-based text-to-sign-language with an accessibility-first UI.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -23,6 +23,7 @@
     "three": "^0.169.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@types/node": "^26.2.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
@@ -30,11 +31,36 @@
     "@vitejs/plugin-react": "^4.3.3",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.13.0",
+    "globals": "^17.13.0",
     "license-checker": "^25.0.1",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.14",
     "typescript": "^5.6.3",
+    "typescript-eslint": "^8.71.1",
     "vite": "^5.4.10",
     "vitest": "^4.1.11"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/37OMKAR/signlanguage.git"
+  },
+  "homepage": "https://github.com/37OMKAR/signlanguage#readme",
+  "bugs": {
+    "url": "https://github.com/37OMKAR/signlanguage/issues"
+  },
+  "keywords": [
+    "sign-language",
+    "asl",
+    "isl",
+    "accessibility",
+    "threejs",
+    "react",
+    "avatar",
+    "mediapipe",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=20"
   }
 }

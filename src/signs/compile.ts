@@ -2,7 +2,8 @@
 // quaternion frames the player can drive directly.
 import * as THREE from "three";
 import type {
-  AuthoredEntry, AuthoredFrame, FingerName, Quat, SignEntry, SignFrame, Vec3,
+  AnchorSpec, ArmTarget, AuthoredEntry, AuthoredFrame, FingerName, Quat,
+  SignEntry, SignFrame, Vec3,
 } from "../types";
 
 const DEG = Math.PI / 180;
@@ -42,6 +43,12 @@ function fingerBones(
   return out;
 }
 
+function toTarget(spec: AnchorSpec): ArmTarget {
+  return typeof spec === "string"
+    ? { anchor: spec, off: [0, 0, 0] }
+    : { anchor: spec.at, off: spec.off ?? [0, 0, 0] };
+}
+
 function compileFrame(af: AuthoredFrame): SignFrame {
   const bones: Record<string, Quat> = {};
   const positions: Record<string, Vec3> = {};
@@ -60,19 +67,37 @@ function compileFrame(af: AuthoredFrame): SignFrame {
   if (af.R_palm_pos) positions["R_palm"] = af.R_palm_pos;
   if (af.L_palm_pos) positions["L_palm"] = af.L_palm_pos;
 
+  const targets: NonNullable<SignFrame["targets"]> = {};
+  if (af.R_at) targets.R = toTarget(af.R_at);
+  if (af.L_at) targets.L = toTarget(af.L_at);
+
   return {
     t_ms: af.t_ms,
+    targets: Object.keys(targets).length ? targets : undefined,
     bones,
     positions: Object.keys(positions).length ? positions : undefined,
     blendshapes: af.blendshapes,
   };
 }
 
+// A target stays in force until a later frame names a new one, so authors
+// only write `R_at` where the hand moves to a new place.
+function inheritTargets(frames: SignFrame[]): SignFrame[] {
+  let R: ArmTarget | undefined;
+  let L: ArmTarget | undefined;
+  return frames.map((f) => {
+    R = f.targets?.R ?? R;
+    L = f.targets?.L ?? L;
+    if (!R && !L) return f;
+    return { ...f, targets: { ...(R && { R }), ...(L && { L }) } };
+  });
+}
+
 export function compileEntry(e: AuthoredEntry): SignEntry {
   return {
     gloss: e.gloss,
     duration_ms: e.duration_ms,
-    frames: e.frames.map(compileFrame),
+    frames: inheritTargets(e.frames.map(compileFrame)),
     provenance: e.provenance,
     commercial_safe: e.commercial_safe,
     notes: e.notes,

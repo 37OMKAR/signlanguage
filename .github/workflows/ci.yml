@@ -18,6 +18,8 @@ jobs:
       - run: npm ci
       - name: Type check
         run: npx tsc --noEmit
+      - name: Lint
+        run: npm run lint
       - name: Unit tests (also runs sign commercial-safety audit)
         run: npm test
       - name: License check

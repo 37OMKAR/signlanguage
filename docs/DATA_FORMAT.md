@@ -29,6 +29,8 @@ type AuthoredFrame = {
   R_palm_pos?: [number, number, number];           // meters
   L_palm_pos?: [number, number, number];
   blendshapes?: Record<string, number>;            // 0..1 face weights
+  R_at?: string | { at: string; off?: [number, number, number] };  // wrist body anchor
+  L_at?: string | { at: string; off?: [number, number, number] };
 };
 
 type FingerName =
@@ -89,3 +91,10 @@ is not commercial-safe fails the audit.
   ]
 }
 ```
+
+## Body anchors (`R_at` / `L_at`)
+
+Where the wrist goes, solved with arm IK at runtime. Names: `forehead`,
+`temple`, `ear`, `cheek`, `mouth`, `chin`, `neck`, `chest`, `chestLow`,
+`space`, `center`, `forward`. An anchor persists until a later frame sets
+another. See [ARM_IK.md](ARM_IK.md).

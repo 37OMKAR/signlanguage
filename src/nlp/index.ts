@@ -25,7 +25,7 @@ export async function textToGloss(text: string): Promise<string[]> {
       if (!gloss.length) gloss = ruleBasedGloss(text);
     } catch (err) {
       // Log once for debug, fall back silently.
-      // eslint-disable-next-line no-console
+       
       console.warn("AI gloss failed; using rule-based:", err);
       gloss = ruleBasedGloss(text);
     }

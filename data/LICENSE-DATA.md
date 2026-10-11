@@ -25,8 +25,8 @@ dictionary today.
 
 ## Current entries
 
-**320 total entries.** 74 hand-authored (`commercial_safe: true`) and
-246 retargeted from the AI4Bharat INCLUDE dataset via
+**329 total entries.** 74 hand-authored (`commercial_safe: true`), 18 from the SignMatic ASL dataset (`commercial_safe: true`, CC BY 4.0) and
+237 retargeted from the AI4Bharat INCLUDE dataset via
 `scripts/data-prep/batch_retarget_include.py`
 (`kaggle-include-isl`, `commercial_safe: false`). The batch runs the
 same angle-based retargeter that produced HELLO across every extracted
@@ -36,7 +36,7 @@ smoother). Hand-authored entries covering the same gloss are skipped
 by default, so this expansion adds vocabulary without clobbering
 manually tuned poses.
 
-Wrist rotation/position of the 246 mocap-derived entries are
+Wrist rotation/position of the 237 mocap-derived entries are
 placeholders (0,0,0) — only the finger curl values come from real
 motion. Wrist retargeting from landmarks is a separate not-yet-done
 step (see docs/RETARGETING.md).
