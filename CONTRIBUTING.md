@@ -3,6 +3,13 @@
 Thanks for helping. The most valuable contributions are **corrections from
 fluent signers**: if a sign looks wrong, please say so, even without code.
 
+## Licence of contributions
+
+The project is under the [Personal Use License](LICENSE) (source-available, not
+open-source). By submitting a contribution you grant the copyright holder a
+perpetual, irrevocable licence to use, modify and relicense it as part of the
+project (section 4 of the licence). Only contribute what you have the right to.
+
 ## Setup
 
 ```bash

@@ -1,7 +1,14 @@
 # Licensing
 
 ## Our code
-MIT — see `LICENSE` at the repo root.
+Personal Use License, source-available and **not** free or open-source: personal,
+non-commercial use only. Commercial use, redistribution and hosting need written
+permission. See `LICENSE` at the repo root. Copies obtained before 11 October 2026
+were published under MIT and stay MIT for those recipients.
+
+This licence covers only our own code and data. Third-party libraries, models and
+datasets keep their own licences (below). The dependency policy that follows is
+about what we may *link into the app*, not about our own licence.
 
 ## Dependency policy
 
@@ -39,7 +46,7 @@ CC-BY-SA-4.0. Commercial use is permitted. Two obligations:
    downstream fork or product page.
 2. **ShareAlike on modifications.** Any edits to the mesh, textures, or
    rigging must be released under CC-BY-SA-4.0 as well. Our project code
-   stays MIT because we do not modify the model; we drive its bones at
+   stays under our own licence because we do not modify the model; we drive its bones at
    runtime through a normal glTF skeleton API. Runtime pose data is not a
    derivative of the model geometry.
 

@@ -4,7 +4,7 @@ Every sign in `gloss_dictionary.json` is tracked here so we know before
 commercial launch that nothing carries a research-only license.
 
 ## Legend
-- **hand-authored** — we authored the pose ourselves in code/Blender. MIT, commercial-safe.
+- **hand-authored** — we authored the pose ourselves in code/Blender. Covered by the project Personal Use License (see `LICENSE`); `commercial_safe` here means no third-party restriction blocks commercial use, not that the project licence permits it.
 - **self-recorded** — we recorded a signer + extracted with MediaPipe. Commercial-safe with signer consent on file.
 - **kaggle-google-asl** — derived from Google's Kaggle ASL Signs dataset. Prototype-safe under competition terms; verify before commercial ship.
 - **kaggle-include-isl** — real motion retargeted from the AI4Bharat INCLUDE dataset (see below). **Not commercial-safe until license-verified** — the Kaggle repackaging is tagged MIT, but that may not clear the underlying original dataset's own terms.

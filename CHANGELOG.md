@@ -20,6 +20,7 @@ All notable changes. Format follows [Keep a Changelog](https://keepachangelog.co
 - Mojibake in two dictionary notes.
 
 ### Changed
+- **Licence changed from MIT to a Personal Use License** (personal, non-commercial; source-available). Earlier copies remain MIT.
 - `WORKSTEP.md` moved to `docs/DEVLOG.md`.
 
 ## [0.1.0]

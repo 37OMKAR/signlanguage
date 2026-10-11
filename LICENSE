@@ -1,21 +1,53 @@
-MIT License
+Personal Use License
 
-Copyright (c) 2026 Text-to-Sign-Language contributors
+Copyright (c) 2026 37OMKAR. All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This software and its documentation (the "Software") are source-available,
+NOT free or open-source software. Seeing the code does not grant you the
+rights below unless you comply with these terms.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. WHAT YOU MAY DO
+   You may download, run, study and modify the Software for your own
+   personal, non-commercial use: learning, experimentation, and private
+   research.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. WHAT YOU MAY NOT DO WITHOUT WRITTEN PERMISSION
+   a. Use the Software, or anything derived from it, commercially. This
+      includes use in a product, service, advertisement, client work, or
+      inside a business or other organisation.
+   b. Copy, publish, redistribute, sell, rent or sublicense the Software or
+      modified versions of it, except as GitHub's Terms of Service allow for
+      viewing and forking a public repository on GitHub.
+   c. Host or offer the Software, or functionality built from it, as a
+      service to other people.
+   d. Remove or alter copyright, licence or attribution notices.
+
+3. THIRD-PARTY MATERIAL
+   The Software includes or depends on third-party components, models and
+   datasets (for example open-source libraries, the "Rigged hand" model, and
+   motion data from the SignMatic and INCLUDE datasets). Each remains under
+   its own licence and terms, which this licence does not change and which
+   you must follow. See docs/LICENSING.md and data/LICENSE-DATA.md.
+
+4. CONTRIBUTIONS
+   If you submit a contribution (code, data, signs, documentation), you
+   grant the copyright holder a perpetual, worldwide, irrevocable,
+   royalty-free licence to use, modify, distribute and relicense it as part
+   of the Software, and you confirm you have the right to do so.
+
+5. EARLIER VERSIONS
+   Copies of the Software obtained before 11 October 2026 were published
+   under the MIT License and remain available to those recipients under
+   those terms for those copies. This licence applies to all versions
+   published after that date.
+
+6. COMMERCIAL AND OTHER LICENSING
+   To request permission for any use not allowed above, contact the
+   copyright holder through https://github.com/37OMKAR.
+
+7. NO WARRANTY
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+   OR IMPLIED. THE COPYRIGHT HOLDER IS NOT LIABLE FOR ANY CLAIM, DAMAGES OR
+   OTHER LIABILITY ARISING FROM THE SOFTWARE OR ITS USE. THE SOFTWARE IS A
+   WORK IN PROGRESS AND IS NOT A SUBSTITUTE FOR A HUMAN SIGN LANGUAGE
+   INTERPRETER.

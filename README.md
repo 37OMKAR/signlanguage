@@ -8,7 +8,7 @@ Browser-based, accessibility-first, with no video playback anywhere in the pipel
 Every movement is numeric bone rotation data driving a rigged character in real time.
 
 [![CI](https://github.com/37OMKAR/signlanguage/actions/workflows/ci.yml/badge.svg)](https://github.com/37OMKAR/signlanguage/actions/workflows/ci.yml)
-![License: MIT](https://img.shields.io/badge/code-MIT-green.svg)
+![License: Personal Use](https://img.shields.io/badge/license-personal%20use-orange.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178c6?logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/React-18-61dafb?logo=react&logoColor=black)
 ![Three.js](https://img.shields.io/badge/three.js-r169-black?logo=three.js)
@@ -265,7 +265,7 @@ Optional AI glossing: copy `.env.example`, point `VITE_AI_PROXY_URL` at the prox
 
 ## Licensing and credits
 
-- **Code**: [MIT](LICENSE).
+- **Code**: [Personal Use License](LICENSE). Source-available, **not** free or open-source: personal, non-commercial use only; commercial use, redistribution and hosting need written permission. Copies obtained before 11 Oct 2026 remain under MIT. Third-party components and data keep their own licences (below).
 - **Sign data**: per-entry provenance, see [`data/LICENSE-DATA.md`](data/LICENSE-DATA.md). Entries derived from the INCLUDE dataset are not cleared for commercial use.
 - **SignMatic ASL Keypoint Dataset** by Joseph Sarkis et al. (Lebanese International University), CC BY 4.0, used for the 18 `signmatic-asl` entries.
 - **AI4Bharat INCLUDE** dataset (via a Kaggle repackaging) for the ISL entries.

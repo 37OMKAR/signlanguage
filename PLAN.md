@@ -266,7 +266,7 @@ We READ these to learn the math, then write our own module.
 text-to-sign-language/
 ├── README.md
 ├── PLAN.md                       ← this document
-├── LICENSE                       ← MIT for our code
+├── LICENSE                       ← Personal Use License for our code
 ├── .gitignore
 ├── package.json
 ├── vite.config.ts
@@ -429,7 +429,7 @@ To keep the project shippable:
 
 ## 13. Licensing & commercial-use plan
 
-### 13.1 Our repo license: **MIT**
+### 13.1 Our repo license: **Personal Use** (changed from MIT on 2026-10-11; see `LICENSE`)
 
 ### 13.2 Dependency license audit — allowed list
 
@@ -578,10 +578,10 @@ MVP moves from 4 weeks to **2–3 weeks** because:
 | Layer | Choice | License | Purpose |
 |---|---|---|---|
 | Hand model | MANO (or a MANO-compatible GLB) | Research free; commercial needs check | 3D hand mesh + skeleton |
-| Alt hand model | Custom low-poly rigged hand in Blender | Ours, MIT | Commercial-clean fallback |
+| Alt hand model | Custom low-poly rigged hand in Blender | Ours (Personal Use License) | Commercial-clean fallback |
 | Head model | Ready Player Me head-only crop, or simple sculpt | RPM ToS / MIT | Face for expressions |
 | AI gloss | Gemini 2.5 Flash (default) via server proxy | Google API terms | Cheap runtime translation |
-| Provider abstraction | `src/ai/providers/` (Gemini, Claude, DeepSeek adapters) | Ours, MIT | Swap models via env var |
+| Provider abstraction | `src/ai/providers/` (Gemini, Claude, DeepSeek adapters) | Ours (Personal Use License) | Swap models via env var |
 
 ## E. Updated retargeter scope
 
