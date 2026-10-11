@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "license:check": "license-checker --production --onlyAllow \"MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;Unlicense;CC0-1.0;MPL-2.0;0BSD;Python-2.0\""
+    "license:check": "license-checker --production --excludePackages \"text-to-sign-language@0.1.0\" --onlyAllow \"MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;Unlicense;CC0-1.0;MPL-2.0;0BSD;Python-2.0\""
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "^1.0.1",
