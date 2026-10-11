@@ -18,6 +18,10 @@ Every movement is numeric bone rotation data driving a rigged character in real 
 
 </div>
 
+> [!IMPORTANT]
+> **Work in progress.** This is an early alpha built in the open and improved continuously: audit, fix, learn, repeat. Some signs are wrong and none have been reviewed by a signer yet. It is not a replacement for a human interpreter.
+> **Suggestions of any kind help**, especially from Deaf and hard-of-hearing signers and interpreters. Please [open an issue](https://github.com/37OMKAR/signlanguage/issues/new/choose) (there is a *Sign correction* template) or send a pull request.
+
 ---
 
 ## Contents
@@ -193,6 +197,8 @@ This is an **alpha** and it is not a substitute for a human interpreter. Honest 
 - Grammar is rule-based: no classifiers, spatial pronouns or plural reduplication.
 
 Feedback from Deaf signers and interpreters is the most valuable contribution this project can get. See [Contributing](#contributing).
+
+**How the project learns:** each round is *audit → fix → document → ask for feedback*. The latest audit is in [docs/AUDIT.md](docs/AUDIT.md), and every open problem listed there is a candidate for your suggestions.
 
 ## Roadmap
 
